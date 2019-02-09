@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      13.2.&nbsp;Linux-4.9.21
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title=
+          "Making the CLFS System Bootable">Next</a>
+          <p>
+            Making the CLFS System Bootable
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-bootable-kernel" name="ch-bootable-kernel"></a>13.2.
+        Linux-4.9.21
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Linux package contains the Linux kernel.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          13.2.1. Installation of the kernel
+        </h2>
+        <p>
+          Building the kernel involves a few steps&mdash;configuration,
+          compilation, and installation. Read the <code class=
+          "filename">README</code> file in the kernel source tree for
+          alternative methods to the way this book configures the kernel.
+        </p>
+        <p>
+          Apply the latest Linux sublevel patch:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xzcat ../patch-4.9.21.xz | patch -Np1 -i -</kbd></pre>
+        <p>
+          Prepare for compilation by running the following command:
+        </p>
+        <pre class="userinput"><kbd class="command">make mrproper</kbd></pre>
+        <p>
+          This ensures that the kernel tree is absolutely clean. The kernel
+          team recommends that this command be issued prior to each kernel
+          compilation. Do not rely on the source tree being clean after
+          un-tarring.
+        </p>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            A good starting place for setting up the kernel configuration is
+            to run <span class="command"><strong>make
+            defconfig</strong></span>. This will set the base configuration
+            to a good state that takes your current system architecture into
+            account.
+          </p>
+          <p>
+            Be sure to configure the following options as shown, or the
+            system might not work correctly or boot at all. Refer to
+            <code class="filename">/usr/share/doc/systemd-233/README</code>:
+          </p>
+          <pre class="screen">General setup  ---&gt;
+  [*] open by fhandle syscalls (CONFIG_FHANDLE)
+  [ ] Auditing support (CONFIG_AUDIT)
+  [*] Control Group support (CONFIG_CGROUPS)
+Processor type and features  ---&gt;
+  [*] Enable seccomp to safely compute untrusted bytecode (CONFIG_SECCOMP)
+Networking support  ---&gt;
+  Networking options  ---&gt;
+    &lt;*&gt; The IPv6 protocol (CONFIG_IPV6)
+Device Drivers  ---&gt;
+  Generic Driver Options  ---&gt;
+    ()  path to uevent helper (CONFIG_UEVENT_HELPER_PATH)
+    [*] Maintain a devtmpfs filesystem to mount at /dev (CONFIG_DEVTMPFS)
+    [ ] Fallback user-helper invocation for firmware loading (CONFIG_FW_LOADER_USER_HELPER)
+File systems  ---&gt;
+  [*] Inotify support for userspace (CONFIG_FSNOTIFY)
+  &lt;*&gt; Kernel automounter version 4 support (also supports v3) (CONFIG_AUTOFS4_FS)
+  Pseudo filesystems  ---&gt;
+    [*] Tmpfs POSIX Access Control Lists (CONFIG_TMPFS_POSIX_Acl)
+    [*] Tmpfs extended attributes (CONFIG_TMPFS_XATTR)
+Firmware Drivers ---&gt;
+  EFI (Extensible Firmware Interface) Support ---&gt;
+    &lt;*&gt; EFI Variable Support via sysfs (CONFIG_EFI_VARS)
+-*- Enable the block layer ---&gt; (CONFIG_BLOCK)
+  Partition Types ---&gt;
+    [*] Advanced partition selection (CONFIG_PARTITION_ADVANCED)
+    [*]   EFI GUID Partition support (CONFIG_EFI_PARTITION)
+Kernel Hacking ---&gt;
+  [*] Collect scheduler debugging info (CONFIG_SCHED_DEBUG)
+  [*] Collect scheduler statistics (CONFIG_SCHEDSTATS)</pre>
+        </div>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            While "The IPv6 Protocol" is not strictly required, it is highly
+            recommended by the Systemd developers. "EFI Variable support" and
+            "EFI GUID Partition support" are for UEFI systems. "Collect
+            scheduler debugging info" and "Collect scheduler statistics" is
+            for systemd-bootchart.
+          </p>
+        </div>
+        <p>
+          Configure the kernel via a menu-driven interface. CBLFS has some
+          information regarding particular kernel configuration requirements
+          of packages outside of CLFS at <a class="ulink" href=
+          "http://cblfs.clfs.org/">http://cblfs.clfs.org/</a>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make menuconfig</kbd></pre>
+        <p>
+          Alternatively, <span class="command"><strong>make
+          oldconfig</strong></span> may be more appropriate in some
+          situations. See the <code class="filename">README</code> file for
+          more information.
+        </p>
+        <p>
+          If desired, skip kernel configuration by copying the kernel config
+          file, <code class="filename">.config</code>, from the host system
+          (assuming it is available) to the root directory of the unpacked
+          kernel sources. However, we do not recommend this option. It is
+          often better to explore all the configuration menus and create the
+          kernel configuration from scratch.
+        </p>
+        <p>
+          Compile the kernel image and modules:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          If using kernel modules, a configuration file in <code class=
+          "filename">/etc/modprobe.d</code> file may be needed. Information
+          pertaining to modules and kernel configuration is located in the
+          kernel documentation in the <code class=
+          "filename">Documentation</code> directory of the kernel sources
+          tree. Also, <code class="filename">modprobe.d(5)</code> may be of
+          interest.
+        </p>
+        <p>
+          Install the modules, if the kernel configuration uses them:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make modules_install</kbd></pre>
+        <p>
+          Install the firmware, if the kernel configuration uses them:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make firmware_install</kbd></pre>
+        <p>
+          After kernel compilation is complete, additional steps are required
+          to complete the installation. Some files need to be copied to the
+          <code class="filename">/boot</code> directory.
+        </p>
+        <p>
+          Issue the following command to install the kernel:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v arch/i386/boot/bzImage /boot/vmlinuz-clfs-4.9.21</kbd></pre>
+        <p>
+          <code class="filename">System.map</code> is a symbol file for the
+          kernel. It maps the function entry points of every function in the
+          kernel API, as well as the addresses of the kernel data structures
+          for the running kernel. Issue the following command to install the
+          map file:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v System.map /boot/System.map-4.9.21</kbd></pre>
+        <p>
+          The kernel configuration file <code class="filename">.config</code>
+          produced by the <span class="command"><strong>make
+          menuconfig</strong></span> step above contains all the
+          configuration selections for the kernel that was just compiled. It
+          is a good idea to keep this file for future reference:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v .config /boot/config-4.9.21</kbd></pre>
+        <p>
+          It is important to note that the files in the kernel source
+          directory are not owned by <code class="systemitem">root</code>.
+          Whenever a package is unpacked as user <code class=
+          "systemitem">root</code> (like we do inside the final-system build
+          environment), the files have the user and group IDs of whatever
+          they were on the packager's computer. This is usually not a problem
+          for any other package to be installed because the source tree is
+          removed after the installation. However, the Linux source tree is
+          often retained for a long time. Because of this, there is a chance
+          that whatever user ID the packager used will be assigned to
+          somebody on the machine. That person would then have write access
+          to the kernel source.
+        </p>
+        <p>
+          If the kernel source tree is going to retained, run <span class=
+          "command"><strong>chown -R 0:0</strong></span> on the <code class=
+          "filename">linux-4.9</code> directory to ensure all files are owned
+          by user <code class="systemitem">root</code>.
+        </p>
+        <div class="admon warning">
+          <img alt="[Warning]" src="../images/warning.png" />
+          <h3>
+            Warning
+          </h3>
+          <p>
+            Some kernel documentation recommends creating a symlink from
+            <code class="filename">/usr/src/linux</code> pointing to the
+            kernel source directory. This is specific to kernels prior to the
+            2.6 series and <span class="emphasis"><em>must not</em></span> be
+            created on a CLFS system as it can cause problems for packages
+            you may wish to build once your base CLFS system is complete.
+          </p>
+          <p>
+            Also, the headers in the system's <code class=
+            "filename">include</code> directory should <span class=
+            "emphasis"><em>always</em></span> be the ones against which Glibc
+            was compiled and should <span class=
+            "emphasis"><em>never</em></span> be replaced by headers from a
+            different kernel version.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-kernel" name="contents-kernel"></a>13.2.2. Contents
+          of Linux
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed files:</strong> <span class=
+              "segbody">config-[linux-version], clfskernel-[linux-version],
+              and System.map-[linux-version]</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directory:</strong>
+              <span class="segbody">/lib/modules</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="config" name="config"></a><span class=
+                    "term"><code class=
+                    "filename">config-[linux-version]</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Contains all the configuration selections for the kernel
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clfskernel" name="clfskernel"></a><span class=
+                    "term"><code class=
+                    "filename">clfskernel-[linux-version]</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The engine of the Linux system. When turning on the
+                    computer, the kernel is the first part of the operating
+                    system that gets loaded. It detects and initializes all
+                    components of the computer's hardware, then makes these
+                    components available as a tree of files to the software
+                    and turns a single CPU into a multitasking machine
+                    capable of running scores of programs seemingly at the
+                    same time.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="System.map" name="System.map"></a><span class=
+                    "term"><code class=
+                    "filename">System.map-[linux-version]</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A list of addresses and symbols; it maps the entry points
+                    and addresses of all the functions and data structures in
+                    the kernel
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title=
+          "Making the CLFS System Bootable">Next</a>
+          <p>
+            Making the CLFS System Bootable
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

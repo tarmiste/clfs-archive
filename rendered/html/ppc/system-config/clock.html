@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      11.3.&nbsp;Configuring the system clock
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;11.&nbsp;System Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="usage.html" title=
+          "How does Systemd work?">Prev</a>
+          <p>
+            How does Systemd work?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console.html" title=
+          "Configuring the Linux Console">Next</a>
+          <p>
+            Configuring the Linux Console
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-config-clock" name="ch-config-clock"></a>11.3. Configuring
+        the system clock
+      </h1>
+      <p>
+        This section discusses how to configure the <span class=
+        "command"><strong>systemd-timedated</strong></span> system service,
+        which configures system clock and timezone.
+      </p>
+      <p>
+        Systemd provides a <span class=
+        "command"><strong>timedatectl</strong></span> utility which is used
+        to communicate with <span class=
+        "command"><strong>systemd-timedated</strong></span>. It can be used
+        to set the system clock in local time or UTC time, depending on the
+        hardware clock setting. By default, <span class=
+        "command"><strong>systemd-timedated</strong></span> will assume that
+        clock is set to UTC time.
+      </p>
+      <p>
+        If you cannot remember whether or not the hardware clock is set to
+        UTC, find out by running the <strong class="userinput"><code>hwclock
+        --localtime --show</code></strong> command. This will display what
+        the current time is according to the hardware clock. If this time
+        matches whatever your watch says, then the hardware clock is set to
+        local time. If the output from <span class=
+        "command"><strong>hwclock</strong></span> is not local time, chances
+        are it is set to UTC time. Verify this by adding or subtracting the
+        proper amount of hours for the timezone to the time shown by
+        <span class="command"><strong>hwclock</strong></span>. For example,
+        if you are currently in the MST timezone, which is also known as GMT
+        -0700, add seven hours to the local time.
+      </p>
+      <p>
+        <span class="command"><strong>systemd-timedated</strong></span> reads
+        <code class="filename">/etc/adjtime</code>, and depending on the
+        contents of the file, it sets the clock to either UTC or local time.
+      </p>
+      <p>
+        Create the <code class="filename">/etc/adjtime</code> file with the
+        following contents if your hardware clock is set to local time:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/adjtime &lt;&lt; "EOF"
+<code class="literal">0.0 0 0.0
+0
+LOCAL</code>
+EOF</kbd></pre>
+      <p>
+        If <code class="filename">/etc/adjtime</code> isn't present at first
+        boot, <span class="command"><strong>systemd-timedated</strong></span>
+        will assume that hardware clock is set to UTC and adjust the file
+        according to that.
+      </p>
+      <p>
+        If your clock is set to local time, tell <span class=
+        "command"><strong>systemd-timedated</strong></span> about it by
+        running the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-local-rtc 1</kbd></pre>
+      <p>
+        <span class="command"><strong>timedatectl</strong></span> can also be
+        used to change system time and time zone.
+      </p>
+      <p>
+        To change your current system time, issue:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-time YYYY:MM:DD HH:MM:SS</kbd></pre>
+      <p>
+        Hardware clock will also be updated accordingly.
+      </p>
+      <p>
+        To change your current time zone, issue:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-timezone TIMEZONE</kbd></pre>
+      <p>
+        You can get list of available time zones by running:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl list-timezones</kbd></pre>
+      <div class="admon note">
+        <img alt="[Note]" src="../images/note.png" />
+        <h3>
+          Note
+        </h3>
+        <p>
+          Please note that <span class=
+          "command"><strong>timedatectl</strong></span> command can be used
+          only on a system booted with systemd.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="usage.html" title=
+          "How does Systemd work?">Prev</a>
+          <p>
+            How does Systemd work?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console.html" title=
+          "Configuring the Linux Console">Next</a>
+          <p>
+            Configuring the Linux Console
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

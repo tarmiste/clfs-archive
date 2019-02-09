@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.69.&nbsp;Colo-1.22
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvhtool.html" title="Dvhtool-1.0.1">Next</a>
+          <p>
+            Dvhtool-1.0.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-colo" name="ch-system-colo"></a>10.69. Colo-1.22
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Colo package contains the Cobalt Boot Loader.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.69.1. Installation of Colo
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            This bootloader is for the MIPS based cobalt servers RaQ, RaQ2,
+            Qube, or the Qube2.
+          </p>
+        </div>
+        <p>
+          This patch fixes a relocation error when linking with Binutils:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../colo-1.22-relocation_fix-1.patch</kbd></pre>
+        <p>
+          Disable -Werror in one of the <code class=
+          "filename">Makefile</code>s to prevent a compile failure:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/^CFLAGS/s/-Werror //' stage2/Makefile</kbd></pre>
+        <p>
+          Compile the Colo package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -dv  /usr/lib/colo/examples
+install -v chain/colo-chain.elf /usr/lib/colo
+install -v tools/lcdtools/e2fsck-lcd/e2fsck-lcd /sbin
+install -v tools/lcdtools/e2fsck-lcd/e2fsck-lcd.8 /usr/man/man8
+install -v tools/lcdtools/paneld/paneld /sbin
+install -v tools/lcdtools/paneld/paneld.8 /usr/man/man8
+install -v tools/lcdtools/putlcd/putlcd /sbin
+install -v tools/lcdtools/putlcd/putlcd.8 /usr/man/man8
+install -v examples/menu.colo /usr/lib/colo/examples
+install -v examples/simple.colo /usr/lib/colo/examples
+cp -v chain/colo-chain.elf /boot/vmlinux
+gzip -9 /boot/vmlinux</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-colo" name="contents-colo"></a>10.69.2. Contents of
+          Colo
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">colo-chain.elf, e2fsck-lcd, paneld and
+              putlcd</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="colo-chain.elf" name=
+                    "colo-chain.elf"></a><span class="term"><span class=
+                    "command"><strong>colo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Is the Cobalt Bootloader's chain mode executeable. This
+                    file gets gzipped and renamed to <code class=
+                    "filename">vmlinux.gz</code>, so it can be booted
+                    automatically by the Cobalt's existing firmware
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2fsck-lcd" name="e2fsck-lcd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2fsck-lcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Will output file system check progress information on the
+                    Cobalt LCD
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="paneld" name="paneld"></a><span class=
+                    "term"><span class=
+                    "command"><strong>paneld</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Is an admin tool for the LCD panel of Cobalt machines. By
+                    default, it will display the current time and optionally
+                    a message. When you hold the enter or select button for a
+                    couple of seconds you will get an admin menu. The menu
+                    will allow you to either halt or reboot your Cobalt
+                    machine
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="putlcd" name="putlcd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>putlcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Is a tool to display text on the LCD display of Cobalt
+                    machines
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="md5rom" name="md5rom"></a><span class=
+                    "term"><span class=
+                    "command"><strong>md5rom</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Will output the MD5 checksum of a Cobalt's ROM
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvhtool.html" title="Dvhtool-1.0.1">Next</a>
+          <p>
+            Dvhtool-1.0.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

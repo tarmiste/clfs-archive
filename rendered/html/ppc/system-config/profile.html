@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      11.7.&nbsp;The Bash Shell Startup Files
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;11.&nbsp;System Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title=
+          "Creating custom symlinks to devices">Prev</a>
+          <p>
+            Creating custom symlinks to devices
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title=
+          "Setting Up Locale Information">Next</a>
+          <p>
+            Setting Up Locale Information
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-config-profile" name="ch-config-profile"></a>11.7. The Bash
+        Shell Startup Files
+      </h1>
+      <p>
+        The shell program <span class=
+        "command"><strong>/bin/bash</strong></span> (hereafter referred to as
+        &ldquo;<span class="quote">the shell</span>&rdquo;) uses a collection
+        of startup files to help create an environment to run in. Each file
+        has a specific use and may affect login and interactive environments
+        differently. The files in the <code class="filename">/etc</code>
+        directory provide global settings. If an equivalent file exists in
+        the home directory, it may override the global settings.
+      </p>
+      <p>
+        An interactive login shell is started after a successful login, using
+        <span class="command"><strong>/bin/login</strong></span>, by reading
+        the <code class="filename">/etc/passwd</code> file. An interactive
+        non-login shell is started at the command-line (e.g., <code class=
+        "prompt">[prompt]$</code><span class=
+        "command"><strong>/bin/bash</strong></span>). A non-interactive shell
+        is usually present when a shell script is running. It is
+        non-interactive because it is processing a script and not waiting for
+        user input between commands.
+      </p>
+      <p>
+        For more information, see <span class="command"><strong>info
+        bash</strong></span> under the <span class="emphasis"><em>Bash
+        Startup Files and Interactive Shells</em></span> section, and
+        <a class="ulink" href=
+        "http://cblfs.clfs.org/index.php/Bash_Startup_Files">Bash Startup
+        Files</a> in CBLFS.
+      </p>
+      <p>
+        The files <code class="filename">/etc/profile</code> and <code class=
+        "filename">~/.bash_profile</code> are read when the shell is invoked
+        as an interactive login shell. Create a base <code class=
+        "filename">/etc/profile</code> that will read locale information from
+        <code class="filename">/etc/locale.conf</code> and load any Bash auto
+        completion files that may be on the system. This script also sets the
+        <code class="envar">INPUTRC</code> environment variable that makes
+        Bash and Readline use <code class="filename">/etc/inputrc</code>:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/profile &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile
+
+source /etc/locale.conf
+
+for f in /etc/bash_completion.d/*
+do
+  if [ -e ${f} ]; then source ${f}; fi
+done
+unset f
+
+export INPUTRC=/etc/inputrc
+
+# End /etc/profile</code>
+EOF</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title=
+          "Creating custom symlinks to devices">Prev</a>
+          <p>
+            Creating custom symlinks to devices
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title=
+          "Setting Up Locale Information">Next</a>
+          <p>
+            Setting Up Locale Information
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

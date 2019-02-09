@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      13.4.&nbsp;Making the CLFS System Bootable via Colo
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="arcload.html" title=
+          "Making the CLFS System Bootable via Arcload">Prev</a>
+          <p>
+            Making the CLFS System Bootable via Arcload
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-bootable-colo" name="ch-bootable-colo"></a>13.4. Making the
+        CLFS System Bootable via Colo
+      </h1>
+      <div class="admon note">
+        <img alt="[Note]" src="../images/note.png" />
+        <h3>
+          Note
+        </h3>
+        <p>
+          This bootloader is for the MIPS based cobalt servers RaQ, RaQ2,
+          Qube, or the Qube2.
+        </p>
+      </div>
+      <p>
+        Your shiny new CLFS system is almost complete. One of the last things
+        to do is ensure you can boot it. The instructions below apply only to
+        Cobalt RaQ1/RaQ2/Cube2 servers. Information on &ldquo;<span class=
+        "quote">boot loading</span>&rdquo; for other architectures should be
+        available in the usual resource-specific locations for those
+        architectures.
+      </p>
+      <p>
+        Boot loading can be a complex area, so a few cautionary words are in
+        order. Be familiar with the current boot loader and any other
+        operating systems present on the hard drive(s) that need to be
+        bootable. Make sure that an emergency boot disk is ready to
+        &ldquo;<span class="quote">rescue</span>&rdquo; the computer if the
+        computer becomes unusable (un-bootable).
+      </p>
+      <p>
+        Earlier, we compiled and installed the Cobalt boot loader software in
+        preparation for this step. Now we will configure our system to boot
+        using Colo. Here is a simple <code class=
+        "filename">default.colo</code> to use.
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /boot/default.colo &lt;&lt; "EOF"
+<code class="literal">#:CoLo:#
+#
+# load linux
+#
+lcd 'Booting 4.9.21...'
+load vmlinux-4.9.21.gz
+execute root=/dev/hda2 console=ttyS0,115200 ide1=noprobe</code>
+EOF</kbd></pre>
+      <p>
+        Included in <code class="filename">/usr/lib/colo/examples</code> are
+        more examples of a <code class="filename">default.colo</code> file.
+      </p>
+      <p>
+        The FHS stipulates that the bootloader's configuration file should be
+        symlinked to <code class="filename">/etc/{Bootloader Name}</code>. To
+        satisfy this requirement for Colo, issue the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -v /etc/colo &amp;&amp;
+ln -sv /boot/colo/default.colo /etc/colo</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="arcload.html" title=
+          "Making the CLFS System Bootable via Arcload">Prev</a>
+          <p>
+            Making the CLFS System Bootable via Arcload
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

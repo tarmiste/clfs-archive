@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      8.7.&nbsp;Build Flags
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;8.&nbsp;If You Are Going to Chroot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="createfiles.html" title=
+          "Creating Essential Symlinks">Prev</a>
+          <p>
+            Creating Essential Symlinks
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pwdgroup.html" title=
+          "Creating the passwd and group Files">Next</a>
+          <p>
+            Creating the passwd and group Files
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;8.&nbsp;If You Are Going to Chroot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-chroot-flags" name="ch-chroot-flags"></a>8.7. Build Flags
+      </h1>
+      <p>
+        We will need to setup target specific flags for the compiler and
+        linkers:
+      </p>
+      <pre class="userinput"><kbd class="command">export BUILD32="-m32"
+export BUILD64="-m64"</kbd></pre>
+      <p>
+        You will need to set your host target triplet for 32 bit:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">export CLFS_TARGET32="i686-pc-linux-gnu"</kbd></pre>
+      <p>
+        To prevent errors when you come back to your build, we will export
+        these variables to prevent any build issues in the future:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt;&gt; ${CLFS}/root/.bash_profile &lt;&lt; EOF
+export BUILD32="${BUILD32}"
+export BUILD64="${BUILD64}"
+export CLFS_TARGET32="${CLFS_TARGET32}"
+EOF</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="createfiles.html" title=
+          "Creating Essential Symlinks">Prev</a>
+          <p>
+            Creating Essential Symlinks
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pwdgroup.html" title=
+          "Creating the passwd and group Files">Next</a>
+          <p>
+            Creating the passwd and group Files
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;8.&nbsp;If You Are Going to Chroot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      14.3.&nbsp;Rebooting the System
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;14.&nbsp;The End
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="downloadclient.html" title=
+          "Download Client">Prev</a>
+          <p>
+            Download Client
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnow.html" title="What Now?">Next</a>
+          <p>
+            What Now?
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;14.&nbsp;The End">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-finish-reboot" name="ch-finish-reboot"></a>14.3. Rebooting
+        the System
+      </h1>
+      <p>
+        If you built your final system using the boot method, just run
+        <span class="command"><strong>shutdown -r now</strong></span> to
+        reboot again, using your newly-built kernel instead of the miminal
+        one currently in use. If you chrooted, there are a few more steps.
+      </p>
+      <p>
+        The system you have created in this book is quite minimal, and most
+        likely will not have the functionality you would need to be able to
+        continue forward. By installing a few extra packages from CBLFS while
+        still in our current chroot environment, you can leave yourself in a
+        much better position to continue on once you reboot into your new
+        CLFS installation. Installing a text mode web browser, such as Lynx,
+        you can easily view the CBLFS website in one virtual terminal, while
+        building packages in another. The GPM package will also allow you to
+        perform copy/paste actions in your virtual terminals. Lastly, if you
+        are in a situation where static IP configuration does not meet your
+        networking requirements, installing packages such as Dhcpcd or PPP at
+        this point might also be useful.
+      </p>
+      <p>
+        Now that we have said that, lets move on to booting our shiny new
+        CLFS installation for the first time! First exit from the chroot
+        environment:
+      </p>
+      <pre class="userinput"><kbd class="command">logout</kbd></pre>
+      <p>
+        Then unmount the virtual file systems:
+      </p>
+      <pre class="userinput"><kbd class="command">umount ${CLFS}/dev/pts
+
+if [ -h ${CLFS}/dev/shm ]; then
+  link=$(readlink ${CLFS}/dev/shm)
+  umount -v ${CLFS}/$link
+  unset link
+else
+  umount -v ${CLFS}/dev/shm
+fi
+
+umount ${CLFS}/dev
+umount ${CLFS}/proc
+umount ${CLFS}/sys
+umount ${CLFS}/run</kbd></pre>
+      <p>
+        Unmount the CLFS file system itself:
+      </p>
+      <pre class="userinput"><kbd class="command">umount ${CLFS}</kbd></pre>
+      <p>
+        If multiple partitions were created, unmount the other partitions
+        before unmounting the main one, like this:
+      </p>
+      <pre class="userinput"><kbd class="command">umount ${CLFS}/usr
+umount ${CLFS}/home
+umount ${CLFS}</kbd></pre>
+      <p>
+        Now, reboot the system with:
+      </p>
+      <pre class="userinput"><kbd class="command">shutdown -r now</kbd></pre>
+      <p>
+        Assuming the boot loader was set up as outlined earlier, <span class=
+        "emphasis"><em>CLFS GIT-20170803</em></span> will boot automatically.
+      </p>
+      <p>
+        When the reboot is complete, the CLFS system is ready for use and
+        more software may be added to suit your needs.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="downloadclient.html" title=
+          "Download Client">Prev</a>
+          <p>
+            Download Client
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnow.html" title="What Now?">Next</a>
+          <p>
+            What Now?
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;14.&nbsp;The End">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

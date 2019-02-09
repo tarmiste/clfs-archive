@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      Chapter&nbsp;10.&nbsp;Installing Basic System Software
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Part&nbsp;V.&nbsp;Building the CLFS System
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="../testsuite/dejagnu.html" title=
+          "DejaGNU-1.6">Prev</a>
+          <p>
+            DejaGNU-1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="introduction.html" title=
+          "Introduction">Next</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="../part5.html" title=
+          "Part&nbsp;V.&nbsp;Building the CLFS System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="en" xml:lang="en">
+      <h1 class="chapter">
+        <a id="chapter-building-system" name=
+        "chapter-building-system"></a>10. Installing Basic System Software
+      </h1>
+      <div class="toc">
+        <h3>
+          Table of Contents
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="introduction.html">Introduction</a>
+          </li>
+          <li class="sect1">
+            <a href="pkgmgt.html">Package Management</a>
+          </li>
+          <li class="sect1">
+            <a href="testsuitesagain.html">About Test Suites, Again</a>
+          </li>
+          <li class="sect1">
+            <a href="temp-perl.html">Temporary Perl-5.26.0</a>
+          </li>
+          <li class="sect1">
+            <a href="linux-headers.html">Linux-4.9.21 Headers</a>
+          </li>
+          <li class="sect1">
+            <a href="man-pages.html">Man-pages-4.09</a>
+          </li>
+          <li class="sect1">
+            <a href="glibc.html">Glibc-2.25 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="glibc-n32.html">Glibc-2.25 N32</a>
+          </li>
+          <li class="sect1">
+            <a href="glibc-64bit.html">Glibc-2.25 64-Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="adjusting.html">Adjusting the Toolchain</a>
+          </li>
+          <li class="sect1">
+            <a href="m4.html">M4-1.4.18</a>
+          </li>
+          <li class="sect1">
+            <a href="gmp.html">GMP-6.1.2 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gmp-n32.html">GMP-6.1.2 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gmp-64bit.html">GMP-6.1.2 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="mpfr.html">MPFR-3.1.5 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="mpfr-n32.html">MPFR-3.1.5 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="mpfr-64bit.html">MPFR-3.1.5 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="mpc.html">MPC-1.0.3 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="mpc-n32.html">MPC-1.0.3 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="mpc-64bit.html">MPC-1.0.3 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="isl.html">ISL-0.17.1 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="isl-n32.html">ISL-0.17.1 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="isl-64bit.html">ISL-0.17.1 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="zlib.html">Zlib-1.2.11 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="zlib-n32.html">Zlib-1.2.11 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="zlib-64bit.html">Zlib-1.2.11 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="flex.html">Flex-2.6.4 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="flex-n32.html">Flex-2.6.4 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="flex-64bit.html">Flex-2.6.4 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="bison.html">Bison-3.0.4 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="bison-n32.html">Bison-3.0.4 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="bison-64bit.html">Bison-3.0.4 64Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="binutils.html">Binutils-2.28</a>
+          </li>
+          <li class="sect1">
+            <a href="gcc.html">GCC-7.1.0</a>
+          </li>
+          <li class="sect1">
+            <a href="attr.html">Attr-2.4.47 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="attr-n32.html">Attr-2.4.47 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="attr-64bit.html">Attr-2.4.47 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="acl.html">Acl-2.2.52 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="acl-n32.html">Acl-2.2.52 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="acl-64bit.html">Acl-2.2.52 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="libcap.html">Libcap-2.25 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libcap-n32.html">Libcap-2.25 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libcap-64bit.html">Libcap-2.25 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="sed.html">Sed-4.4</a>
+          </li>
+          <li class="sect1">
+            <a href="pkg-config-lite.html">Pkg-config-lite-0.28-1</a>
+          </li>
+          <li class="sect1">
+            <a href="ncurses.html">Ncurses-6.0 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="ncurses-n32.html">Ncurses-6.0 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="ncurses-64bit.html">Ncurses-6.0 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="shadow.html">Shadow-4.5</a>
+          </li>
+          <li class="sect1">
+            <a href="util-linux.html">Util-linux-2.29.2 32 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="util-linux-n32.html">Util-linux-2.29.2 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="util-linux-pass1.html">Util-linux-2.29.2 64bit Pass
+            1</a>
+          </li>
+          <li class="sect1">
+            <a href="procps-ng.html">Procps-ng-3.3.12 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="procps-ng-n32.html">Procps-ng-3.3.12 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="procps-ng-64bit.html">Procps-ng-3.3.12 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="e2fsprogs.html">E2fsprogs-1.43.4 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="e2fsprogs-n32.html">E2fsprogs-1.43.4 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="e2fsprogs-64bit.html">E2fsprogs-1.43.4 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="multiarch_wrapper.html">Creating a Multiarch Wrapper</a>
+          </li>
+          <li class="sect1">
+            <a href="coreutils.html">Coreutils-8.27</a>
+          </li>
+          <li class="sect1">
+            <a href="iana-etc.html">Iana-Etc-2.30</a>
+          </li>
+          <li class="sect1">
+            <a href="libtool.html">Libtool-2.4.6 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libtool-n32.html">Libtool-2.4.6 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libtool-64bit.html">Libtool-2.4.6 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="iproute2.html">IPRoute2-4.9.0</a>
+          </li>
+          <li class="sect1">
+            <a href="bzip2.html">Bzip2-1.0.6 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="bzip2-n32.html">Bzip2-1.0.6 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="bzip2-64bit.html">Bzip2-1.0.6 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="gdbm.html">GDBM-1.13 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gdbm-n32.html">GDBM-1.13 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gdbm-64bit.html">GDBM-1.13 64 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="perl.html">Perl-5.26.0 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="perl-n32.html">Perl-5.26.0 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="perl-64bit.html">Perl-5.26.0 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="readline.html">Readline-7.0 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="readline-n32.html">Readline-7.0 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="readline-64bit.html">Readline-7.0 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="autoconf.html">Autoconf-2.69</a>
+          </li>
+          <li class="sect1">
+            <a href="automake.html">Automake-1.15</a>
+          </li>
+          <li class="sect1">
+            <a href="bash.html">Bash-4.4</a>
+          </li>
+          <li class="sect1">
+            <a href="bc.html">Bc-1.07.1</a>
+          </li>
+          <li class="sect1">
+            <a href="diffutils.html">Diffutils-3.6</a>
+          </li>
+          <li class="sect1">
+            <a href="file.html">File-5.31 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="file-n32.html">File-5.31 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="file-64bit.html">File-5.31 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="gawk.html">Gawk-4.1.4</a>
+          </li>
+          <li class="sect1">
+            <a href="findutils.html">Findutils-4.6.0</a>
+          </li>
+          <li class="sect1">
+            <a href="gettext.html">Gettext-0.19.8.1 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gettext-n32.html">Gettext-0.19.8.1 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="gettext-64bit.html">Gettext-0.19.8.1 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="gperf.html">Gperf-3.0.4</a>
+          </li>
+          <li class="sect1">
+            <a href="grep.html">Grep-3.0</a>
+          </li>
+          <li class="sect1">
+            <a href="groff.html">Groff-1.22.3</a>
+          </li>
+          <li class="sect1">
+            <a href="less.html">Less-491</a>
+          </li>
+          <li class="sect1">
+            <a href="gzip.html">Gzip-1.8</a>
+          </li>
+          <li class="sect1">
+            <a href="iputils.html">IPutils-s20150815</a>
+          </li>
+          <li class="sect1">
+            <a href="kbd.html">Kbd-2.0.4</a>
+          </li>
+          <li class="sect1">
+            <a href="libpipeline.html">Libpipeline-1.4.1 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libpipeline-n32.html">Libpipeline-1.4.1 N32
+            Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="libpipeline-64bit.html">Libpipeline-1.4.1 64 Bit
+            Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="man-db.html">Man-DB-2.7.6.1</a>
+          </li>
+          <li class="sect1">
+            <a href="make.html">Make-4.2.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xz.html">XZ Utils-5.2.3 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="xz-n32.html">XZ Utils-5.2.3 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="xz-64bit.html">XZ Utils-5.2.3 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="expat.html">Expat-2.2.0 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="expat-n32.html">Expat-2.2.0 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="expat-64bit.html">Expat-2.2.0 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="xml-parser.html">XML-Parser-2.44 32 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="xml-parser-n32.html">XML-Parser-2.44 N32</a>
+          </li>
+          <li class="sect1">
+            <a href="xml-parser-64bit.html">XML-Parser-2.44 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="intltool.html">Intltool-0.51.0</a>
+          </li>
+          <li class="sect1">
+            <a href="kmod.html">Kmod-24 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="kmod-n32.html">Kmod-24 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="kmod-64bit.html">Kmod-24 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="patch.html">Patch-2.7.5</a>
+          </li>
+          <li class="sect1">
+            <a href="psmisc.html">Psmisc-22.21</a>
+          </li>
+          <li class="sect1">
+            <a href="systemd.html">Systemd-233 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="systemd-n32.html">Systemd-233 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="systemd-64bit.html">Systemd-233</a>
+          </li>
+          <li class="sect1">
+            <a href="dbus.html">D-Bus-1.10.18 32 Bit Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="dbus-n32.html">D-Bus-1.10.18 N32 Libraries</a>
+          </li>
+          <li class="sect1">
+            <a href="dbus-64bit.html">D-Bus-1.10.18 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="tar.html">Tar-1.29</a>
+          </li>
+          <li class="sect1">
+            <a href="texinfo.html">Texinfo-6.3</a>
+          </li>
+          <li class="sect1">
+            <a href="util-linux-64bit.html">Util-linux-2.29.2 64 Bit</a>
+          </li>
+          <li class="sect1">
+            <a href="vim.html">Vim-8.0</a>
+          </li>
+          <li class="sect1">
+            <a href="colo.html">Colo-1.22</a>
+          </li>
+          <li class="sect1">
+            <a href="dvhtool.html">Dvhtool-1.0.1</a>
+          </li>
+          <li class="sect1">
+            <a href="arcload.html">Arcload-0.5</a>
+          </li>
+          <li class="sect1">
+            <a href="aboutdebug.html">About Debugging Symbols</a>
+          </li>
+          <li class="sect1">
+            <a href="stripping.html">Stripping</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="../testsuite/dejagnu.html" title=
+          "DejaGNU-1.6">Prev</a>
+          <p>
+            DejaGNU-1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="introduction.html" title=
+          "Introduction">Next</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="../part5.html" title=
+          "Part&nbsp;V.&nbsp;Building the CLFS System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.3.&nbsp;Boot-scripts for CLFS 3.0-20140710
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bc.html" title="Bc-1.07.1">Prev</a>
+          <p>
+            Bc-1.07.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="e2fsprogs.html" title=
+          "E2fsprogs-1.43.4">Next</a>
+          <p>
+            E2fsprogs-1.43.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-boot-scripts" name="ch-boot-boot-scripts"></a>7.3.
+        Boot-scripts for CLFS 3.0-20140710
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Boot-scripts package contains a set of scripts to start/stop
+          the CLFS system at bootup/shutdown.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.3.1. Installation of Boot-scripts
+        </h2>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=/tools install-boot-scripts</kbd></pre>
+        <p>
+          The <span class="command"><strong>setclock</strong></span> script
+          reads the time from the hardware clock, also known as the BIOS or
+          the Complementary Metal Oxide Semiconductor (CMOS) clock. If the
+          hardware clock is set to UTC, this script will convert the hardware
+          clock's time to the local time using the <code class=
+          "filename">/tools/etc/sysconfig/clock</code> file (which tells the
+          <span class="command"><strong>hwclock</strong></span> program which
+          timezone the user is in). There is no way to detect whether or not
+          the hardware clock is set to UTC, so this needs to be configured
+          manually.
+        </p>
+        <p>
+          If you do not know whether or not the hardware clock is set to UTC,
+          you can find out after you have booted the new machine by running
+          the <strong class="userinput"><code>hwclock --localtime
+          --show</code></strong> command, and if necessary editing the
+          <code class="filename">/tools/etc/sysconfig/clock</code> file. The
+          worst that will happen if you make a wrong guess here is that the
+          time displayed will be wrong.
+        </p>
+        <p>
+          Change the value of the <code class="envar">UTC</code> variable
+          below to a value of <code class="option">0</code> (zero) if the
+          hardware clock is <span class="emphasis"><em>not</em></span> set to
+          UTC time.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /tools/etc/sysconfig/clock &lt;&lt; "EOF"
+<code class="literal"># Begin /tools/etc/sysconfig/clock
+
+UTC=1
+
+# End /tools/etc/sysconfig/clock</code>
+EOF</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-boot-scripts" name=
+          "contents-boot-scripts"></a>7.3.2. Contents of Boot-scripts
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed scripts:</strong>
+              <span class="segbody">checkfs, cleanfs, functions, halt,
+              localnet, mountfs, mountkernfs, rc, reboot, sendsignals,
+              setclock, swap, and udev.</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="checkfs-boot-scripts" name=
+                    "checkfs-boot-scripts"></a><span class=
+                    "term"><span class="command"><strong>checkfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Checks the integrity of the file systems before they are
+                    mounted (with the exception of journal and network based
+                    file systems)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cleanfs-boot-scripts" name=
+                    "cleanfs-boot-scripts"></a><span class=
+                    "term"><span class="command"><strong>cleanfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Removes files that should not be preserved between
+                    reboots, such as those in <code class=
+                    "filename">/run/</code> and <code class=
+                    "filename">/var/lock/</code>; it re-creates <code class=
+                    "filename">/run/utmp</code> and removes the possibly
+                    present <code class="filename">/etc/nologin</code>,
+                    <code class="filename">/fastboot</code>, and <code class=
+                    "filename">/forcefsck</code> files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="functions-boot-scripts" name=
+                    "functions-boot-scripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>functions</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Contains common functions, such as error and status
+                    checking, that are used by several boot-scripts
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="halt-boot-scripts" name=
+                    "halt-boot-scripts"></a><span class="term"><span class=
+                    "command"><strong>halt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Halts the system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="localnet-boot-scripts" name=
+                    "localnet-boot-scripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>localnet</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Sets up the system's hostname and local loopback device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mountfs-boot-scripts" name=
+                    "mountfs-boot-scripts"></a><span class=
+                    "term"><span class="command"><strong>mountfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Mounts all file systems, except ones that are marked
+                    <span class="emphasis"><em>noauto</em></span> or are
+                    network based
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mountkernfs-boot-scripts" name=
+                    "mountkernfs-boot-scripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mountkernfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Mounts virtual kernel file systems, such as <code class=
+                    "systemitem">proc</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rc-boot-scripts" name=
+                    "rc-boot-scripts"></a><span class="term"><span class=
+                    "command"><strong>rc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The master run-level control script; it is responsible
+                    for running all the other boot-scripts one-by-one, in a
+                    sequence determined by the name of the symbolic links
+                    being processed
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reboot-boot-scripts" name=
+                    "reboot-boot-scripts"></a><span class="term"><span class=
+                    "command"><strong>reboot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Reboots the system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sendsignals-boot-scripts" name=
+                    "sendsignals-boot-scripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sendsignals</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Makes sure every process is terminated before the system
+                    reboots or halts
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setclock-boot-scripts" name=
+                    "setclock-boot-scripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setclock</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Resets the kernel clock to local time in case the
+                    hardware clock is not set to UTC time
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swap-boot-scripts" name=
+                    "swap-boot-scripts"></a><span class="term"><span class=
+                    "command"><strong>swap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Enables and disables swap files and partitions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="eudev-boot-scripts" name=
+                    "eudev-boot-scripts"></a><span class="term"><span class=
+                    "command"><strong>udev</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Starts and stops the Eudev daemon
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bc.html" title="Bc-1.07.1">Prev</a>
+          <p>
+            Bc-1.07.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="e2fsprogs.html" title=
+          "E2fsprogs-1.43.4">Next</a>
+          <p>
+            E2fsprogs-1.43.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

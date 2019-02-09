@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.8.&nbsp;MPFR-3.1.5
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gmp.html" title="GMP-6.1.2">Prev</a>
+          <p>
+            GMP-6.1.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mpc.html" title="MPC-1.0.3">Next</a>
+          <p>
+            MPC-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-mpfr" name="ch-cross-tools-mpfr"></a>5.8.
+        MPFR-3.1.5
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The MPFR library is a C library for multiple-precision
+          floating-point computations with correct rounding.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.8.1. Installation of MPFR
+        </h2>
+        <p>
+          Apply a patch with upstream fixes:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../mpfr-3.1.5-fixes-1.patch</kbd></pre>
+        <p>
+          Prepare MPFR for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
+./configure \
+    --prefix=/cross-tools \
+    --disable-static \
+    --with-gmp=/cross-tools</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>LDFLAGS="-Wl,-rpath,/cross-tools/lib"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells <span class=
+                "command"><strong>configure</strong></span> to search in
+                <code class="filename">/cross-tools</code> for libraries.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-gmp=/cross-tools</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells <span class=
+                "command"><strong>configure</strong></span> where to find
+                GMP.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/mpfr-64bit.html#contents-mpfr" title=
+          "10.14.2.&nbsp;Contents of MPFR">Section&nbsp;10.14.2,
+          &ldquo;Contents of MPFR.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gmp.html" title="GMP-6.1.2">Prev</a>
+          <p>
+            GMP-6.1.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mpc.html" title="MPC-1.0.3">Next</a>
+          <p>
+            MPC-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

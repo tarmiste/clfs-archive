@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.13.&nbsp;Glibc-2.25 32 Bit
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc-static.html" title=
+          "Cross GCC-7.1.0 - Static">Prev</a>
+          <p>
+            Cross GCC-7.1.0 - Static
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc-64.html" title=
+          "Glibc-2.25 64-Bit">Next</a>
+          <p>
+            Glibc-2.25 64-Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-glibc" name="ch-cross-tools-glibc"></a>5.13.
+        Glibc-2.25 32 Bit
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Glibc package contains the main C library. This library
+          provides the basic routines for allocating memory, searching
+          directories, opening and closing files, reading and writing files,
+          string handling, pattern matching, arithmetic, and so on.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.13.1. Installation of Glibc
+        </h2>
+        <p>
+          It should be noted that compiling Glibc in any way other than the
+          method suggested in this book puts the stability of the system at
+          risk.
+        </p>
+        <p>
+          The Glibc documentation recommends building Glibc outside of the
+          source directory in a dedicated build directory:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v ../glibc-build
+cd ../glibc-build</kbd></pre>
+        <p>
+          Prepare Glibc for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">BUILD_CC="gcc" CC="${CLFS_TARGET}-gcc ${BUILD32}" \
+AR="${CLFS_TARGET}-ar" RANLIB="${CLFS_TARGET}-ranlib" \
+../glibc-2.25/configure \
+    --prefix=/tools \
+    --host=${CLFS_TARGET32} \
+    --build=${CLFS_HOST} \
+    --enable-kernel=3.12.0 \
+    --with-binutils=/cross-tools/bin \
+    --with-headers=/tools/include \
+    --enable-obsolete-rpc</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>BUILD_CC="gcc"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This sets Glibc to use the current compiler on our system.
+                This is used to create the tools Glibc uses during its build.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CC="${CLFS_TARGET}-gcc
+              ${BUILD32}"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Forces Glibc to utilize our target architecture GCC utilizing
+                the 32 Bit flags.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>AR="${CLFS_TARGET}-ar"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This forces Glibc to use the <span class=
+                "command"><strong>ar</strong></span> utility we made for our
+                target architecture.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>RANLIB="${CLFS_TARGET}-ranlib"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This forces Glibc to use the <span class=
+                "command"><strong>ranlib</strong></span> utility we made for
+                our target architecture.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-kernel=3.12.0</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Glibc to compile the library with support for
+                3.12.0 and later Linux kernels.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-binutils=/cross-tools/bin</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Glibc to use the Binutils that are specific to our
+                target architecture.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-headers=/tools/include</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Glibc to compile itself against the headers
+                recently installed to the <code class=
+                "filename">/tools</code> directory, so that it knows exactly
+                what features the kernel has and can optimize itself
+                accordingly.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-obsolete-rpc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Glibc to install rpc headers that are not
+                installed by default but may be needed by other packages.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          During this stage the following warning might appear:
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <pre class="screen"><code class=
+            "computeroutput">configure: WARNING:
+*** These auxiliary programs are missing or
+*** incompatible versions: msgfmt
+*** some features will be disabled.
+*** Check the INSTALL file for required versions.</code></pre>
+          </blockquote>
+        </div>
+        <p>
+          The missing or incompatible <span class=
+          "command"><strong>msgfmt</strong></span> program is generally
+          harmless. This <span class="command"><strong>msgfmt</strong></span>
+          program is part of the Gettext package which the host distribution
+          should provide. You might also see a similar (also harmless)
+          message about missing <span class=
+          "command"><strong>autoconf</strong></span>.
+        </p>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/glibc-64bit.html#contents-glibc" title=
+          "10.8.5.&nbsp;Contents of Glibc">Section&nbsp;10.8.5,
+          &ldquo;Contents of Glibc.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc-static.html" title=
+          "Cross GCC-7.1.0 - Static">Prev</a>
+          <p>
+            Cross GCC-7.1.0 - Static
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc-64.html" title=
+          "Glibc-2.25 64-Bit">Next</a>
+          <p>
+            Glibc-2.25 64-Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

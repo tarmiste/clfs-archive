@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.18.&nbsp;Changing Ownership
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="how-to-view.html" title=
+          "How to View the Book">Next</a>
+          <p>
+            How to View the Book
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-changingowner" name="ch-boot-changingowner"></a>7.18.
+        Changing Ownership
+      </h1>
+      <p>
+        Currently, the <code class="filename">/tools</code> and <code class=
+        "filename">/cross-tools</code> directories are owned by the user
+        <span class="emphasis"><em>clfs</em></span>, a user that exists only
+        on the host system. Although <code class="filename">/tools</code> and
+        <code class="filename">/cross-tools</code> can be deleted once the
+        CLFS system has been finished, they can be retained to build
+        additional CLFS systems. If the <code class="filename">/tools</code>
+        and <code class="filename">/cross-tools</code> directories are kept
+        as is, the files are owned by a user ID without a corresponding
+        account. This is dangerous because a user account created later could
+        get this same user ID and would own these directories and all the
+        files therein, thus exposing those files to possible malicious
+        manipulation.
+      </p>
+      <p>
+        One possible fix for this issue might be to add the <code class=
+        "systemitem">clfs</code> user to the new CLFS system later when
+        creating the <code class="filename">/etc/passwd</code> file, taking
+        care to assign it the same user and group IDs as on the host system.
+        Alternatively, assign the contents of the <code class=
+        "filename">/tools</code> and <code class=
+        "filename">/cross-tools</code> directories to user <code class=
+        "systemitem">root</code> by running the following commands:
+      </p>
+      <pre class="userinput"><kbd class="command">chown -Rv 0:0 ${CLFS}/tools
+chown -Rv 0:0 ${CLFS}/cross-tools</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="how-to-view.html" title=
+          "How to View the Book">Next</a>
+          <p>
+            How to View the Book
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

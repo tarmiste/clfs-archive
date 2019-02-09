@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.69.&nbsp;Hfsutils-3.2.6
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="parted.html" title="Parted-3.1">Next</a>
+          <p>
+            Parted-3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-hfsutils" name="ch-system-hfsutils"></a>10.69.
+        Hfsutils-3.2.6
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Hfsutils package contains a number of utilities for accessing
+          files on <code class="systemitem">hfs</code> filesystems. It is
+          needed to run <span class="command"><strong>ybin</strong></span>.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.69.1. Installation of Hfsutils
+        </h2>
+        <p>
+          Apply the following patch to add a missing <code class=
+          "filename">errno.h</code> include and allow HFSutils to recognize
+          devices larger than 2GB:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../hfsutils-3.2.6-fixes-1.patch</kbd></pre>
+        <p>
+          Prepare Hfsutils for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-hfsutils" name="contents-hfsutils"></a>10.69.2.
+          Contents of Hfsutils
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">hattrib, hcd, hcopy, hdel, hdir,
+              hfsutils, hformat, hls, hmkdir, hmount, hpwd, hrename, hrmdir,
+              humount, hvol (these are all hardlinks to hfsutils).</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hattrib" name="hattrib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hattrib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Change FS file or directory attributes.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hcd" name="hcd"></a><span class=
+                    "term"><span class="command"><strong>hcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Change working HFS directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hcopy" name="hcopy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hcopy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Copy files to or from an HFS volume.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdel" name="hdel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hdel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Delete both forks of an HFS file.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdir" name="hdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Display an HFS directory in long format.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hformat" name="hformat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hformat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Create a new HFS filesystem and make it current.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hfsutils" name="hfsutils"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hfsutils</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tools for accessing Macintosh HFS-formatted volumes.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hls" name="hls"></a><span class=
+                    "term"><span class="command"><strong>hls</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    List files in an HFS directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hmkdir" name="hmkdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hmkdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Create a new HFS directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hmount" name="hmount"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hmount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Introduce a new HFS volume and make it current.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hpwd" name="hpwd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hpwd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Print the full path to the current HFS working directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hrename" name="hrename"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hrename</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Rename or move an HFS file or directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hrmdir" name="hrmdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hrmdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Remaove an empty HFS directory.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="humount" name="humount"></a><span class=
+                    "term"><span class=
+                    "command"><strong>humount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Remove an HFS volume from the list of known volumes.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hvol" name="hvol"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hvol</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Display or change the current HFS volume.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="parted.html" title="Parted-3.1">Next</a>
+          <p>
+            Parted-3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

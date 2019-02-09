@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      12.8.&nbsp;DHCPCD-6.11.5
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;12.&nbsp;Networking Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network-static.html" title=
+          "Static Networking Configuration">Prev</a>
+          <p>
+            Static Networking Configuration
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../bootable/chapter.html" title=
+          "Making the CLFS System Bootable">Next</a>
+          <p>
+            Making the CLFS System Bootable
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-network-dhcpcd" name="ch-network-dhcpcd"></a>12.8.
+        DHCPCD-6.11.5
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The DHCPCD package provides a DHCP Client for network
+          configuration.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          12.8.1. Installation of DHCPCD
+        </h2>
+        <p>
+          If you wish to configure your network to connect to a DHCP server,
+          you will first need to install a DHCP client. CLFS uses the DHCPCD
+          package for this.
+        </p>
+        <p>
+          Prepare DHCPCD for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD64}" ./configure \
+    --prefix=/usr \
+    --sbindir=/sbin \
+    --sysconfdir=/etc \
+    --dbdir=/var/lib/dhcpcd \
+    --libexecdir=/usr/lib64/dhcpcd \
+    --libdir=/usr/lib64</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="configuration" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="conf-dhcpcd" name="conf-dhcpcd"></a>12.8.2. Creating the
+          DHCP Network Interface Configuration File
+        </h2>
+        <p>
+          The following is an example for the eth0 interface. Refer to the
+          dhcpcd.conf man page for more information. This step may be skipped
+          if default behavior of dhcpcd is required.
+        </p>
+        <p>
+          Create the <code class="filename">/etc/dhcpcd.conf</code>
+          configuration file using the following commands. Adjust
+          appropriately for additional options:
+        </p>
+        <pre class="userinput"><kbd class="command">cd /etc &amp;&amp;
+cat &gt; dhcpcd.conf &lt;&lt; "EOF"
+<code class="literal"># dhcpcd configuration eth0 interface
+# See dhcpcd.conf(5) for details.
+
+interface eth0
+# dhcpcd-run-hooks uses these options.
+option subnet_mask, routers, domain_name_servers
+
+# The default timeout for waiting for a DHCP response is 30 seconds
+# which may be too long or too short and can be changed here.
+timeout 16</code>
+EOF</kbd></pre>
+        <p>
+          To configure another Static Interface, Follow <a class="xref" href=
+          "network-static.html" title=
+          "12.7.&nbsp;Static Networking Configuration">Section&nbsp;12.7,
+          &ldquo;Static Networking Configuration&rdquo;</a>.
+        </p>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-dhcpcd" name="contents-dhcpcd"></a>12.8.3. Contents
+          of dhcpcd
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed files:</strong> <span class=
+              "segbody">dhcpcd</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dhcpcd" name="dhcpcd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dhcpcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dhcpcd is an implementation of the DHCP client specified
+                    in RFC 2131. It gets the host information from a DHCP
+                    server and configures the network interface
+                    automatically.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network-static.html" title=
+          "Static Networking Configuration">Prev</a>
+          <p>
+            Static Networking Configuration
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../bootable/chapter.html" title=
+          "Making the CLFS System Bootable">Next</a>
+          <p>
+            Making the CLFS System Bootable
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

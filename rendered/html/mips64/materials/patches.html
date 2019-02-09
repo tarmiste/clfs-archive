@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      3.4.&nbsp;Needed Patches
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;3.&nbsp;Packages and Patches
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="packages-mips64.html" title=
+          "Additional Packages for MIPS 64 Bit Multilib">Prev</a>
+          <p>
+            Additional Packages for MIPS 64 Bit Multilib
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="patches-mips64.html" title=
+          "Additional Patches for MIPS 64 Bit Multilib">Next</a>
+          <p>
+            Additional Patches for MIPS 64 Bit Multilib
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;3.&nbsp;Packages and Patches">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-materials-patches-common" name=
+        "ch-materials-patches-common"></a>3.4. Needed Patches
+      </h1>
+      <p>
+        In addition to the packages, several patches are also required. These
+        patches correct any mistakes in the packages that should be fixed by
+        the maintainer. The patches also make small modifications to make the
+        packages easier to work with. The following patches will be needed to
+        build a CLFS system:
+      </p>
+      <div class="materials">
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term">Automake Perl Patch - <span class=
+              "token">0.685 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/automake-1.15-perl_5_26-1.patch">
+                http://patches.clfs.org/dev/automake-1.15-perl_5_26-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">99dd9d0a31f4a51fbe77bbc13aa9d783</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Bash Branch Update Patch - <span class=
+              "token">17 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/bash-4.4-branch_update-1.patch">http://patches.clfs.org/dev/bash-4.4-branch_update-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">9f59bec94bfd1023d9c6a76b49187420</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Coreutils Uname Patch - <span class=
+              "token">5.020 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/coreutils-8.27-uname-1.patch">http://patches.clfs.org/dev/coreutils-8.27-uname-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">e9bc0459d313f677cebc2095c3b18818</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Iana-Etc Protocol and Port Numbers Update -
+              <span class="token">282 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/iana-etc-2.30-numbers_update-20140202-2.patch.xz">
+                http://patches.clfs.org/dev/iana-etc-2.30-numbers_update-20140202-2.patch.xz</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">b0e7051fef0b3ba064209a5f3d23bd2a</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Intool Perl Fix - <span class="token">2.390
+              KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/intltool-0.51.0-perl-5.22-compatibility.patch">
+                http://patches.clfs.org/dev/intltool-0.51.0-perl-5.22-compatibility.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">476b85e0c100eb2c8fbd74825cb4761e</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">IPUtils Fixes Patch - <span class="token">47
+              KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/iputils-s20150815-build-1.patch">
+                http://patches.clfs.org/dev/iputils-s20150815-build-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">113c166a13d33a3ec10e1ec65542bdc3</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Linux Sublevel Patch - <span class=
+              "token">465 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://www.kernel.org/pub/linux/kernel/v4.x/patch-4.9.21.xz">
+                http://www.kernel.org/pub/linux/kernel/v4.x/patch-4.9.21.xz</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">59351116e4dfdb9072dd8cccd15e1800</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">MPFR Fixes Patch - <span class="token">5.101
+              KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/mpfr-3.1.5-fixes-1.patch">http://patches.clfs.org/dev/mpfr-3.1.5-fixes-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">c9e1bfc93ee8d90226772b628ab77f38</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Ncurses Bash Patch - <span class=
+              "token">.743 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/ncurses-6.0-bash_fix-1.patch">http://patches.clfs.org/dev/ncurses-6.0-bash_fix-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">e3b6d45ce0f0b87e0df98e5bc0d09415</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Readline Branch Update - <span class=
+              "token">3.049 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/readline-7.0-branch_update-1.patch">
+                http://patches.clfs.org/dev/readline-7.0-branch_update-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">8b429202ce52362ae927f36a48461c23</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Sysvinit Tools Updates Patch - <span class=
+              "token">2.339 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/sysvinit-2.88dsf-tools_updates-1.patch">
+                http://patches.clfs.org/dev/sysvinit-2.88dsf-tools_updates-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">c3f6981c46868b68bfd58921570ea51f</code>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Vim Branch Update Patch - <span class=
+              "token">961 KB</span>:</span>
+            </dt>
+            <dd>
+              <p>
+                Download: <a class="ulink" href=
+                "http://patches.clfs.org/dev/vim-8.0-branch_update-1.patch">http://patches.clfs.org/dev/vim-8.0-branch_update-1.patch</a>
+              </p>
+              <p>
+                MD5 sum: <code class=
+                "literal">5a076d526aee80e1d32decf46b5287f9</code>
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <p>
+        Total size of these patches: about 1,791.327 KB
+      </p>
+      <p>
+        In addition to the above required patches, there exist a number of
+        optional patches created by the CLFS community. These optional
+        patches solve minor problems or enable functionality that is not
+        enabled by default. Feel free to peruse the patches database located
+        at <a class="ulink" href=
+        "http://patches.clfs.org/dev/">http://patches.clfs.org/dev/</a> and
+        acquire any additional patches to suit the system needs.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="packages-mips64.html" title=
+          "Additional Packages for MIPS 64 Bit Multilib">Prev</a>
+          <p>
+            Additional Packages for MIPS 64 Bit Multilib
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="patches-mips64.html" title=
+          "Additional Patches for MIPS 64 Bit Multilib">Next</a>
+          <p>
+            Additional Patches for MIPS 64 Bit Multilib
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;3.&nbsp;Packages and Patches">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

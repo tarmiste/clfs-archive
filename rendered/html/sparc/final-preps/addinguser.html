@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      4.4.&nbsp;Adding the CLFS User
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc
+      </h4>
+      <h3>
+        Chapter&nbsp;4.&nbsp;Final Preparations
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingcrossdir.html" title=
+          "Creating the ${CLFS}/cross-tools Directory">Prev</a>
+          <p>
+            Creating the ${CLFS}/cross-tools Directory
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="settingenvironment.html" title=
+          "Setting Up the Environment">Next</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-final-preps-addinguser" name=
+        "ch-final-preps-addinguser"></a>4.4. Adding the CLFS User
+      </h1>
+      <p>
+        When logged in as user <code class="systemitem">root</code>, making a
+        single mistake can damage or destroy a system. Therefore, we
+        recommend building the packages as an unprivileged user. You could
+        use your own user name, but to make it easier to set up a clean work
+        environment, create a new user called <code class=
+        "systemitem">clfs</code> as a member of a new group (also named
+        <code class="systemitem">clfs</code>) and use this user during the
+        installation process. As <code class="systemitem">root</code>, issue
+        the following commands to add the new user:
+      </p>
+      <pre class="userinput"><kbd class="command">groupadd clfs
+useradd -s /bin/bash -g clfs -d /home/clfs clfs
+mkdir -pv /home/clfs
+chown -v clfs:clfs /home/clfs</kbd></pre>
+      <div class="variablelist">
+        <p class="title">
+          <b>The meaning of the command line options:</b>
+        </p>
+        <dl>
+          <dt>
+            <span class="term"><em class="parameter"><code>-s
+            /bin/bash</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This makes <span class="command"><strong>bash</strong></span>
+              the default shell for user <code class=
+              "systemitem">clfs</code>.
+            </p>
+            <div class="admon important">
+              <img alt="[Important]" src="../images/important.png" />
+              <h3>
+                Important
+              </h3>
+              <p>
+                The build instructions assume that the <span class=
+                "command"><strong>bash</strong></span> shell is in use.
+              </p>
+            </div>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code>-g
+            clfs</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This option adds the new user to the <code class=
+              "systemitem">clfs</code> group.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code>-d
+            /home/clfs</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This option sets the user's home directory, but does not create
+              it. We could have used <code class="option">-m</code> to tell
+              <span class="command"><strong>useradd</strong></span> to create
+              the directory as well, but this would also copy the contents of
+              the host system's <code class="filename">/etc/skel</code>
+              directory into the new user's home. We would prefer to have a
+              clean user environment, so we just create an empty directory
+              after adding the user.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class=
+            "parameter"><code>clfs</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This is the actual name for the created group and user.
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        To log in as <code class="systemitem">clfs</code> (as opposed to
+        switching to user <code class="systemitem">clfs</code> when logged in
+        as <code class="systemitem">root</code>, which does not require the
+        <code class="systemitem">clfs</code> user to have a password), give
+        <code class="systemitem">clfs</code> a password:
+      </p>
+      <pre class="userinput"><kbd class="command">passwd clfs</kbd></pre>
+      <p>
+        As <code class="systemitem">root</code>, grant <code class=
+        "systemitem">clfs</code> full access to <code class=
+        "filename">${CLFS}/cross-tools</code> and <code class=
+        "filename">${CLFS}/tools</code> by making <code class=
+        "systemitem">clfs</code> the directorys' owner:
+      </p>
+      <pre class="userinput"><kbd class="command">chown -v clfs ${CLFS}/tools
+chown -v clfs ${CLFS}/cross-tools</kbd></pre>
+      <p>
+        If a separate working directory was created as suggested, run the
+        following command as <code class="systemitem">root</code> to give
+        user <code class="systemitem">clfs</code> ownership of this directory
+        as well:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chown -v clfs ${CLFS}/sources</kbd></pre>
+      <p>
+        Next, login as user <code class="systemitem">clfs</code>. This can be
+        done via a virtual console, through a display manager, or with the
+        following substitute user command:
+      </p>
+      <pre class="userinput"><kbd class="command">su - clfs</kbd></pre>
+      <p>
+        The &ldquo;<span class="quote"><em class=
+        "parameter"><code>-</code></em></span>&rdquo; instructs <span class=
+        "command"><strong>su</strong></span> to start a login shell as
+        opposed to a non-login shell. The difference between these two types
+        of shells can be found in detail in <code class=
+        "filename">bash(1)</code> and <span class="command"><strong>info
+        bash</strong></span>.
+      </p>
+      <div class="admon note">
+        <img alt="[Note]" src="../images/note.png" />
+        <h3>
+          Note
+        </h3>
+        <p>
+          Until specified otherwise, all commands from this point on should
+          be done as the <code class="systemitem">clfs</code> user.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingcrossdir.html" title=
+          "Creating the ${CLFS}/cross-tools Directory">Prev</a>
+          <p>
+            Creating the ${CLFS}/cross-tools Directory
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="settingenvironment.html" title=
+          "Setting Up the Environment">Next</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

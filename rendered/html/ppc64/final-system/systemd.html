@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.91.&nbsp;Systemd-233 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="psmisc.html" title="Psmisc-22.21">Prev</a>
+          <p>
+            Psmisc-22.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="systemd-64bit.html" title=
+          "Systemd-233">Next</a>
+          <p>
+            Systemd-233
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-systemd-32" name="ch-system-systemd-32"></a>10.91.
+        Systemd-233 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The systemd package is a system and service manager for Linux
+          operating systems.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.91.1. Installation of Systemd
+        </h2>
+        <p>
+          Create a file to declare some variables
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; config.cache &lt;&lt; "EOF"
+<code class="literal">KILL="/bin/kill"
+MOUNT_PATH="/bin/mount"
+UMOUNT_PATH="/bin/umount"
+SULOGIN="/sbin/sulogin"
+XSLTPROC="/usr/bin/xsltproc"
+cc_cv_LDFLAGS__Wl__fuse_ld_gold=no</code>
+EOF</kbd></pre>
+        <p>
+          Prepare systemd for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD32}" PKG_CONFIG_PATH="${PKG_CONFIG_PATH32}" \
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libexecdir=/usr/lib \
+    --docdir=/usr/share/doc/systemd-233 \
+    --with-rootprefix="" \
+    --with-rootlibdir=/lib \
+    --enable-split-usr \
+    --disable-firstboot \
+    --disable-ldconfig \
+    --disable-lto \
+    --disable-sysusers \
+    --with-default-dnssec=no \
+    --with-kbd-loadkeys=/bin/loadkeys \
+    --with-kbd-setfont=/bin/setfont \
+    --with-dbuspolicydir=/etc/dbus-1/system.d \
+    --with-dbussessionservicedir=/usr/share/dbus-1/services \
+    --with-dbussystemservicedir=/usr/share/dbus-1/system-services \
+    --config-cache</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "systemd-64bit.html#contents-systemd" title=
+          "10.92.3.&nbsp;Contents of Systemd">Section&nbsp;10.92.3,
+          &ldquo;Contents of Systemd.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="psmisc.html" title="Psmisc-22.21">Prev</a>
+          <p>
+            Psmisc-22.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="systemd-64bit.html" title=
+          "Systemd-233">Next</a>
+          <p>
+            Systemd-233
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

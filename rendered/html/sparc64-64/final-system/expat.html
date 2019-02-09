@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.57.&nbsp;Expat-2.2.0
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="XZ Utils-5.2.3">Prev</a>
+          <p>
+            XZ Utils-5.2.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xml-parser.html" title=
+          "XML::Parser-2.44">Next</a>
+          <p>
+            XML::Parser-2.44
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-expat" name="ch-system-expat"></a>10.57. Expat-2.2.0
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          Expat is a stream-oriented XML parser library written in C.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.57.1. Installation of Expat
+        </h2>
+        <p>
+          Prepare Expat for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          To test the results, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Install the documentation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -m755 -d /usr/share/doc/expat-2.2.0
+install -v -m644 doc/*.{html,png,css} /usr/share/doc/expat-2.2.0</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-expat" name="contents-expat"></a>10.57.2. Contents
+          of Expat
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed program:</strong>
+              <span class="segbody">xmlwf</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed library:</strong>
+              <span class="segbody">libexpat.[so,a]</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directory:</strong>
+              <span class="segbody">/usr/share/doc/expat-2.2.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmlwf" name="xmlwf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmlwf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a non-validating utility to check whether or not XML
+                    documents are well formed
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libexpat" name="libexpat"></a><span class=
+                    "term"><code class="filename">libexpat</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains API functions for parsing XML
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="XZ Utils-5.2.3">Prev</a>
+          <p>
+            XZ Utils-5.2.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xml-parser.html" title=
+          "XML::Parser-2.44">Next</a>
+          <p>
+            XML::Parser-2.44
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

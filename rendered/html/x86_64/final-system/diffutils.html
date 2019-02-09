@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.62.&nbsp;Diffutils-3.6
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bc.html" title="Bc-1.07.1">Prev</a>
+          <p>
+            Bc-1.07.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="file.html" title=
+          "File-5.31 32 Bit Libraries">Next</a>
+          <p>
+            File-5.31 32 Bit Libraries
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-diffutils" name="ch-system-diffutils"></a>10.62.
+        Diffutils-3.6
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Diffutils package contains programs that show the differences
+          between files or directories.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.62.1. Installation of Diffutils
+        </h2>
+        <p>
+          Fix a bug that prevents locale files from being installed:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's:= @mkdir_p@:= /bin/mkdir -p:' po/Makefile.in.in</kbd></pre>
+        <p>
+          Prepare Diffutils for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">CC="gcc ${BUILD64}" \
+./configure \
+    --prefix=/usr</kbd></pre>
+        <p>
+          Diffutils wants <span class="command"><strong>ed</strong></span> as
+          the default editor for <span class=
+          "command"><strong>sdiff</strong></span>. The following <span class=
+          "command"><strong>sed</strong></span> will change the default to
+          <span class="command"><strong>vi</strong></span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's@\(^#define DEFAULT_EDITOR_PROGRAM \).*@\1"vi"@' lib/config.h</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          To test the results, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-diffutils" name="contents-diffutils"></a>10.62.2.
+          Contents of Diffutils
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">cmp, diff, diff3, sdiff</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cmp" name="cmp"></a><span class=
+                    "term"><span class="command"><strong>cmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Compares two files and reports whether or in which bytes
+                    they differ
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="diff" name="diff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>diff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Compares two files or directories and reports which lines
+                    in the files differ
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="diff3" name="diff3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>diff3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Compares three files line by line
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sdiff" name="sdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Merges two files and interactively outputs the results
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bc.html" title="Bc-1.07.1">Prev</a>
+          <p>
+            Bc-1.07.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="file.html" title=
+          "File-5.31 32 Bit Libraries">Next</a>
+          <p>
+            File-5.31 32 Bit Libraries
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      13.3.&nbsp;Making the CLFS System Bootable
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-bootable-silo" name="ch-bootable-silo"></a>13.3. Making the
+        CLFS System Bootable
+      </h1>
+      <p>
+        Create a <code class="filename">silo.conf</code> file defining Silo's
+        boot menu:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/silo.conf &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/silo.conf
+partition = 1         # Boot partition (= root partition)
+root = /dev/sda1      # Root partition
+timeout = 150         # Wait 15 seconds before booting the default section
+
+image = /boot/clfskernel-4.9.21
+  label = linux
+# End /etc/silo.conf</code>
+EOF</kbd></pre>
+      <p>
+        Now to make Silo bootable:
+      </p>
+      <pre class="userinput"><kbd class="command">silo -f</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.3.&nbsp;About Test Suites, Again
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgmgt.html" title=
+          "Package Management">Prev</a>
+          <p>
+            Package Management
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="temp-perl.html" title=
+          "Temporary Perl-5.26.0">Next</a>
+          <p>
+            Temporary Perl-5.26.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-final-system-testsuitesagain" name=
+        "ch-final-system-testsuitesagain"></a>10.3. About Test Suites, Again
+      </h1>
+      <p>
+        In the final-system build, you are no longer cross-compiling so it is
+        possible to run package test suites. Running the test suite for a
+        newly built package is a good idea because it can provide a
+        &ldquo;<span class="quote">sanity check</span>&rdquo; indicating that
+        everything compiled correctly. A test suite that passes its set of
+        checks usually proves that the package is functioning as the
+        developer intended. It does not, however, guarantee that the package
+        is totally bug free.
+      </p>
+      <p>
+        Some test suites are more important than others. For example, the
+        test suites for the core toolchain packages&mdash;GCC, Binutils, and
+        Glibc&mdash;are of the utmost importance due to their central role in
+        a properly functioning system. The test suites for GCC and Glibc can
+        take a very long time to complete, especially on slower hardware, but
+        are strongly recommended.
+      </p>
+      <p>
+        A common issue with running the test suites for Binutils and GCC is
+        running out of pseudo terminals (PTYs). This can result in a high
+        number of failing tests. This may happen for several reasons, but the
+        most likely cause (if you chrooted) is that the host system does not
+        have the <code class="systemitem">devpts</code> file system set up
+        correctly. This issue is discussed in greater detail at <a class=
+        "ulink" href=
+        "http://trac.clfs.org/wiki/faq#no-ptys">http://trac.clfs.org/wiki/faq#no-ptys</a>.
+      </p>
+      <p>
+        Sometimes package test suites will fail, but for reasons which the
+        developers are aware of and have deemed non-critical. Consult the
+        logs located at <a class="ulink" href=
+        "http://clfs.org/testsuite-logs/git/">http://clfs.org/testsuite-logs/git/</a>
+        to verify whether or not these failures are expected. This site is
+        valid for all tests throughout this book.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgmgt.html" title=
+          "Package Management">Prev</a>
+          <p>
+            Package Management
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="temp-perl.html" title=
+          "Temporary Perl-5.26.0">Next</a>
+          <p>
+            Temporary Perl-5.26.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

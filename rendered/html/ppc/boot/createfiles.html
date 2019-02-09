@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.14.&nbsp;Creating Essential Symlinks
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingdirs.html" title=
+          "Creating Directories">Prev</a>
+          <p>
+            Creating Directories
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="devices.html" title=
+          "Populating /dev">Next</a>
+          <p>
+            Populating /dev
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-createfiles" name="ch-boot-createfiles"></a>7.14.
+        Creating Essential Symlinks
+      </h1>
+      <p>
+        Some programs use hard-wired paths to files which do not exist yet.
+        In order to satisfy these programs, create a number of symbolic links
+        which will be replaced by real files throughout the course of the
+        next chapter after the software has been installed.
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">ln -sv /tools/bin/{bash,cat,echo,grep,login,pwd,stty} ${CLFS}/bin
+ln -sv /tools/bin/file ${CLFS}/usr/bin
+ln -sv /tools/lib/libgcc_s.so{,.1} ${CLFS}/usr/lib
+ln -sv /tools/lib/libstdc++.so{.6,} ${CLFS}/usr/lib
+sed -e 's/tools/usr/' /tools/lib/libstdc++.la &gt; ${CLFS}/usr/lib/libstdc++.la
+ln -sv bash ${CLFS}/bin/sh
+ln -sv /tools/sbin/init ${CLFS}/sbin
+ln -sv /tools/etc/{login.{access,defs},limits} ${CLFS}/etc</kbd></pre>
+      <div class="variablelist">
+        <p class="title">
+          <b>The purpose of each link:</b>
+        </p>
+        <dl>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/bash</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              Many <span class="command"><strong>bash</strong></span> scripts
+              specify <code class="filename">/bin/bash</code>.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/cat</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This pathname is hard-coded into Glibc's configure script.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/echo</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This is to satisfy one of the tests in Glibc's test suite,
+              which expects <code class="filename">/bin/echo</code>.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/grep</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This to avoid a hard-coded <code class="filename">/tools</code>
+              reference in Libtool.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/login</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              The <span class="command"><strong>agetty</strong></span>
+              program expects to find <span class=
+              "command"><strong>login</strong></span> in <code class=
+              "filename">/bin</code>.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/pwd</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              Some <span class="command"><strong>configure</strong></span>
+              scripts, particularly Glibc's, have this pathname hard-coded.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/stty</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This pathname is hard-coded into Expect, therefore it is needed
+              for Binutils and GCC test suites to pass.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/usr/bin/file</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              Binutils' <span class=
+              "command"><strong>configure</strong></span> scripts specify
+              this command location.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/usr/lib/libgcc_s.so{,.1}</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              Glibc needs this for the pthreads library to work.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/usr/lib/libstdc++{,.6}</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This is needed by several tests in Glibc's test suite, as well
+              as for C++ support in GMP.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/usr/lib/libstdc++.la</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This prevents a <code class="filename">/tools</code> reference
+              that would otherwise be in <code class=
+              "filename">/usr/lib/libstdc++.la</code> after GCC is installed.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/bin/sh</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              Many shell scripts hard-code <code class=
+              "filename">/bin/sh</code>.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/sbin/init</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              This is where the kernel expects to find <span class=
+              "command"><strong>init</strong></span>.
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code><code class=
+            "filename">/etc/{login.{access,defs},limits}</code></code></em></span>
+          </dt>
+          <dd>
+            <p>
+              These are configuration files used by Shadow and are expected
+              to be found in <code class="filename">/etc</code>, for programs
+              such as <span class="command"><strong>login</strong></span> and
+              <span class="command"><strong>su</strong></span> to work.
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        Historically, Linux maintains a list of the mounted file systems in
+        the file <code class="filename">/etc/mtab</code>. Modern kernels
+        maintain this list internally and expose it to the user via the
+        <code class="filename">/proc</code> filesystem. To satisfy utilities
+        that expect the presence of <code class="filename">/etc/mtab</code>,
+        create the following symbolic link:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">ln -sv /proc/self/mounts ${CLFS}/etc/mtab</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingdirs.html" title=
+          "Creating Directories">Prev</a>
+          <p>
+            Creating Directories
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="devices.html" title=
+          "Populating /dev">Next</a>
+          <p>
+            Populating /dev
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

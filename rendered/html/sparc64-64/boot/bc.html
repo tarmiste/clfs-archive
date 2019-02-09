@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.2.&nbsp;Bc-1.07.1
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="boot-scripts.html" title=
+          "Boot-scripts for CLFS 3.0-20140710">Next</a>
+          <p>
+            Boot-scripts for CLFS 3.0-20140710
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-bc" name="ch-boot-bc"></a>7.2. Bc-1.07.1
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Bc package contains an arbitrary precision numeric processing
+          language.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.2.1. Installation of Bc
+        </h2>
+        <p>
+          We will install a <span class="command"><strong>bc</strong></span>
+          program that can run on the host system, as this is needed to
+          compile the kernel.
+        </p>
+        <p>
+          Prepare Bc for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">CC=gcc \
+./configure \
+    --prefix=/cross-tools</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CC=gcc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This ensures that we use the host's compiler to build Bc,
+                since we need it to run on the host system.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/bc.html#contents-bc" title=
+          "10.40.2.&nbsp;Contents of Bc">Section&nbsp;10.40.2,
+          &ldquo;Contents of Bc.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="boot-scripts.html" title=
+          "Boot-scripts for CLFS 3.0-20140710">Next</a>
+          <p>
+            Boot-scripts for CLFS 3.0-20140710
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

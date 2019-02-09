@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.77.&nbsp;Readline-7.0 64 Bit
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="readline-n32.html" title=
+          "Readline-7.0 N32 Libraries">Prev</a>
+          <p>
+            Readline-7.0 N32 Libraries
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autoconf.html" title=
+          "Autoconf-2.69">Next</a>
+          <p>
+            Autoconf-2.69
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-readline" name="ch-system-readline"></a>10.77.
+        Readline-7.0 64 Bit
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Readline package is a set of libraries that offers command-line
+          editing and history capabilities.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.77.1. Installation of Readline
+        </h2>
+        <p>
+          The following patch contains updates from the maintainer. The
+          maintainer of Readline only releases these patches to fix serious
+          issues:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../readline-7.0-branch_update-1.patch</kbd></pre>
+        <p>
+          Reinstalling Readline moves the old libraries to
+          &lt;libraryname&gt; and a linking bug may occur in <span class=
+          "command"><strong>ldconfig</strong></span>. Prevent this with the
+          following seds:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/MV.*old/d' Makefile.in
+sed -i '/{OLDSUFF}/c:' support/shlib-install</kbd></pre>
+        <p>
+          Prepare Readline for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD64}" CXX="g++ ${BUILD64}" \
+./configure \
+    --prefix=/usr \
+    --libdir=/lib64 \
+    --docdir=/usr/share/doc/readline-7.0</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SHLIB_LIBS=-lncurses</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SHLIB_LIBS=-lncurses htmldir=/usr/share/doc/readline-7.0 install</kbd></pre>
+        <p>
+          Now move the static libraries to a more appropriate location:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /lib64/lib{readline,history}.a /usr/lib64</kbd></pre>
+        <p>
+          Next, relink the dynamic libraries into <code class=
+          "filename">/usr/lib64</code> and remove the <code class=
+          "filename">.so</code> files in <code class=
+          "filename">/lib64</code>.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -svf ../../lib64/$(readlink /lib64/libreadline.so) /usr/lib64/libreadline.so
+ln -svf ../../lib64/$(readlink /lib64/libhistory.so) /usr/lib64/libhistory.so
+rm -v /lib64/lib{readline,history}.so</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-readline" name="contents-readline"></a>10.77.2.
+          Contents of Readline
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed libraries:</strong>
+              <span class="segbody">libhistory.[a,so],
+              libreadline.[a,so]</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directories:</strong>
+              <span class="segbody">/usr/include/readline,
+              /usr/share/doc/readline-7.0, /usr/share/readline</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libhistory" name="libhistory"></a><span class=
+                    "term"><code class="filename">libhistory</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Provides a consistent user interface for recalling lines
+                    of history
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libreadline" name="libreadline"></a><span class=
+                    "term"><code class="filename">libreadline</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Aids in the consistency of user interface across discrete
+                    programs that need to provide a command line interface
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="readline-n32.html" title=
+          "Readline-7.0 N32 Libraries">Prev</a>
+          <p>
+            Readline-7.0 N32 Libraries
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autoconf.html" title=
+          "Autoconf-2.69">Next</a>
+          <p>
+            Autoconf-2.69
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      4.6.&nbsp;Build Variables
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;4.&nbsp;Final Preparations
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "About the Test Suites">Next</a>
+          <p>
+            About the Test Suites
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-final-preps-variables" name=
+        "ch-final-preps-variables"></a>4.6. Build Variables
+      </h1>
+      <h4>
+        Setting Host and Target
+      </h4>
+      <p>
+        During the building of the cross-compile tools you will need to set a
+        few variables that will be dependent on your particular needs. The
+        first variable will be the triplet of the host machine, which will be
+        put into the <code class="envar">CLFS_HOST</code> variable. To
+        account for the possibility that the host and target are the same
+        arch, as cross-compiling won't work when host and target are the
+        same, part of the triplet needs to be changed slightly - in our case,
+        we will change part of the triplet to "cross". Set <code class=
+        "envar">CLFS_HOST</code> using the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">export CLFS_HOST=$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')</kbd></pre>
+      <p>
+        Now you will need to set the triplet for the target architecture. Set
+        the target variable using the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">export CLFS_TARGET="sparc64-unknown-linux-gnu"</kbd></pre>
+      <p>
+        We will need to setup target specific flags for the compiler and
+        linkers. You can choose the appropriate BUILD64 and GCCTARGET from
+        the table at the bottom of the page.
+      </p>
+      <pre class="userinput"><kbd class="command">export BUILD64="<em class=
+      "replaceable"><code>[BUILD64 entries]</code></em>"
+export GCCTARGET="<em class=
+"replaceable"><code>[GCCTARGET entries]</code></em>"</kbd></pre>
+      <h4>
+        Copy settings to Environment
+      </h4>
+      <p>
+        Now add the host and target variables, and compiler and linker flags,
+        to <code class="filename">~/.bashrc</code>, just in case you have to
+        exit and restart building later:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt;&gt; ~/.bashrc &lt;&lt; EOF
+export CLFS_HOST="${CLFS_HOST}"
+export CLFS_TARGET="${CLFS_TARGET}"
+export BUILD64="${BUILD64}"
+export GCCTARGET="${GCCTARGET}"
+EOF</kbd></pre>
+      <p>
+        The following table gives the entries for different Sparc 64 capable
+        processors. Pick the processor that matches your system. Note: GCC
+        settings are only needed in the early sections of the book, and will
+        not be used in the final-system builds.
+      </p>
+      <div class="table">
+        <a id="idp1253386032" name="idp1253386032"></a>
+        <p class="title">
+          <b>Table&nbsp;4.1.&nbsp;List of architectures, target triplets, and
+          recommended book</b>
+        </p>
+        <div class="table-contents">
+          <table summary=
+          "List of architectures, target triplets, and recommended book"
+          border="1">
+            <colgroup>
+              <col />
+              <col />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  Processor
+                </th>
+                <th>
+                  BUILD64
+                </th>
+                <th>
+                  GCCTARGET
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Ultrasparc and Ultrasparc2
+                </td>
+                <td>
+                  -m64 -mcpu=ultrasparc -mtune=ultrasparc
+                </td>
+                <td>
+                  -mcpu=ultrasparc -mtune=ultrasparc
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Ultrasparc3
+                </td>
+                <td>
+                  -m64 -mcpu=ultrasparc3 -mtune=ultrasparc3
+                </td>
+                <td>
+                  -mcpu=ultrasparc3 -mtune=ultrasparc3
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><br class="table-break" />
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "About the Test Suites">Next</a>
+          <p>
+            About the Test Suites
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

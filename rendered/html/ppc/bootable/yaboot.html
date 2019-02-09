@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      13.3.&nbsp;Making the CLFS System Bootable
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-bootable-yaboot" name="ch-bootable-yaboot"></a>13.3. Making
+        the CLFS System Bootable
+      </h1>
+      <p>
+        Your shiny new CLFS system is almost complete. One of the last things
+        to do is to ensure that the system can be properly booted. The
+        instructions below apply only to NewWorld Macintoshes.
+      </p>
+      <p>
+        Boot loading can be a complex area, so a few cautionary words are in
+        order. Be familiar with the current boot loader and any other
+        operating systems present on the hard drive(s) that need to be
+        bootable. Make sure that an emergency CD is ready to
+        &ldquo;<span class="quote">rescue</span>&rdquo; the computer if it
+        becomes un-bootable. It is also a good idea to enable booting from
+        Open Firmware in case things go really wrong.
+      </p>
+      <p>
+        Earlier, we compiled and installed the yaboot boot loader software in
+        preparation for this step. The procedure involves writing the
+        bootloader to a bootstrap partition and blessing it so that Open
+        Firmware will boot from it. This is all handled by <span class=
+        "command"><strong>ybin</strong></span>, the yaboot installer.
+      </p>
+      <p>
+        Ybin writes an optional 'OS selector' menu into Open Firmware, then
+        writes yaboot and <code class="filename">yaboot.conf</code> to the
+        bootstrap partition, blesses this, and updates the boot device
+        recorded in nvram. When booted, the OF provides the initial menu to
+        choose between linux, boot from CD, and e.g. OSX (depending on what
+        was in <code class="filename">yaboot.conf</code>). If you boot to
+        'linux', yaboot is executed and lets you select which kernel to use.
+      </p>
+      <p>
+        Images (kernels) are specified, together with any necessary path, in
+        <code class="filename">yaboot.conf</code> - the details are
+        incorporated into the bootloader, but no attempt is made to access or
+        validate the paths until they are selected. There are many possible
+        options that can be specified in <code class=
+        "filename">yaboot.conf</code>, see the man page for the details. Most
+        people will be able to specify device=hd: (for a single hard disk),
+        but if you have multiple disks, or if you wish to be pedantic, you
+        can specify the full OF path to the device, obtained by running
+        <span class="command"><strong>ofpath /dev/hdX</strong></span> .
+      </p>
+      <p>
+        Using the above information, determine the appropriate designators
+        for the bootstrap partition and the root partition. For the following
+        example, it is assumed that the bootstrap partition is <code class=
+        "filename">hda2</code> and the root partition is <code class=
+        "filename">hda7</code>. We will also assume that you wish to be able
+        to boot an OSX installation on <code class="filename">hda4</code>.
+        Change these items as necessary for your machine.
+      </p>
+      <p>
+        If your machine has a SATA disk, specify the partitions using
+        <code class="filename">/dev/sda7</code> and so forth in the usual
+        way. At least some of the distros specify a full OF path to the
+        'device' and to the image(s), such as <em class=
+        "parameter"><code>device=/ht@0,f2000000/pci@3/k2-sata-root@c/k2-sata@0/disk@0:</code></em>
+        for the disk, and <em class=
+        "parameter"><code>image=/ht@0,f2000000/pci@3/k2-sata-root@c/k2-sata@0/disk@0:9,/boot/clfskernel-4.9.21</code></em>
+        which definitely works.
+      </p>
+      <p>
+        Create a &ldquo;<span class="quote">yaboot.conf</span>&rdquo; file
+        defining yaboot's boot menu:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/yaboot.conf &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/yaboot.conf
+
+# By default, yaboot will boot the first menu entry.
+
+# Allow 10 seconds before booting the default.
+# this will also apply to the first-stage os selector
+timeout=100
+
+# These variables are global
+# first, where to put the bootstrap partition
+boot=/dev/hda2
+
+# Which disk to use
+device=hd:
+
+# Default partition for the kernel images
+partition=7
+
+# default root partition
+root=/dev/hda7
+
+# where ybin is to find yaboot and ofboot
+install=/usr/lib/yaboot/yaboot
+magicboot=/usr/lib/yaboot/ofboot
+
+# allow the initial menu to offer CD as an option
+enablecdboot
+
+# allow the initial menu to offer booting from Open Firmware
+enableofboot
+
+# allow the initial menu to boot from mac osx
+macosx=/dev/hda4
+
+# white on black is boring!
+# note  the spellings : 'fgcolor' but 'light'
+# in this context, light means 'without high intensity'
+fgcolor=light-green
+
+# The first entry is for CLFS.
+# For all images, the pathname is relative to the filesystem
+# on which they are situated and can include at most one
+# directory
+image=/boot/clfskernel-4.9.21
+    label=GIT-20170803
+    read-only</code>
+EOF</kbd></pre>
+      <p>
+        Add an entry for the host distribution, if you have one. It might
+        look something like this if the kernel and initrd are in the host's
+        '/' directory on <code class="filename">hda6</code>:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt;&gt; /etc/yaboot.conf &lt;&lt; "EOF"
+<code class="literal">title Debian
+image=/pci@f4000000/ata-6d/disk@0:6,/vmlinux
+    label=Debian
+    initrd=/pci@f4000000/ata-6d/disk@0:6,/initrd.gz
+    initrd-size=10000
+    append="root=/dev/hda7"
+    read-only</code>
+EOF</kbd></pre>
+      <div class="admon warning">
+        <img alt="[Warning]" src="../images/warning.png" />
+        <h3>
+          Warning
+        </h3>
+        <p>
+          The following command will update the bootstrap partition and the
+          boot variable in Open Firmware. Do not run the command if this is
+          not desired.
+        </p>
+      </div>
+      <pre class="userinput"><kbd class="command">ybin</kbd></pre>
+      <p>
+        Alternatively, if the bootstrap partition has not already been
+        initialized, perhaps because you are using a Live CD, you will need
+        to use a different command to install the bootloader for the first
+        time:
+      </p>
+      <pre class="userinput"><kbd class="command">mkofboot</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

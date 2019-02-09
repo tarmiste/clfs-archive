@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      4.6.&nbsp;Build Variables
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;4.&nbsp;Final Preparations
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "About the Test Suites">Next</a>
+          <p>
+            About the Test Suites
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-final-preps-variables" name=
+        "ch-final-preps-variables"></a>4.6. Build Variables
+      </h1>
+      <h4>
+        Setting Host and Target
+      </h4>
+      <p>
+        During the building of the cross-compile tools you will need to set a
+        few variables that will be dependent on your particular needs. The
+        first variable will be the triplet of the host machine, which will be
+        put into the <code class="envar">CLFS_HOST</code> variable. To
+        account for the possibility that the host and target are the same
+        arch, as cross-compiling won't work when host and target are the
+        same, part of the triplet needs to be changed slightly - in our case,
+        we will change part of the triplet to "cross". Set <code class=
+        "envar">CLFS_HOST</code> using the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">export CLFS_HOST=$(echo ${MACHTYPE} | sed -e 's/-[^-]*/-cross/')</kbd></pre>
+      <p>
+        Now you will need to set the triplet for the target architecture. Set
+        the target variable using the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">export CLFS_TARGET="<em class=
+      "replaceable"><code>[target triplet]</code></em>"</kbd></pre>
+      <p>
+        Replace [target triplet] with the appropriate machine triplet using
+        the table at the bottom of the page.
+      </p>
+      <h4>
+        Copy settings to the Environment
+      </h4>
+      <p>
+        Now add these to <code class="filename">~/.bashrc</code>, just in
+        case you have to exit and restart building later:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt;&gt; ~/.bashrc &lt;&lt; EOF
+export CLFS_HOST="${CLFS_HOST}"
+export CLFS_TARGET="${CLFS_TARGET}"
+EOF</kbd></pre>
+      <div class="table">
+        <a id="idp1265009216" name="idp1265009216"></a>
+        <p class="title">
+          <b>Table&nbsp;4.1.&nbsp;Processor Type and Target Triplets</b>
+        </p>
+        <div class="table-contents">
+          <table summary="Processor Type and Target Triplets" border="1">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  Processor
+                </th>
+                <th>
+                  Target Triplet
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  386 Compatibles
+                </td>
+                <td>
+                  Not Supported By Glibc
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  486 Compatibles
+                </td>
+                <td>
+                  i486-pc-linux-gnu
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Pentium, K6, 586 Compatibles
+                </td>
+                <td>
+                  i586-pc-linux-gnu
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Pentium II, Pentium III, Pentium 4
+                </td>
+                <td>
+                  i686-pc-linux-gnu
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Athlon, Duron
+                </td>
+                <td>
+                  i686-pc-linux-gnu
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><br class="table-break" />
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title=
+          "Setting Up the Environment">Prev</a>
+          <p>
+            Setting Up the Environment
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "About the Test Suites">Next</a>
+          <p>
+            About the Test Suites
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;4.&nbsp;Final Preparations">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

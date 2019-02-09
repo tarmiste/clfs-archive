@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      11.6.&nbsp;Creating custom symlinks to devices
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;11.&nbsp;System Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="udev.html" title=
+          "Device and Module Handling on a CLFS System">Prev</a>
+          <p>
+            Device and Module Handling on a CLFS System
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="profile.html" title=
+          "The Bash Shell Startup Files">Next</a>
+          <p>
+            The Bash Shell Startup Files
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-config-symlinks" name="ch-config-symlinks"></a>11.6.
+        Creating custom symlinks to devices
+      </h1>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          11.6.1. CD-ROM symlinks
+        </h2>
+        <p>
+          Some software that you may want to install later (e.g., various
+          media players) expect the /dev/cdrom and /dev/dvd symlinks to
+          exist. Also, it may be convenient to put references to those
+          symlinks into <code class="filename">/etc/fstab</code>. For each of
+          your CD-ROM devices, find the corresponding directory under
+          <code class="filename">/sys</code> (e.g., this can be <code class=
+          "filename">/sys/block/hdd</code>) and run a command similar to the
+          following:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udevadm test /sys/block/hdd</kbd></pre>
+        <p>
+          Look at the lines containing the output of various *_id programs.
+        </p>
+        <p>
+          There are two approaches to creating symlinks. The first one is to
+          use the model name and the serial number, the second one is based
+          on the location of the device on the bus. If you are going to use
+          the first approach, create a file similar to the following:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;/etc/udev/rules.d/82-cdrom.rules &lt;&lt; EOF
+<code class="literal">
+# Custom CD-ROM symlinks
+SUBSYSTEM=="block", ENV{ID_MODEL}=="SAMSUNG_CD-ROM_SC-148F", \
+    ENV{ID_REVISION}=="PS05", SYMLINK+="cdrom"
+SUBSYSTEM=="block", ENV{ID_MODEL}=="PHILIPS_CDD5301", \
+    ENV{ID_SERIAL}=="5VO1306DM00190", SYMLINK+="cdrom1 dvd"
+</code>
+EOF</kbd></pre>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            Although the examples in this book work properly, be aware that
+            Udev does not recognize the backslash for line continuation. If
+            modifying Udev rules with an editor, be sure to leave each rule
+            on one physical line.
+          </p>
+        </div>
+        <p>
+          This way, the symlinks will stay correct even if you move the
+          drives to different positions on the IDE bus, but the <code class=
+          "filename">/dev/cdrom</code> symlink won't be created if you
+          replace the old SAMSUNG CD-ROM with a new drive.
+        </p>
+        <p>
+          The SUBSYSTEM=="block" key is needed in order to avoid matching
+          SCSI generic devices. Without it, in the case with SCSI CD-ROMs,
+          the symlinks will sometimes point to the correct <code class=
+          "filename">/dev/srX</code> devices, and sometimes to <code class=
+          "filename">/dev/sgX</code>, which is wrong.
+        </p>
+        <p>
+          The second approach yields:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;/etc/udev/rules.d/82-cdrom.rules &lt;&lt; EOF
+<code class="literal">
+# Custom CD-ROM symlinks
+SUBSYSTEM=="block", ENV{ID_TYPE}=="cd", \
+    ENV{ID_PATH}=="pci-0000:00:07.1-ide-0:1", SYMLINK+="cdrom"
+SUBSYSTEM=="block", ENV{ID_TYPE}=="cd", \
+    ENV{ID_PATH}=="pci-0000:00:07.1-ide-1:1", SYMLINK+="cdrom1 dvd"
+</code>
+EOF</kbd></pre>
+        <p>
+          This way, the symlinks will stay correct even if you replace drives
+          with different models, but place them to the old positions on the
+          IDE bus. The ENV{ID_TYPE}=="cd" key makes sure that the symlink
+          disappears if you put something other than a CD-ROM in that
+          position on the bus.
+        </p>
+        <p>
+          Of course, it is possible to mix the two approaches.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          11.6.2. Dealing with duplicate devices
+        </h2>
+        <p>
+          As explained in <a class="xref" href="udev.html" title=
+          "11.5.&nbsp;Device and Module Handling on a CLFS System">Section&nbsp;11.5,
+          &ldquo;Device and Module Handling on a CLFS System&rdquo;</a>, the
+          order in which devices with the same function appear in
+          <code class="filename">/dev</code> is essentially random. E.g., if
+          you have a USB web camera and a TV tuner, sometimes <code class=
+          "filename">/dev/video0</code> refers to the camera and <code class=
+          "filename">/dev/video1</code> refers to the tuner, and sometimes
+          after a reboot the order changes to the opposite one. For all
+          classes of hardware except sound cards and network cards, this is
+          fixable by creating udev rules for custom persistent symlinks. The
+          case of network cards is covered separately in <a class="xref"
+          href="../network/chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Networking
+          Configuration</a>, and sound card configuration can be found in
+          <a class="ulink" href="http://cblfs.clfs.org/">CBLFS</a>.
+        </p>
+        <p>
+          For each of your devices that is likely to have this problem (even
+          if the problem doesn't exist in your current Linux distribution),
+          find the corresponding directory under <code class=
+          "filename">/sys/class</code> or <code class=
+          "filename">/sys/block</code>. For video devices, this may be
+          <code class="filename">/sys/class/video4linux/video<em class=
+          "replaceable"><code>X</code></em></code>. Figure out the attributes
+          that identify the device uniquely (usually, vendor and product IDs
+          and/or serial numbers work):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udevadm info -a -p /sys/class/video4linux/video0</kbd></pre>
+        <p>
+          Then write rules that create the symlinks, e.g.:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;/etc/udev/rules.d/83-duplicate_devs.rules &lt;&lt; EOF
+<code class="literal">
+# Persistent symlinks for webcam and tuner
+KERNEL=="video*", SYSFS{idProduct}=="1910", SYSFS{idVendor}=="0d81", \
+    SYMLINK+="webcam"
+KERNEL=="video*", SYSFS{device}=="0x036f", SYSFS{vendor}=="0x109e", \
+    SYMLINK+="tvtuner"
+</code>
+EOF</kbd></pre>
+        <p>
+          The result is that <code class="filename">/dev/video0</code> and
+          <code class="filename">/dev/video1</code> devices still refer
+          randomly to the tuner and the web camera (and thus should never be
+          used directly), but there are symlinks <code class=
+          "filename">/dev/tvtuner</code> and <code class=
+          "filename">/dev/webcam</code> that always point to the correct
+          device.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="udev.html" title=
+          "Device and Module Handling on a CLFS System">Prev</a>
+          <p>
+            Device and Module Handling on a CLFS System
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="profile.html" title=
+          "The Bash Shell Startup Files">Next</a>
+          <p>
+            The Bash Shell Startup Files
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      13.3.&nbsp;Making the CLFS System Bootable
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-bootable-grub" name="ch-bootable-grub"></a>13.3. Making the
+        CLFS System Bootable
+      </h1>
+      <p>
+        Your shiny new CLFS system is almost complete. One of the last things
+        to do is to ensure that the system can be properly booted. The
+        instructions below apply only to computers of x86 and x86_64
+        architecture, meaning mainstream PCs. Information on
+        &ldquo;<span class="quote">boot loading</span>&rdquo; for other
+        architectures should be available in the usual resource-specific
+        locations for those architectures.
+      </p>
+      <p>
+        Boot loading can be a complex area, so a few cautionary words are in
+        order. Be familiar with the current boot loader and any other
+        operating systems present on the hard drive(s) that need to be
+        bootable. Make sure that an emergency boot disk is ready to
+        &ldquo;<span class="quote">rescue</span>&rdquo; the computer if the
+        computer becomes unusable (un-bootable).
+      </p>
+      <div class="admon warning">
+        <img alt="[Warning]" src="../images/warning.png" />
+        <h3>
+          Warning
+        </h3>
+        <p>
+          The following command will overwrite the current boot loader. Do
+          not run the command if this is not desired, for example, if using a
+          third party boot manager to manage the Master Boot Record (MBR). In
+          this scenario, it would make more sense to install GRUB into the
+          &ldquo;<span class="quote">boot sector</span>&rdquo; of the CLFS
+          partition. In this case, this next command would become
+          <strong class="userinput"><code>grub-install
+          /dev/sda2</code></strong> .
+        </p>
+      </div>
+      <p>
+        Instruct GRUB to install itself into the MBR of <code class=
+        "filename">sda</code>:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">grub-install /dev/sda</kbd></pre>
+      <p>
+        Next, we need to generate a configuration for GRUB. In previous
+        versions of grub we could create the configuration manually here, but
+        with GRUB2 we can generate <code class="filename">grub.cfg</code>
+        automatically. You can do this with the following command:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">grub-mkconfig -o /boot/grub/grub.cfg</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../the-end/chapter.html" title=
+          "The End">Next</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

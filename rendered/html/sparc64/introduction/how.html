@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      1.2.&nbsp;How to Build a CLFS System
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;1.&nbsp;Introduction
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acknowledgements.html" title=
+          "Cross-LFS Acknowledgements">Prev</a>
+          <p>
+            Cross-LFS Acknowledgements
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="changelog.html" title=
+          "Master Changelog">Next</a>
+          <p>
+            Master Changelog
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;1.&nbsp;Introduction">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-intro-how" name="ch-intro-how"></a>1.2. How to Build a CLFS
+        System
+      </h1>
+      <p>
+        The CLFS system will be built by using a previously installed Unix
+        system or Linux distribution (such as Debian, Fedora, openSUSE, or
+        Ubuntu). This existing system (the host) will be used as a starting
+        point to provide necessary programs, including a compiler, linker,
+        and shell, to build the new system. Select the &ldquo;<span class=
+        "quote">development</span>&rdquo; option during the distribution
+        installation to be able to access these tools.
+      </p>
+      <p>
+        As an alternative to installing an entire separate distribution onto
+        your machine, you may wish to use a livecd. Most distributions
+        provide a livecd, which provides an environment to which you can add
+        the required tools onto, allowing you to successfully follow the
+        instructions in this book. Remember that if you reboot the livecd you
+        will need to reconfigure the host environment before continuing with
+        your build.
+      </p>
+      <p>
+        <a class="xref" href="../partitioning/chapter.html" title=
+        "Chapter&nbsp;2.&nbsp;Preparing a New Partition">Preparing a New
+        Partition</a> of this book describes how to create a new Linux native
+        partition and file system, the place where the new CLFS system will
+        be compiled and installed. <a class="xref" href=
+        "../materials/chapter.html" title=
+        "Chapter&nbsp;3.&nbsp;Packages and Patches">Packages and Patches</a>
+        explains which packages and patches need to be downloaded to build a
+        CLFS system and how to store them on the new file system. <a class=
+        "xref" href="../final-preps/chapter.html" title=
+        "Chapter&nbsp;4.&nbsp;Final Preparations">Final Preparations</a>
+        discusses the setup for an appropriate working environment. Please
+        read <a class="xref" href="../final-preps/chapter.html" title=
+        "Chapter&nbsp;4.&nbsp;Final Preparations">Final Preparations</a>
+        carefully as it explains several important issues the developer
+        should be aware of before beginning to work through <a class="xref"
+        href="../cross-tools/chapter.html" title=
+        "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Constructing
+        Cross-Compile Tools</a> and beyond.
+      </p>
+      <p>
+        <a class="xref" href="../cross-tools/chapter.html" title=
+        "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Constructing
+        Cross-Compile Tools</a> explains the installation of cross-compile
+        tools which will be built on the host but be able to compile programs
+        that run on the target machine. These cross-compile tools will be
+        used to create a temporary, minimal system that will be the basis for
+        building the final CLFS system. Some of these packages are needed to
+        resolve circular dependencies&mdash;for example, to compile a
+        compiler, you need a compiler.
+      </p>
+      <p>
+        The process of building cross-compile tools first involves building
+        and installing all the necessary tools to create a build system for
+        the target machine. With these cross-compiled tools, we eliminate any
+        dependencies on the toolchain from our host distro.
+      </p>
+      <p>
+        After we build our &ldquo;<span class=
+        "quote">Cross-Tools</span>&rdquo;, we start building a very minimal
+        working system in <code class="filename">/tools</code>, using the
+        cross-toolchain in <code class="filename">/cross-tools</code>. Once
+        the temporary system is finished, we perform a few additional tasks
+        to prepare to enter this temporary build environment, either by
+        booting or chrooting into it. For more details about the difference
+        between these methods, see <a class="xref" href=
+        "../temp-system/choose.html" title=
+        "6.30.&nbsp;To Boot or to Chroot?">Section&nbsp;6.30, &ldquo;To Boot
+        or to Chroot?&rdquo;</a>.
+      </p>
+      <p>
+        In <a class="xref" href="../final-system/chapter.html" title=
+        "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Installing
+        Basic System Software</a>, after having booted or chrooted into the
+        temporary build environment, the full CLFS system is built.
+      </p>
+      <p>
+        To finish the installation, several configuration files are created
+        in <a class="xref" href="../system-config/chapter.html" title=
+        "Chapter&nbsp;11.&nbsp;System Configuration">System
+        Configuration</a>, and the kernel and boot loader are set up in
+        <a class="xref" href="../bootable/chapter.html" title=
+        "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Making the
+        CLFS System Bootable</a>. <a class="xref" href=
+        "../the-end/chapter.html" title="Chapter&nbsp;14.&nbsp;The End">The
+        End</a> contains information on furthering the CLFS experience beyond
+        this book. After the steps in this book have been implemented, the
+        computer will be ready to reboot into the new CLFS system.
+      </p>
+      <p>
+        This is the process in a nutshell. Detailed information on each step
+        is discussed in the following chapters and package descriptions.
+        Items that may seem complicated will be clarified, and everything
+        will fall into place as the reader embarks on the CLFS adventure.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acknowledgements.html" title=
+          "Cross-LFS Acknowledgements">Prev</a>
+          <p>
+            Cross-LFS Acknowledgements
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="changelog.html" title=
+          "Master Changelog">Next</a>
+          <p>
+            Master Changelog
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;1.&nbsp;Introduction">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

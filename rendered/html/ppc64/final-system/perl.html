@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.54.&nbsp;Perl-5.26.0 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdbm-64bit.html" title=
+          "GDBM-1.13 64 Bit Libraries">Prev</a>
+          <p>
+            GDBM-1.13 64 Bit Libraries
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="perl-64bit.html" title=
+          "Perl-5.26.0 64 Bit">Next</a>
+          <p>
+            Perl-5.26.0 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-perl-32" name="ch-system-perl-32"></a>10.54.
+        Perl-5.26.0 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Perl package contains the Practical Extraction and Report
+          Language.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.54.1. Installation of Perl
+        </h2>
+        <p>
+          By default, Perl's Compress::Raw::Zlib and Compress::Raw::Bzip2
+          modules build and link against internal copies of Zlib and Bzip2.
+          The following command will make Perl use the system-installed
+          copies of these libraries:
+        </p>
+        <pre class="userinput"><kbd class="command">export BUILD_ZLIB=False
+export BUILD_BZIP2=0</kbd></pre>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If you are following the boot method you will need to enable the
+            loopback device:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ip link set lo up</kbd></pre>
+        </div>
+        <p>
+          Before starting to configure, create a basic <code class=
+          "filename">/etc/hosts</code> file which will be referenced by one
+          of Perl's configuration files as well as used by the test suite:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo "127.0.0.1 localhost $(hostname)" &gt; /etc/hosts</kbd></pre>
+        <p>
+          To have full control over the way Perl is set up, you can run the
+          interactive <span class="command"><strong>Configure</strong></span>
+          script and hand-pick the way this package is built. If you prefer
+          instead to use the defaults that Perl auto-detects, prepare Perl
+          for compilation with:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure.gnu \
+    --prefix=/usr \
+    -Dvendorprefix=/usr \
+    -Dman1dir=/usr/share/man/man1 \
+    -Dman3dir=/usr/share/man/man3 \
+    -Dpager="/bin/less -isR" \
+    -Dcc="gcc ${BUILD32}" \
+    -Dusethreads \
+    -Duseshrplib</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dman1dir=/usr/share/man/man1
+              -Dman3dir=/usr/share/man/man3</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Since Groff is not installed yet, <span class=
+                "command"><strong>configure.gnu</strong></span> thinks that
+                we do not want man pages for Perl. Issuing these parameters
+                overrides this decision.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dpager="/bin/less -isR"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Less has not yet been installed, so by default <span class=
+                "command"><strong>perldoc</strong></span> will invoke the
+                <span class="command"><strong>more</strong></span> program
+                for viewing documentation. This option ensures that it will
+                use <span class="command"><strong>less</strong></span>
+                instead.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dusethreads</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Perl to use threads.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Duseshrplib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Perl to build a shared libperl.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          To test the results, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">make test</kbd></pre>
+        <p>
+          Install the package and remove the variables set previously:
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+unset BUILD_ZLIB BUILD_BZIP2</kbd></pre>
+        <p>
+          Add a suffix to the <span class=
+          "command"><strong>perl</strong></span> binary which will be used by
+          the multiarch wrapper:
+        </p>
+        <pre class="userinput"><kbd class="command">mv -v /usr/bin/perl{,-32}
+mv -v /usr/bin/perl5.26.0{,-32}</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "perl-64bit.html#contents-perl" title=
+          "10.55.2.&nbsp;Contents of Perl">Section&nbsp;10.55.2,
+          &ldquo;Contents of Perl.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdbm-64bit.html" title=
+          "GDBM-1.13 64 Bit Libraries">Prev</a>
+          <p>
+            GDBM-1.13 64 Bit Libraries
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="perl-64bit.html" title=
+          "Perl-5.26.0 64 Bit">Next</a>
+          <p>
+            Perl-5.26.0 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

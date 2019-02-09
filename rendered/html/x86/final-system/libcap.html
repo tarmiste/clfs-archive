@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.21.&nbsp;Libcap-2.25
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acl.html" title="Acl-2.2.52">Prev</a>
+          <p>
+            Acl-2.2.52
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sed.html" title="Sed-4.4">Next</a>
+          <p>
+            Sed-4.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-libcap" name="ch-system-libcap"></a>10.21.
+        Libcap-2.25
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          Libcap is a library for getting and setting POSIX.1e (formerly
+          POSIX 6) draft 15 capabilities.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.21.1. Installation of Libcap
+        </h2>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make RAISE_SETFCAP=no install
+chmod -v 755 /lib/libcap.so.2.25
+ln -sfv ../../lib/$(readlink /lib/libcap.so) /usr/lib/libcap.so
+rm -v /lib/libcap.so
+mv -v /lib/libcap.a /usr/lib</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the make option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>RAISE_SETFCAP=no</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This prevents <span class=
+                "command"><strong>setcap</strong></span> from being run on
+                itself, which will fail if the kernel or file system does not
+                support extended capabilities.
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-libcap" name="contents-libcap"></a>10.21.2.
+          Contents of Libcap
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">capsh, getcap, getpcaps, setcap</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed libraries:</strong>
+              <span class="segbody">libcap.[a,so]</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="capsh" name="capsh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>capsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Capability support and use can be explored and
+                    constrained with this tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getcap" name="getcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Examines file capabilities
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getpcaps" name="getpcaps"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getpcaps</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Displays the capabilities on the queried process(es)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setcap" name="setcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Sets file capabilities
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcap" name="libcap"></a><span class=
+                    "term"><code class="filename">libcap</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Library for setting and clearing POSIX.1e capabilities
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acl.html" title="Acl-2.2.52">Prev</a>
+          <p>
+            Acl-2.2.52
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sed.html" title="Sed-4.4">Next</a>
+          <p>
+            Sed-4.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.41.&nbsp;Procps-ng-3.3.12 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux-pass1.html" title=
+          "Util-linux-2.29.2 64bit Pass 1">Prev</a>
+          <p>
+            Util-linux-2.29.2 64bit Pass 1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="procps-ng-64bit.html" title=
+          "Procps-ng-3.3.12 64 Bit">Next</a>
+          <p>
+            Procps-ng-3.3.12 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-procps-ng-32" name=
+        "ch-system-procps-ng-32"></a>10.41. Procps-ng-3.3.12 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Procps-ng package contains programs for monitoring processes.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.41.1. Installation of Procps-ng
+        </h2>
+        <p>
+          Prepare procps-ng for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD32}" ./configure \
+    --prefix=/usr \
+    --exec-prefix= \
+    --libdir=/usr/lib \
+    --docdir=/usr/share/doc/procps-ng-3.3.12 \
+    --disable-kill</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-kill</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This switch disables building the <span class=
+                "command"><strong>kill</strong></span> program - a better
+                version was installed by the Util-linux package.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            When using the boot method, two tests will fail if the hostname
+            is not set. If you have booted the temporary system, and want to
+            run the test suite, run the following command:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">hostname clfs</kbd></pre>
+        </div>
+        <p>
+          If running the testsuite, first disable a test which fails when
+          scripting does not use a tty device:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -r 's|(pmap_initname)\\\$|\1|' testsuite/pmap.test/pmap.exp
+make check</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Move essential files to a location that can be found if
+          <code class="filename">/usr</code> is not mounted:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/lib/libprocps.so.* /lib
+ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "procps-ng-64bit.html#contents-procps-ng" title=
+          "10.42.2.&nbsp;Contents of Procps-ng">Section&nbsp;10.42.2,
+          &ldquo;Contents of Procps-ng.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux-pass1.html" title=
+          "Util-linux-2.29.2 64bit Pass 1">Prev</a>
+          <p>
+            Util-linux-2.29.2 64bit Pass 1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="procps-ng-64bit.html" title=
+          "Procps-ng-3.3.12 64 Bit">Next</a>
+          <p>
+            Procps-ng-3.3.12 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

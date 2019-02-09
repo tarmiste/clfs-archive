@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.27.&nbsp;Creating a Multiarch Wrapper
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-7.1.0">Prev</a>
+          <p>
+            GCC-7.1.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="attr.html" title=
+          "Attr-2.4.47 32 Bit Libraries">Next</a>
+          <p>
+            Attr-2.4.47 32 Bit Libraries
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-multiarch-wrapper" name=
+        "ch-system-multiarch-wrapper"></a>10.27. Creating a Multiarch Wrapper
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Multiarch Wrapper is used to wrap certain binaries that have
+          hardcoded paths to libraries or are architecture specific.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.27.1. Installation of The Multiarch Wrapper
+        </h2>
+        <p>
+          Create the source file:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; multiarch_wrapper.c &lt;&lt; "EOF"
+#define _GNU_SOURCE
+
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;unistd.h&gt;
+
+#ifndef DEF_SUFFIX
+#  define DEF_SUFFIX "64"
+#endif
+
+int main(int argc, char **argv)
+{
+  char *filename;
+  char *suffix;
+
+  if(!(suffix = getenv("USE_ARCH")))
+    if(!(suffix = getenv("BUILDENV")))
+      suffix = DEF_SUFFIX;
+
+  if (asprintf(&amp;filename, "%s-%s", argv[0], suffix) &lt; 0) {
+    perror(argv[0]);
+    return -1;
+  }
+
+  int status = EXIT_FAILURE;
+  pid_t pid = fork();
+
+  if (pid == 0) {
+    execvp(filename, argv);
+    perror(filename);
+  } else if (pid &lt; 0) {
+    perror(argv[0]);
+  } else {
+    if (waitpid(pid, &amp;status, 0) != pid) {
+      status = EXIT_FAILURE;
+      perror(argv[0]);
+    } else {
+      status = WEXITSTATUS(status);
+    }
+  }
+
+  free(filename);
+
+  return status;
+}
+
+EOF</kbd></pre>
+        <p>
+          Compile and Install the Multiarch Wrapper:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gcc ${BUILD64} multiarch_wrapper.c -o /usr/bin/multiarch_wrapper</kbd></pre>
+        <p>
+          This multiarch wrapper is going to be used later on in the book
+          with Perl. It will also be very useful outside of the base CLFS
+          system.
+        </p>
+        <p>
+          Create a testcase:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo 'echo "32bit Version"' &gt; test-32
+echo 'echo "64bit Version"' &gt; test-64
+chmod -v 755 test-32 test-64
+ln -sv /usr/bin/multiarch_wrapper test</kbd></pre>
+        <p>
+          Test the wrapper:
+        </p>
+        <pre class="userinput"><kbd class="command">USE_ARCH=32 ./test
+USE_ARCH=64 ./test</kbd></pre>
+        <p>
+          The output of the above command should be:
+        </p>
+        <pre class="userinput"><kbd class="command">32bit Version
+64bit Version</kbd></pre>
+        <p>
+          Remove the testcase source, binaries, and link:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v multiarch_wrapper.c test{,-32,-64}</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-multiarch-wrapper" name=
+          "contents-multiarch-wrapper"></a>10.27.2. Contents of The Multiarch
+          Wrapper
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">multiarch_wrapper</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="multiarch_wrapper" name=
+                    "multiarch_wrapper"></a><span class="term"><span class=
+                    "command"><strong>multiarch_wrapper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Will execute a different program based on the
+                    <code class="envar">USE_ARCH</code> variable. The
+                    <code class="envar">USE_ARCH</code> variable will be the
+                    suffix of the executed program.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-7.1.0">Prev</a>
+          <p>
+            GCC-7.1.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="attr.html" title=
+          "Attr-2.4.47 32 Bit Libraries">Next</a>
+          <p>
+            Attr-2.4.47 32 Bit Libraries
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

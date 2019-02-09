@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.21.&nbsp;Making the Temporary System Bootable
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="how-to-view.html" title=
+          "How to View the Book">Prev</a>
+          <p>
+            How to View the Book
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnext.html" title=
+          "What to do next">Next</a>
+          <p>
+            What to do next
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-yaboot" name="ch-boot-yaboot"></a>7.21. Making the
+        Temporary System Bootable
+      </h1>
+      <p>
+        Some of the idiosyncracies of booting on ppc are discussed in
+        <a class="xref" href="../appendices/macmiscellany.html" title=
+        "Appendix&nbsp;E.&nbsp;Open Firmware and Mac issues.">Appendix E</a>.
+        Essentially, there are two options here - either copy the bootloader
+        to an OSX root partition and boot from Open Firmware, or use an
+        install, Live, or rescue CD to set up a bootstrap partition.
+      </p>
+      <div class="." lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.21.1. Copying the bootloader to OSX and booting from OF.
+        </h2>
+        <p>
+          You must now ensure that <code class=
+          "filename">/tools/etc/yaboot.conf</code> contains the correct
+          details for the CLFS system. Consult <a class="xref" href=
+          "../bootable/yaboot.html" title=
+          "13.3.&nbsp;Making the CLFS System Bootable">Section&nbsp;13.3,
+          &ldquo;Making the CLFS System Bootable.&rdquo;</a> for details, but
+          note that at this point you do not need the <code class=
+          "literal">install, magicboot, enablecdboot</code> or <code class=
+          "literal">macosx</code> parameters because these are not available
+          when you boot from Open Firmware.
+        </p>
+        <p>
+          By this stage, you should have the temporary system on an ext2
+          filesystem on your Mac. Now, from within OSX, copy <code class=
+          "filename">/tools/lib/yaboot/yaboot</code>) and <code class=
+          "filename">/tools/etc/yaboot.conf</code>) to the OSX <code class=
+          "filename">/</code> directory.
+        </p>
+        <p>
+          Each time you want to boot into the temporary system, hold down the
+          option-command-o-f keys to get to Open Firmware, then use the
+          following command, replacing <code class="literal">X</code> with
+          the number of the partition containing the <span class=
+          "emphasis"><em>OSX</em></span> root filesystem (typically, this
+          will be '3').
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">boot hd:X,yaboot</kbd></pre>
+      </div>
+      <div class="." lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.21.2. Using a CD to set up the bootstrap partition.
+        </h2>
+        <p>
+          This is particularly appropriate if you cannot write to an ext2
+          filesystem from OSX. Boot from the CD, and (as necessary) create
+          partitions and filesystems, mount the CLFS partition at
+          <code class="filename">/tools</code> and untar the temporary system
+          there.
+        </p>
+        <p>
+          Now set up <code class="filename">/tools/etc/yaboot.conf</code> -
+          see <a class="xref" href="../bootable/yaboot.html" title=
+          "13.3.&nbsp;Making the CLFS System Bootable">Section&nbsp;13.3,
+          &ldquo;Making the CLFS System Bootable.&rdquo;</a> for details of
+          what should be in it, but note that the <span class=
+          "emphasis"><em>install</em></span> and <span class=
+          "emphasis"><em>magicboot</em></span> specifications should point
+          to<code class="filename">/tools/lib/yaboot/</code> and <span class=
+          "emphasis"><em>not</em></span> <code class=
+          "filename">/usr/lib/yaboot</code>.
+        </p>
+        <p>
+          To write the bootloader to the disk, with <code class=
+          "filename">/tools/sbin</code> first on your path and <code class=
+          "filename">/proc</code> mounted, run the following command:
+        </p>
+        <div class="admon warning">
+          <img alt="[Warning]" src="../images/warning.png" />
+          <h3>
+            Warning
+          </h3>
+          <p>
+            The following command will update the bootstrap partition and the
+            boot variable in Open Firmware. Do not run the command if this is
+            not desired.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">PATH_PREFIX=/tools ybin -v -C /tools/etc/yaboot.conf</kbd></pre>
+        <p>
+          Alternatively, if the bootstrap partition has not already been
+          initialized, perhaps because you are using a Live CD, you will need
+          to use a different command to install the bootloader for the first
+          time:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">PATH_PREFIX=/tools mkofboot</kbd></pre>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="how-to-view.html" title=
+          "How to View the Book">Prev</a>
+          <p>
+            How to View the Book
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnext.html" title=
+          "What to do next">Next</a>
+          <p>
+            What to do next
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

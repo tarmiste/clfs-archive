@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.11.&nbsp;Silo-1.4.14
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="elftoaout.html" title=
+          "ELFtoaout-2.3">Prev</a>
+          <p>
+            ELFtoaout-2.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingdirs.html" title=
+          "Creating Directories">Next</a>
+          <p>
+            Creating Directories
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-silo-build" name="ch-boot-silo-build"></a>7.11.
+        Silo-1.4.14
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Silo package contains the Sparc Improved boot LOader.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.11.1. Installation of Silo
+        </h2>
+        <p>
+          The following patch fixes compile issues:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../silo-1.4.14-fixes-3.patch</kbd></pre>
+        <p>
+          This sed allows us to compile the bin2h binary separately.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v common/Makefile{,.orig}
+sed -e 's@\$(PROGRAMS)$@programs\n\nprograms: &amp;@' common/Makefile.orig &gt; common/Makefile</kbd></pre>
+        <p>
+          Compile the bin2h and util binaries for the host.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make -C common programs CC=cc
+make -C second util CC=cc</kbd></pre>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CC=cc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Overwrites the default value of <span class=
+                "command"><strong>gcc -m32</strong></span> which will fail to
+                compile on 64 bit targets. This is not to be confused with
+                <span class="command"><strong>CC=${CC}</strong></span> below.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the Silo package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make CC=${CC} AS=${AS} LD=${LD} STRIP=${STRIP}</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=${CLFS} install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/silo.html#contents-silo" title=
+          "10.70.2.&nbsp;Contents of Silo">Section&nbsp;10.70.2,
+          &ldquo;Contents of Silo.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="elftoaout.html" title=
+          "ELFtoaout-2.3">Prev</a>
+          <p>
+            ELFtoaout-2.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingdirs.html" title=
+          "Creating Directories">Next</a>
+          <p>
+            Creating Directories
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

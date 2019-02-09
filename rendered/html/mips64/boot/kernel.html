@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.9.&nbsp;Linux-4.9.21
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="eudev.html" title="Eudev-1.7">Prev</a>
+          <p>
+            Eudev-1.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bootloaders.html" title=
+          "Bootloaders">Next</a>
+          <p>
+            Bootloaders
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-kernel" name="ch-boot-kernel"></a>7.9. Linux-4.9.21
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Linux package contains the Linux kernel.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.9.1. Installation of the kernel
+        </h2>
+        <div class="admon warning">
+          <img alt="[Warning]" src="../images/warning.png" />
+          <h3>
+            Warning
+          </h3>
+          <p>
+            Here a temporary cross-compiled kernel will be built. When
+            configuring it, select the minimal amount of options required to
+            boot the target machine and build the final system. I.e., no
+            support for sound, printers, etc. will be needed.
+          </p>
+          <p>
+            Also, try to avoid the use of modules if possible, and don't use
+            the resulting kernel image for production systems.
+          </p>
+        </div>
+        <p>
+          Building the kernel involves a few steps&mdash;configuration,
+          compilation, and installation. Read the <code class=
+          "filename">README</code> file in the kernel source tree for
+          alternative methods to the way this book configures the kernel.
+        </p>
+        <p>
+          To ensure that your system boots and you can properly run both 32
+          bit and 64 bit binaries, please make sure that you enable support
+          for ELF and emulations for 32bit ELF into the kernel.
+        </p>
+        <p>
+          Apply the latest Linux sublevel patch:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xzcat ../patch-4.9.21.xz | patch -Np1 -i -</kbd></pre>
+        <p>
+          Prepare for compilation by running the following command:
+        </p>
+        <pre class="userinput"><kbd class="command">make mrproper</kbd></pre>
+        <p>
+          This ensures that the kernel tree is absolutely clean. The kernel
+          team recommends that this command be issued prior to each kernel
+          compilation. Do not rely on the source tree being clean after
+          un-tarring.
+        </p>
+        <p>
+          Configure the kernel via a menu-driven interface:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make ARCH=mips CROSS_COMPILE=${CLFS_TARGET}- menuconfig</kbd></pre>
+        <p>
+          Compile the kernel image and modules:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make ARCH=mips CROSS_COMPILE=${CLFS_TARGET}-</kbd></pre>
+        <p>
+          If the use of kernel modules can't be avoided, a file in
+          <code class="filename">/etc/modprobe.d</code> may be needed.
+          Information pertaining to modules and kernel configuration is
+          located in the kernel documentation in the <code class=
+          "filename">Documentation</code> directory of the kernel sources
+          tree. The <code class="filename">modprobe.d</code> man page may
+          also be of interest.
+        </p>
+        <p>
+          Install the modules, if the kernel configuration uses them:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make ARCH=mips CROSS_COMPILE=${CLFS_TARGET}- \
+   INSTALL_MOD_PATH=/tools modules_install</kbd></pre>
+        <p>
+          Install the firmware, if the kernel configuration uses them:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make ARCH=mips CROSS_COMPILE=${CLFS_TARGET}- \
+   INSTALL_MOD_PATH=/tools firmware_install</kbd></pre>
+        <p>
+          After kernel compilation is complete, additional steps are required
+          to complete the installation. Some files need to be copied to the
+          <code class="filename">/tools/boot</code> directory.
+        </p>
+        <p>
+          Issue the following commands to install the kernel:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -pv /tools/boot
+cp -v vmlinux /tools/boot/vmlinux-4.9.21
+gzip -9 /tools/boot/vmlinux-4.9.21</kbd></pre>
+        <p>
+          <code class="filename">System.map</code> is a symbol file for the
+          kernel. It maps the function entry points of every function in the
+          kernel API, as well as the addresses of the kernel data structures
+          for the running kernel. Issue the following command to install the
+          map file:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v System.map /tools/boot/System.map-4.9.21</kbd></pre>
+        <p>
+          The kernel configuration file <code class="filename">.config</code>
+          produced by the <span class="command"><strong>make
+          menuconfig</strong></span> step above contains all the
+          configuration selections for the kernel that was just compiled. It
+          is a good idea to keep this file for future reference:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v .config /tools/boot/config-4.9.21</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../bootable/kernel.html#contents-kernel" title=
+          "13.2.2.&nbsp;Contents of Linux">Section&nbsp;13.2.2,
+          &ldquo;Contents of Linux.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="eudev.html" title="Eudev-1.7">Prev</a>
+          <p>
+            Eudev-1.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bootloaders.html" title=
+          "Bootloaders">Next</a>
+          <p>
+            Bootloaders
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

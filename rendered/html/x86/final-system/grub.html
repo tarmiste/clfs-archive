@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.69.&nbsp;GRUB-2.00
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title=
+          "About Debugging Symbols">Next</a>
+          <p>
+            About Debugging Symbols
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-grub" name="ch-system-grub"></a>10.69. GRUB-2.00
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The GRUB package contains the GRand Unified Bootloader.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.69.1. Installation of GRUB
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            If you would like use a different bootloader than this one you
+            can go to the following link for alternative bootloaders and the
+            instructions to use them. <a class="ulink" href=
+            "http://trac.clfs.org/wiki/bootloaders">http://trac.clfs.org/wiki/bootloaders</a>
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            This package is known to have issues when its default
+            optimization flags (including the <code class=
+            "option">-march</code> and <code class="option">-mtune</code>
+            options) are changed. If any environment variables that override
+            default optimizations have been defined, such as <code class=
+            "envar">CFLAGS</code> and <code class="envar">CXXFLAGS</code>,
+            unset them when building GRUB.
+          </p>
+        </div>
+        <p>
+          Glibc-2.25 does not declare gets():
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e '/gets is a/d' grub-core/gnulib/stdio.in.h</kbd></pre>
+        <p>
+          Prepare GRUB for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-werror</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          To test GRUB you must have QEMU installed and then, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="configuration" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="conf-grub" name="conf-grub"></a>10.69.2. Configuring GRUB
+        </h2>
+        <p>
+          Now that grub is installed, we need to configure the defaults that
+          will be used to generate the configuration after we install the
+          kernel. Create this file with the following:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -m755 -dv /etc/default
+cat &gt; /etc/default/grub &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/default/grub
+
+GRUB_DEFAULT=0
+#GRUB_SAVEDEFAULT=true
+GRUB_HIDDEN_TIMEOUT=
+GRUB_HIDDEN_TIMEOUT_QUIET=false
+GRUB_TIMEOUT=10
+GRUB_DISTRIBUTOR=Cross-LFS
+
+GRUB_CMDLINE_LINUX=""
+GRUB_CMDLINE_LINUX_DEFAULT=""
+
+#GRUB_TERMINAL=console
+#GRUB_GFXMODE=640x480
+#GRUB_GFXPAYLOAD_LINUX=keep
+
+#GRUB_DISABLE_LINUX_UUID=true
+#GRUB_DISABLE_LINUX_RECOVERY=true
+
+#GRUB_INIT_TUNE="480 440 1"
+
+#GRUB_DISABLE_OS_PROBER=true
+
+# End /etc/default/grub</code>
+EOF</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the above options and possible alternate
+            values:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DEFAULT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_SAVEDEFAULT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_HIDDEN_TIMEOUT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_HIDDEN_TIMEOUT_QUIET=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_TIMEOUT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DISTRIBUTOR=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_CMDLINE_LINUX=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_CMDLINE_LINUX_DEFAULT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_TERMINAL=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_GFXMODE=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_GFXPAYLOAD_LINUX=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DEFAULT=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DISABLE_LINUX_UUID=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DISABLE_LINUX_RECOVERY=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_INIT_TUNE=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GRUB_DISABLE_OS_PROBER=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Write Me
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-grub" name="contents-grub"></a>10.69.3. Contents of
+          GRUB
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">grub, grub-install, grub-md5-crypt,
+              grub-set-default, grub-terminfo, and mbchk</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directories:</strong>
+              <span class="segbody">/usr/lib/grub, /boot/grub</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub" name="grub"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The Grand Unified Bootloader's command shell
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-install" name="grub-install"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-install</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Installs GRUB on the given device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-md5-crypt" name=
+                    "grub-md5-crypt"></a><span class="term"><span class=
+                    "command"><strong>grub-md5-crypt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Encrypts a password in MD5 format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-set-default" name=
+                    "grub-set-default"></a><span class="term"><span class=
+                    "command"><strong>grub-set-default</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Sets the default boot entry for GRUB
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-terminfo" name=
+                    "grub-terminfo"></a><span class="term"><span class=
+                    "command"><strong>grub-terminfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Generates a terminfo command from a terminfo name; it can
+                    be employed if an unknown terminal is being used
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mbchk" name="mbchk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mbchk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Checks the format of a multi-boot kernel
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-8.0">Prev</a>
+          <p>
+            Vim-8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title=
+          "About Debugging Symbols">Next</a>
+          <p>
+            About Debugging Symbols
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.10.&nbsp;Hfsutils-3.2.6
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="powerpc-utils.html" title=
+          "Powerpc-Utils_1.1.3">Next</a>
+          <p>
+            Powerpc-Utils_1.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-hfsutils" name="ch-boot-hfsutils"></a>7.10.
+        Hfsutils-3.2.6
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Hfsutils package contains a number of utilities for accessing
+          files on <code class="systemitem">hfs</code> filesystems. It is
+          needed to run <span class="command"><strong>ybin</strong></span>.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.10.1. Installation of Hfsutils
+        </h2>
+        <p>
+          If you have created, or will create, the ext2 filesystem on your
+          Mac using ext2fsx you can jump ahead to <a class="xref" href=
+          "yaboot-build.html" title=
+          "7.12.&nbsp;Yaboot-1.3.17">Section&nbsp;7.12,
+          &ldquo;Yaboot-1.3.17.&rdquo;</a>. The next three packages are for
+          people who cannot do that.
+        </p>
+        <p>
+          Apply the following patch to add a missing <code class=
+          "filename">errno.h</code> include and allow HFSutils to recognize
+          devices larger than 2GB:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../hfsutils-3.2.6-fixes-1.patch</kbd></pre>
+        <p>
+          Prepare Hfsutils for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">CC="${CC}" \
+./configure \
+    --prefix=/tools</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/hfsutils.html#contents-hfsutils" title=
+          "10.69.2.&nbsp;Contents of Hfsutils">Section&nbsp;10.69.2,
+          &ldquo;Contents of Hfsutils.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernel.html" title="Linux-4.9.21">Prev</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="powerpc-utils.html" title=
+          "Powerpc-Utils_1.1.3">Next</a>
+          <p>
+            Powerpc-Utils_1.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

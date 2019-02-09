@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      11.2.&nbsp;How does Systemd work?
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;11.&nbsp;System Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="clock.html" title=
+          "Configuring the system clock">Next</a>
+          <p>
+            Configuring the system clock
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-config-usage" name="ch-config-usage"></a>11.2. How does
+        Systemd work?
+      </h1>
+      <div class="admon warning">
+        <img alt="[Warning]" src="../images/warning.png" />
+        <h3>
+          Warning
+        </h3>
+        <p>
+          Please disregard this page until it is complete and verified.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          11.2.1. Introduction to Systemd
+        </h2>
+        <p>
+          Systemd is a system management daemon designed exclusively for the
+          Linux kernel API. In the Linux startup process, it is the first
+          process to execute in user land; therefore, it is also the parent
+          process of all child processes in user land.
+        </p>
+        <p>
+          Systemd's initialization instructions for each daemon are recorded
+          in a declarative configuration file rather than a shell script. For
+          inter-process communication, systemd makes Unix domain sockets and
+          D-Bus available to the running daemons. Because systemd tracks
+          processes using Linux cgroups instead of process identifiers
+          (PIDs), daemons cannot "escape" systemd; not even by
+          double-forking. Systemd is also capable of aggressive
+          parallelization.
+        </p>
+        <p>
+          Among systemd's auxiliary features are a cron-like job scheduler
+          called systemd Calendar Timers, and an event logging subsystem
+          called journal. The system administrator may choose whether to log
+          system events with systemd or syslog. Systemd's logfile is a binary
+          file. The state of systemd itself can be preserved in a snapshot
+          for future recall.
+        </p>
+        <p>
+          Systemd provides a replacement for sysvinit, pm-utils, inetd,
+          acpid, syslog, watchdog, cron and atd, and obsoletes ConsoleKit.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          11.2.2. Systemctl
+        </h2>
+        <p>
+          <span class="command"><strong>systemctl</strong></span> is the main
+          command used to introspect and control systemd.
+        </p>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term">List running units:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl</strong></span> or
+                <span class="command"><strong>systemctl
+                list-units</strong></span>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">List failed units:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                --failed</strong></span>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">List available unit files:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                list-unit-files</strong></span>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Activate a unit immediately:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl start</strong></span>
+                <em class="replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Stop a unit immediately:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl stop</strong></span>
+                <em class="replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Restart a unit:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                restart</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Reload unit configuration:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                reload</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Show status of a unit:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                status</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Check if a unit is enabled or
+              disabled:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                is-enabled</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Enable a unit to start during boot:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                enable</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Disable a unit to not start during
+              boot:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                disable</strong></span> <em class=
+                "replaceable"><code>unit</code></em>
+              </p>
+            </dd>
+            <dt>
+              <span class="term">Reload systemd and scan for new or changed
+              units:</span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemctl
+                daemon-reload</strong></span>
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          For more information regarding systemd, please refer to the systemd
+          and related man-pages and <a class="ulink" href=
+          "https://fedoraproject.org/wiki/Systemd">Systemd at
+          FedoraProject</a> for documentation, examples, features, and other
+          information.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="clock.html" title=
+          "Configuring the system clock">Next</a>
+          <p>
+            Configuring the system clock
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

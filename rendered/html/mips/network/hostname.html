@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      12.1.&nbsp;Configuring the system hostname
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS
+      </h4>
+      <h3>
+        Chapter&nbsp;12.&nbsp;Networking Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter.html" title=
+          "Networking Configuration">Prev</a>
+          <p>
+            Networking Configuration
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="hosts.html" title=
+          "Customizing the /etc/hosts File">Next</a>
+          <p>
+            Customizing the /etc/hosts File
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-network-hostname" name="ch-network-hostname"></a>12.1.
+        Configuring the system hostname
+      </h1>
+      <p>
+        Systemd reads <code class="filename">/etc/hostname</code> to
+        determine which hostname should be set.
+      </p>
+      <p>
+        Create the <code class="filename">/etc/hostname</code> file and enter
+        a hostname by running:
+      </p>
+      <pre class="userinput"><kbd class="command">echo "<em class=
+      "replaceable"><code>[clfs]</code></em>" &gt; /etc/hostname</kbd></pre>
+      <p>
+        <em class="replaceable"><code>[clfs]</code></em> needs to be replaced
+        with the name given to the computer. Do not enter the Fully Qualified
+        Domain Name (FQDN) here. That information will be put in the
+        <code class="filename">/etc/hosts</code> file in the next section.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter.html" title=
+          "Networking Configuration">Prev</a>
+          <p>
+            Networking Configuration
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="hosts.html" title=
+          "Customizing the /etc/hosts File">Next</a>
+          <p>
+            Customizing the /etc/hosts File
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      12.5.&nbsp;Networking Configuration with Systemd-networkd
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;12.&nbsp;Networking Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="choose.html" title=
+          "Systemd Networking?">Prev</a>
+          <p>
+            Systemd Networking?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network-scripts.html" title=
+          "CLFS-Network-Scripts-20140224">Next</a>
+          <p>
+            CLFS-Network-Scripts-20140224
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-systemd-network" name="ch-systemd-network"></a>12.5.
+        Networking Configuration with Systemd-networkd
+      </h1>
+      <div class="interface-config" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          12.5.1. Network Interface Configuration
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            Udev may assign random Network Card Interface names for some
+            network cards such as enp2s1. If you are not sure what your
+            Network Card Interface name is, you can always run <span class=
+            "command"><strong>ip l</strong></span> after you have booted your
+            system. It is important that the <code class="envar">Name</code>
+            variable in <code class="filename">/etc/systemd/network</code>
+            contain the correct Network Card Interface name (e.g.
+            <code class="envar">Name=enp2s1</code> or <code class=
+            "envar">Name=eth0</code>) or systemd will fail to bring up your
+            network interface.
+          </p>
+        </div>
+        <div class="sect3" lang="en" xml:lang="en">
+          <h3 class="sect3">
+            12.5.1.1. Static Network Interface Configuration
+          </h3>
+          <p>
+            <span class="command"><strong>systemd-networkd</strong></span>
+            uses <code class="filename">/etc/systemd/network</code> for
+            configuration files. Refer to systemd.network(5) and
+            systemd.netdev(5). Configure a network interface with a config
+            file. Adjust Name= as required:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cd /etc/systemd/network &amp;&amp;
+cat &gt; static.network &lt;&lt; "EOF"
+[Match]
+Name=enp2s0
+
+[Network]
+Address=192.168.1.1/24
+Gateway=192.168.1.2
+EOF</kbd></pre>
+          <p>
+            The values of these variables must be changed in every file to
+            match the proper setup.
+          </p>
+          <p>
+            The <code class="envar">Name</code> variable defines the
+            interface name, for example, eth0. It is required for all network
+            device configuration files.
+          </p>
+          <p>
+            The <code class="envar">Gateway</code> variable should contain
+            the default gateway IP address, if one is present. If not, then
+            comment out the variable entirely.
+          </p>
+          <p>
+            For more information see the <span class=
+            "command"><strong>systemd.netdev</strong></span> man page.
+          </p>
+        </div>
+        <div class="sect3" lang="en" xml:lang="en">
+          <h3 class="sect3">
+            12.5.1.2. Connecting to a network with DHCP
+          </h3>
+          <p>
+            <span class="command"><strong>systemd-networkd</strong></span>
+            uses <code class="filename">/etc/systemd/network</code> for
+            configuration files. Refer to <code class=
+            "filename">systemd.network(5)</code> and <code class=
+            "filename">systemd.netdev(5)</code>. Configure a network
+            interface with a config file. Adjust Name= as required:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cd /etc/systemd/network &amp;&amp;
+cat &gt; dhcp.network &lt;&lt; "EOF"
+[Match]
+Name=enp2s0
+
+[Network]
+DHCP=yes
+EOF</kbd></pre>
+          <p>
+            <span class="command"><strong>systemd-networkd</strong></span>
+            will automatically configure <code class=
+            "filename">/run/systemd/network/resolv.conf</code> when using
+            DHCP. If you did not manually create <code class=
+            "filename">/etc/resolv.conf</code>, create a symlink:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ln -sv /run/systemd/network/resolv.conf /etc</kbd></pre>
+        </div>
+      </div>
+      <div class="timesyncd" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          12.5.2. Using Timesyncd
+        </h2>
+        <p>
+          Systemd includes a simple NTP client daemon, <span class=
+          "command"><strong>systemd-timesyncd</strong></span>, though it is
+          disabled by default. If you want to enable it, you will first need
+          to add a required user and group:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">groupadd -g 78 systemd-timesync
+useradd -g systemd-timesync -u 78 -d /dev/null -s /bin/false systemd-timesync</kbd></pre>
+        <p>
+          Then, actually enable <span class=
+          "command"><strong>systemd-timesyncd</strong></span> so that it will
+          run on system boot:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl enable systemd-timesyncd</kbd></pre>
+        <p>
+          You can configure <span class=
+          "command"><strong>systemd-timesyncd</strong></span> by editing
+          <code class="filename">/etc/systemd/timesyncd.conf</code>.
+        </p>
+        <p>
+          Continue to <a class="xref" href="../bootable/chapter.html" title=
+          "Chapter&nbsp;13.&nbsp;Making the CLFS System Bootable">Making the
+          CLFS System Bootable</a>.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="choose.html" title=
+          "Systemd Networking?">Prev</a>
+          <p>
+            Systemd Networking?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network-scripts.html" title=
+          "CLFS-Network-Scripts-20140224">Next</a>
+          <p>
+            CLFS-Network-Scripts-20140224
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

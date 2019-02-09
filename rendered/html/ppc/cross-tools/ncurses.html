@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.5.&nbsp;Ncurses-6.0
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.18">Prev</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pkg-config-lite.html" title=
+          "Pkg-config-lite-0.28-1">Next</a>
+          <p>
+            Pkg-config-lite-0.28-1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-ncurses" name="ch-cross-tools-ncurses"></a>5.5.
+        Ncurses-6.0
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Ncurses package contains libraries for terminal-independent
+          handling of character screens.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.5.1. Installation of Ncurses
+        </h2>
+        <p>
+          When Ncurses is compiled, it executes <span class=
+          "command"><strong>tic</strong></span> to create a terminfo database
+          in <code class="filename">${prefix}/share/terminfo</code>. If
+          possible, the <code class="filename">Makefile</code> will use the
+          <span class="command"><strong>tic</strong></span> binary that was
+          just compiled in its source tree, but this does not work when
+          Ncurses is cross-compiled. To allow the Ncurses build in <a class=
+          "xref" href="../temp-system/chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Constructing
+          a Temporary System</a> to succeed, we will build and install a
+          <span class="command"><strong>tic</strong></span> program that can
+          be run on the host system.
+        </p>
+        <p>
+          Prepare Ncurses for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">AWK=gawk ./configure \
+    --prefix=/cross-tools \
+    --without-debug</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-debug</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Tells Ncurses to build without debugging information.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Only one binary is needed for the Cross-Tools. Build the headers
+          and then build <span class="command"><strong>tic</strong></span>:
+        </p>
+        <pre class="userinput"><kbd class="command">make -C include
+make -C progs tic</kbd></pre>
+        <p>
+          Install <span class="command"><strong>tic</strong></span> with the
+          following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -m755 progs/tic /cross-tools/bin</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/ncurses.html#contents-ncurses" title=
+          "10.24.2.&nbsp;Contents of Ncurses">Section&nbsp;10.24.2,
+          &ldquo;Contents of Ncurses.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.18">Prev</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pkg-config-lite.html" title=
+          "Pkg-config-lite-0.28-1">Next</a>
+          <p>
+            Pkg-config-lite-0.28-1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

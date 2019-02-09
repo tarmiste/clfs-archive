@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.7.&nbsp;Glibc-2.25 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="man-pages.html" title=
+          "Man-pages-4.09">Prev</a>
+          <p>
+            Man-pages-4.09
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc-n32.html" title=
+          "Glibc-2.25 N32">Next</a>
+          <p>
+            Glibc-2.25 N32
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-glibc-32" name="ch-system-glibc-32"></a>10.7.
+        Glibc-2.25 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Glibc package contains the main C library. This library
+          provides the basic routines for allocating memory, searching
+          directories, opening and closing files, reading and writing files,
+          string handling, pattern matching, arithmetic, and so on.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.7.1. Installation of Glibc
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            Some packages outside of CLFS suggest installing GNU libiconv in
+            order to translate data from one encoding to another. The
+            project's home page (<a class="ulink" href=
+            "http://www.gnu.org/software/libiconv/">http://www.gnu.org/software/libiconv/</a>)
+            says &ldquo;<span class="quote">This library provides an
+            <code class="function">iconv()</code> implementation, for use on
+            systems which don't have one, or whose implementation cannot
+            convert from/to Unicode.</span>&rdquo; Glibc provides an
+            <code class="function">iconv()</code> implementation and can
+            convert from/to Unicode, therefore libiconv is not required on a
+            CLFS system.
+          </p>
+        </div>
+        <p>
+          At the end of the installation, the build system will run a sanity
+          test to make sure everything installed properly. This script
+          performs its tests by attempting to compile test programs against
+          certain libraries. However it does not specify the path to
+          <code class="filename">ld.so</code>, and our toolchain is still
+          configured to use the one in <code class="filename">/tools</code>.
+          The following set of commands will force the script to use the
+          complete path of the new <code class="filename">ld.so</code> that
+          was just installed:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">LINKER=$(readelf -l /tools/bin/bash | sed -n 's@.*interpret.*/tools\(.*\)]$@\1@p')
+sed -i "s|libs -o|libs -L/usr/lib -Wl,-dynamic-linker=${LINKER} -o|" \
+  scripts/test-installation.pl
+unset LINKER</kbd></pre>
+        <p>
+          The Glibc build system is self-contained and will install
+          perfectly, even though the compiler specs file and linker are still
+          pointing at <code class="filename">/tools</code>. The specs and
+          linker cannot be adjusted before the Glibc install because the
+          Glibc Autoconf tests would give false results and defeat the goal
+          of achieving a clean build.
+        </p>
+        <p>
+          The Glibc documentation recommends building Glibc outside of the
+          source directory in a dedicated build directory:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v ../glibc-build
+cd ../glibc-build</kbd></pre>
+        <p>
+          Prepare Glibc for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD32}" CXX="g++ ${BUILD32}" \
+../glibc-2.25/configure \
+    --prefix=/usr \
+    --enable-kernel=3.12.0 \
+    --libexecdir=/usr/lib/glibc \
+    --host=${CLFS_TARGET32} \
+    --enable-stack-protector=strong \
+    --enable-obsolete-rpc</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--libexecdir=/usr/lib/glibc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This changes the location for hard links to the <span class=
+                "command"><strong>getconf</strong></span> utility from their
+                default of <code class="filename">/usr/libexec</code> to
+                <code class="filename">/usr/lib/glibc</code>.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <div class="admon important">
+          <img alt="[Important]" src="../images/important.png" />
+          <h3>
+            Important
+          </h3>
+          <p>
+            Due to Glibc's critical role in a properly functioning system,
+            the CLFS developers strongly recommend running the testsuite.
+          </p>
+        </div>
+        <p>
+          In multilib, we tend to think that compiling for <code class=
+          "literal">${CLFS_TARGET32}</code> is <span class=
+          "emphasis"><em>not</em></span> cross-compiling. Glibc takes the
+          traditional view that if you are building for a different host then
+          you are cross-compiling, so you won't be running the tests and
+          therefore you don't need the locale files. When we run the tests,
+          many will fail if the locale files are missing. The following sed
+          allows these tests to succeed:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/cross-compiling/s@ifeq@ifneq@g' ../glibc-2.25/localedata/Makefile</kbd></pre>
+        <p>
+          Use the following commands to run the test suite and output any
+          test failures:
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          The Glibc test suite is highly dependent on certain functions of
+          the host system, in particular the kernel. The <span class=
+          "emphasis"><em>posix/annexc</em></span> and <span class=
+          "emphasis"><em>conform/run-conformtest</em></span> tests normally
+          fail and you should see <code class="literal">Error 1
+          (ignored)</code> in the output. Apart from this, the Glibc test
+          suite is always expected to pass. However, in certain
+          circumstances, some failures are unavoidable. If a test fails
+          because of a missing program (or missing symbolic link), or a
+          segfault, you will see an error code greater than 127 and the
+          details will be in the log. More commonly, tests will fail with
+          <code class="literal">Error 2</code> - for these, the contents of
+          the corresponding <code class="filename">.out</code> file, e.g.
+          <code class="filename">posix/annexc.out</code> may be informative.
+          Here is a list of the most common issues:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li>
+              <p>
+                The <span class="emphasis"><em>nptl/tst-clock2</em></span>,
+                <span class="emphasis"><em>nptl/tst-attr3</em></span>,
+                <span class="emphasis"><em>tst/tst-cputimer1</em></span>, and
+                <span class="emphasis"><em>rt/tst-cpuclock2</em></span> tests
+                have been known to fail. The reason is not completely
+                understood, but indications are that minor timing issues can
+                trigger these failures.
+              </p>
+            </li>
+            <li>
+              <p>
+                The <span class="emphasis"><em>math</em></span> tests
+                sometimes fail. Certain optimization settings are known to be
+                a factor here.
+              </p>
+            </li>
+            <li>
+              <p>
+                If you have mounted the CLFS partition with the <em class=
+                "parameter"><code>noatime</code></em> option, the
+                <span class="emphasis"><em>atime</em></span> test will fail.
+                As mentioned in <a class="xref" href=
+                "../partitioning/mounting.html" title=
+                "2.5.&nbsp;Mounting the New Partition">Section&nbsp;2.5,
+                &ldquo;Mounting the New Partition&rdquo;</a>, do not use the
+                <em class="parameter"><code>noatime</code></em> option while
+                building CLFS.
+              </p>
+            </li>
+            <li>
+              <p>
+                When running on older and slower hardware, some tests can
+                fail because of test timeouts being exceeded. Modifying the
+                make check command to set a TIMEOUTFACTOR is reported to help
+                eliminate these errors (e.g. <span class=
+                "command"><strong>TIMEOUTFACTOR=16 make -k
+                check</strong></span>).
+              </p>
+            </li>
+            <li>
+              <p>
+                posix/tst-getaddrinfo4 will always fail due to not having a
+                network connection when the test is run.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          Though it is a harmless message, the install stage of Glibc will
+          complain about the absence of <code class=
+          "filename">/etc/ld.so.conf</code>. Prevent this warning with:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">touch /etc/ld.so.conf</kbd></pre>
+        <p>
+          Install the package, and remove unneeded files from <code class=
+          "filename">/usr/include/rpcsvc</code>:
+        </p>
+        <pre class="userinput"><kbd class="command">make install &amp;&amp;
+rm -v /usr/include/rpcsvc/*.x</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "glibc-64bit.html#contents-glibc" title=
+          "10.9.5.&nbsp;Contents of Glibc">Section&nbsp;10.9.5,
+          &ldquo;Contents of Glibc.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="man-pages.html" title=
+          "Man-pages-4.09">Prev</a>
+          <p>
+            Man-pages-4.09
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc-n32.html" title=
+          "Glibc-2.25 N32">Next</a>
+          <p>
+            Glibc-2.25 N32
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

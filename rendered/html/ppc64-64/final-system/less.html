@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.49.&nbsp;Less-491
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="groff.html" title="Groff-1.22.3">Prev</a>
+          <p>
+            Groff-1.22.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gzip.html" title="Gzip-1.8">Next</a>
+          <p>
+            Gzip-1.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-less" name="ch-system-less"></a>10.49. Less-491
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Less package contains a text file viewer.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.49.1. Installation of Less
+        </h2>
+        <p>
+          Prepare Less for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Move <span class="command"><strong>less</strong></span> to
+          <code class="filename">/bin</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/bin/less /bin</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-less" name="contents-less"></a>10.49.2. Contents of
+          Less
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">less, lessecho, lesskey</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="less" name="less"></a><span class=
+                    "term"><span class=
+                    "command"><strong>less</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A file viewer or pager; it displays the contents of the
+                    given file, letting the user scroll, find strings, and
+                    jump to marks
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lessecho" name="lessecho"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lessecho</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Needed to expand meta-characters, such as <span class=
+                    "emphasis"><em>*</em></span> and <span class=
+                    "emphasis"><em>?</em></span>, in filenames on Unix
+                    systems
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lesskey" name="lesskey"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lesskey</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Used to specify the key bindings for <span class=
+                    "command"><strong>less</strong></span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="groff.html" title="Groff-1.22.3">Prev</a>
+          <p>
+            Groff-1.22.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gzip.html" title="Gzip-1.8">Next</a>
+          <p>
+            Gzip-1.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

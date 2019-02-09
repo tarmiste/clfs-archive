@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.64.&nbsp;D-Bus-1.10.18
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="systemd.html" title="Systemd-233">Prev</a>
+          <p>
+            Systemd-233
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tar.html" title="Tar-1.29">Next</a>
+          <p>
+            Tar-1.29
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-dbus" name="ch-system-dbus"></a>10.64. D-Bus-1.10.18
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          D-Bus is a message bus system, a simple way for applications to
+          talk to one another.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.64.1. Installation of D-Bus
+        </h2>
+        <p>
+          Prepare D-Bus for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libexecdir=/usr/lib/dbus-1.0 \
+    --localstatedir=/var \
+    --with-systemdsystemunitdir=/lib/systemd/system \
+    --docdir=/usr/share/doc/dbus-1.10.18</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          This package does come with a test suite, but it requires several
+          packages that are not included in CLFS. Instructions for running
+          the test suite can be found in the CBLFS wiki at <a class="ulink"
+          href=
+          "http://cblfs.clfs.org/index.php/D-BUS_Core">http://cblfs.clfs.org/index.php/D-BUS_Core</a>.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Move the shared library to <code class="filename">/lib</code> and
+          recreate the symbolic link.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/lib/libdbus-1.so.* /lib
+ln -sfv ../../lib/$(readlink /usr/lib/libdbus-1.so) /usr/lib/libdbus-1.so</kbd></pre>
+        <p>
+          Create a symlink so that D-Bus and systemd can use the same
+          <code class="filename">machine-id</code> file:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv /etc/machine-id /var/lib/dbus</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-dbus" name="contents-dbus"></a>10.64.2. Contents of
+          D-Bus
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">dbus-cleanup-sockets, dbus-daemon,
+              dbus-launch, dbus-monitor, dbus-send, dbus-uuidgen</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed libraries:</strong>
+              <span class="segbody">libdbus-1.[a,so]</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directories:</strong>
+              <span class="segbody">/etc/dbus-1, /usr/include/dbus-1.0,
+              /usr/lib/dbus-1.0, /usr/share/doc/dbus-1.10.18,
+              /var/lib/dbus</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-cleanup-sockets" name=
+                    "dbus-cleanup-sockets"></a><span class=
+                    "term"><span class="command"><strong>dbus-cleanup-sockets</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Cleans up leftover sockets in a directory
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-daemon" name="dbus-daemon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The message bus daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-uuidgen" name="dbus-uuidgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-uuidgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Utility to generate UUIDs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-monitor" name="dbus-monitor"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-monitor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A debug probe that prints message bus messages
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-launch" name="dbus-launch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-launch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Utility to start a message bus from a shell script
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-send" name="dbus-send"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-send</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Send a message to a message bus
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libdbus-1" name="libdbus-1"></a><span class=
+                    "term"><code class="filename">libdbus-1</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Library containing the API for using the message bus
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="systemd.html" title="Systemd-233">Prev</a>
+          <p>
+            Systemd-233
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tar.html" title="Tar-1.29">Next</a>
+          <p>
+            Tar-1.29
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

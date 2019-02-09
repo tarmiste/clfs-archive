@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      9.3.&nbsp;Expect-5.45
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;9.&nbsp;Constructing Testsuite Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcl.html" title="Tcl-8.6.4">Prev</a>
+          <p>
+            Tcl-8.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dejagnu.html" title="DejaGNU-1.6">Next</a>
+          <p>
+            DejaGNU-1.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;9.&nbsp;Constructing Testsuite Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-testsuite-tools-expect" name=
+        "ch-testsuite-tools-expect"></a>9.3. Expect-5.45
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Expect package contains a program for carrying out scripted
+          dialogues with other interactive programs.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          9.3.1. Installation of Expect
+        </h2>
+        <p>
+          Now prepare Expect for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">CC="gcc ${BUILD64}" \
+./configure \
+    --prefix=/tools \
+    --with-tcl=/tools/lib64 \
+    --with-tclinclude=/tools/include \
+    --libdir=/tools/lib64</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-tcl=/tools/lib64</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This ensures that the configure script finds the Tcl
+                installation in the temporary tools location.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-tclinclude=/tools/include</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This explicitly tells Expect where to find Tcl's internal
+                headers. Using this option avoids conditions where
+                <span class="command"><strong>configure</strong></span> fails
+                because it cannot automatically discover the location of the
+                Tcl source directory.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Build the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SCRIPTS="" install</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the make parameter:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>SCRIPTS=""</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This prevents installation of the supplementary expect
+                scripts, which are not needed.
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-expect" name="contents-expect"></a>9.3.2. Contents
+          of Expect
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed program:</strong>
+              <span class="segbody">expect</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed library:</strong>
+              <span class="segbody">libexpect-5.43.a</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="expect" name="expect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>expect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Communicates with other interactive programs according to
+                    a script
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libexpect" name="libexpect"></a><span class=
+                    "term"><code class=
+                    "filename">libexpect-5.43.a</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Contains functions that allow Expect to be used as a Tcl
+                    extension or to be used directly from C or C++ (without
+                    Tcl)
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcl.html" title="Tcl-8.6.4">Prev</a>
+          <p>
+            Tcl-8.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dejagnu.html" title="DejaGNU-1.6">Next</a>
+          <p>
+            DejaGNU-1.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;9.&nbsp;Constructing Testsuite Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

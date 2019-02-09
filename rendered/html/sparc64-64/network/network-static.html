@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      12.7.&nbsp;Static Networking Configuration
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;12.&nbsp;Networking Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network-scripts.html" title=
+          "CLFS-Network-Scripts-20140224">Prev</a>
+          <p>
+            CLFS-Network-Scripts-20140224
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dhcpcd.html" title="DHCPCD-6.11.5">Next</a>
+          <p>
+            DHCPCD-6.11.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-network-static" name="ch-network-static"></a>12.7. Static
+        Networking Configuration
+      </h1>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          12.7.1. Creating the Static Network Interface Configuration Files
+        </h2>
+        <p>
+          Which interfaces are brought up and down by the network script
+          depends on the files and directories in the <code class=
+          "filename">/etc/sysconfig</code> hierarchy. This directory should
+          contain a sub-directory for each interface to be configured, such
+          as <code class="filename">ifconfig.xyz</code>, where
+          &ldquo;<span class="quote">xyz</span>&rdquo; is a network interface
+          name. Inside this directory would be files defining the attributes
+          to this interface, such as its IP address(es), subnet masks, and so
+          forth.
+        </p>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            Udev may assign random Network Card Interface names for some
+            network cards such as enp2s1. If you are not sure what your
+            Network Card Interface name is, you can always run <span class=
+            "command"><strong>ip l</strong></span> after you have booted your
+            system. Again, it is important that <code class=
+            "filename">ifconfig.xyz</code> is named after correct Network
+            Card Interface name (e.g. <code class=
+            "filename">ifconfig.enp2s1</code> or <code class=
+            "filename">ifconfig.eth0</code>) or systemd will fail to bring up
+            your network interface.
+          </p>
+        </div>
+        <p>
+          The following command creates a sample <code class=
+          "filename">ipv4</code> file for the <span class=
+          "emphasis"><em>eth0</em></span> device:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /etc/sysconfig &amp;&amp;
+cd /etc/sysconfig &amp;&amp;
+cat &gt; ifconfig.eth0 &lt;&lt; "EOF"
+<code class="literal">IFACE="eth0"
+SERVICE="ipv4-static"
+IP="192.168.1.1"
+GATEWAY="192.168.1.2"
+PREFIX="24"
+BROADCAST="192.168.1.255"</code>
+EOF</kbd></pre>
+        <p>
+          The values of these variables must be changed in every file to
+          match the proper setup.
+        </p>
+        <p>
+          The <code class="envar">IFACE</code> variable defines the interface
+          name, for example, eth0. It is required for all network device
+          configuration files.
+        </p>
+        <p>
+          The <code class="envar">SERVICE</code> variable defines the method
+          used for obtaining the IP address. The CLFS-Network-Scripts package
+          has a modular IP assignment format, and creating additional files
+          in the <code class="filename">/lib/services</code> directory allows
+          other IP assignment methods.
+        </p>
+        <p>
+          The <code class="envar">GATEWAY</code> variable should contain the
+          default gateway IP address, if one is present. If not, then comment
+          out the variable entirely.
+        </p>
+        <p>
+          The <code class="envar">PREFIX</code> variable needs to contain the
+          number of bits used in the subnet. Each octet in an IP address is 8
+          bits. If the subnet's netmask is 255.255.255.0, then it is using
+          the first three octets (24 bits) to specify the network number. If
+          the netmask is 255.255.255.240, it would be using the first 28
+          bits. Prefixes longer than 24 bits are commonly used by DSL and
+          cable-based Internet Service Providers (ISPs). In this example
+          (PREFIX=24), the netmask is 255.255.255.0. Adjust the <code class=
+          "envar">PREFIX</code> variable according to your specific subnet.
+        </p>
+        <p>
+          For more information see the <span class=
+          "command"><strong>ifup</strong></span> man page.
+        </p>
+        <p>
+          To configure another DHCP Interface, Follow <a class="xref" href=
+          "dhcpcd.html" title="12.8.&nbsp;DHCPCD-6.11.5">Section&nbsp;12.8,
+          &ldquo;DHCPCD-6.11.5&rdquo;</a>.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          12.7.2. Configuring the Network Interface at boot
+        </h2>
+        <p>
+          Enabling of the Network Interface configuration is done per
+          interface. To enable Network Interface configuration at boot, run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl enable ifupdown@eth0</kbd></pre>
+        <p>
+          To disable previously enabled Network Interface configuration at
+          boot, run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl disable ifupdown@eth0</kbd></pre>
+        <p>
+          To manually start the Network Interface configuration, run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl start ifupdown@eth0</kbd></pre>
+        <p>
+          Replace eth0 with the correct Network Interface name as described
+          on the beginning of this page.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network-scripts.html" title=
+          "CLFS-Network-Scripts-20140224">Prev</a>
+          <p>
+            CLFS-Network-Scripts-20140224
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dhcpcd.html" title="DHCPCD-6.11.5">Next</a>
+          <p>
+            DHCPCD-6.11.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;12.&nbsp;Networking Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

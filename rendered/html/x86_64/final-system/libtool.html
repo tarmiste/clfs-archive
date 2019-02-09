@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.47.&nbsp;Libtool-2.4.6 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iana-etc.html" title=
+          "Iana-Etc-2.30">Prev</a>
+          <p>
+            Iana-Etc-2.30
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libtool-64bit.html" title=
+          "Libtool-2.4.6 64 Bit">Next</a>
+          <p>
+            Libtool-2.4.6 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-libtool-32" name="ch-system-libtool-32"></a>10.47.
+        Libtool-2.4.6 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Libtool package contains the GNU generic library support
+          script. It wraps the complexity of using shared libraries in a
+          consistent, portable interface.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.47.1. Installation of Libtool
+        </h2>
+        <p>
+          The following <code class="filename">config.cache</code> entry
+          overrides the default search path, which does not take multilib
+          into account:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo "lt_cv_sys_dlsearch_path='/lib /usr/lib /usr/local/lib /opt/lib'" &gt; config.cache</kbd></pre>
+        <p>
+          Prepare Libtool for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD32}" ./configure \
+    --prefix=/usr \
+    --cache-file=config.cache</kbd></pre>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          To test the results, issue: <strong class="userinput"><code>make
+          LDEMULATION=elf_i386 check</code></strong>
+        </p>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the override on make check:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>LDEMULATION=elf_i386</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Libtool tends to do the wrong thing when building for
+                multilib, at least on the non-default size(s) of
+                architecture. The causes of these errors are not well
+                understood and they can appear, or disappear, as a result of
+                apparently innocuous other changes in the build. In this
+                version of the book, one of the tests (pdemo-make) fails to
+                link because it tries to link the 32-bit objects against
+                64-bit system libraries. This option enables the test to
+                succeed without impacting the other tests (compare the common
+                alternative fixes of <code class="literal">LD="gcc
+                ${BUILD32}"</code> which causes far fewer tests to be
+                executed, and configuring with <code class=
+                "literal">LDFLAGS='-L/lib -L/usr/lib'</code> which in this
+                case causes other tests to fail.)
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Prepare <code class="filename">libtool</code> to be wrapped by the
+          multiarch wrapper. Libtool by itself is not multilib aware:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/bin/libtool{,-32}</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "libtool-64bit.html#contents-libtool" title=
+          "10.48.2.&nbsp;Contents of Libtool">Section&nbsp;10.48.2,
+          &ldquo;Contents of Libtool.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iana-etc.html" title=
+          "Iana-Etc-2.30">Prev</a>
+          <p>
+            Iana-Etc-2.30
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libtool-64bit.html" title=
+          "Libtool-2.4.6 64 Bit">Next</a>
+          <p>
+            Libtool-2.4.6 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

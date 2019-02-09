@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.36.&nbsp;Ncurses-6.0 32 Bit Libraries
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkg-config-lite.html" title=
+          "Pkg-config-lite-0.28-1">Prev</a>
+          <p>
+            Pkg-config-lite-0.28-1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncurses-64bit.html" title=
+          "Ncurses-6.0 64 Bit">Next</a>
+          <p>
+            Ncurses-6.0 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-ncurses-32" name="ch-system-ncurses-32"></a>10.36.
+        Ncurses-6.0 32 Bit Libraries
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Ncurses package contains libraries for terminal-independent
+          handling of character screens.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.36.1. Installation of Ncurses
+        </h2>
+        <p>
+          Prepare Ncurses for compilation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">CC="gcc ${BUILD32}" CXX="g++ ${BUILD32}" \
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib \
+    --with-shared \
+    --without-debug \
+    --enable-widec \
+    --enable-pc-files</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pc-files</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells Ncurses to generate and install .pc files for
+                <span class="command"><strong>pkg-config</strong></span>.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          This package has a test suite, but it can only be run after the
+          package is installed. The tests are in the <code class=
+          "filename">test/</code> directory. See the <code class=
+          "filename">README</code> file in that directory for details.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Prepare <code class="filename">ncursesw6-config</code> to be
+          wrapped by the multiarch wrapper:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/bin/ncursesw6-config{,-32}</kbd></pre>
+        <p>
+          Move the <code class="filename">libncursesw</code> shared library
+          to <code class="filename">/lib</code> and create a new symlink in
+          <code class="filename">/usr/lib</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/lib/libncursesw.so.* /lib
+ln -svf ../../lib/$(readlink /usr/lib/libncursesw.so) /usr/lib/libncursesw.so</kbd></pre>
+        <p>
+          Many packages that use Ncurses will compile just fine against the
+          widechar libraries, but won't know to look for them. Create linker
+          scripts and symbolic links to allow older and non-widec compatible
+          programs to build properly:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">for lib in ncurses form panel menu ; do
+        echo "INPUT(-l${lib}w)" &gt; /usr/lib/lib${lib}.so
+        ln -sfv lib${lib}w.a /usr/lib/lib${lib}.a
+done
+ln -sfv libncurses++w.a /usr/lib/libncurses++.a
+ln -sfv ncursesw6-config-32 /usr/bin/ncurses6-config-32</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "ncurses-64bit.html#contents-ncurses" title=
+          "10.37.2.&nbsp;Contents of Ncurses">Section&nbsp;10.37.2,
+          &ldquo;Contents of Ncurses.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkg-config-lite.html" title=
+          "Pkg-config-lite-0.28-1">Prev</a>
+          <p>
+            Pkg-config-lite-0.28-1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncurses-64bit.html" title=
+          "Ncurses-6.0 64 Bit">Next</a>
+          <p>
+            Ncurses-6.0 64 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

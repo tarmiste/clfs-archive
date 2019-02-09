@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.11.&nbsp;Cross Binutils-2.28
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Pure64">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Pure64
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="isl.html" title="ISL-0.17.1">Prev</a>
+          <p>
+            ISL-0.17.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-static.html" title=
+          "Cross GCC-7.1.0 - Static">Next</a>
+          <p>
+            Cross GCC-7.1.0 - Static
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-binutils" name=
+        "ch-cross-tools-binutils"></a>5.11. Cross Binutils-2.28
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Binutils package contains a linker, an assembler, and other
+          tools for handling object files.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.11.1. Installation of Cross Binutils
+        </h2>
+        <p>
+          It is important that Binutils be compiled before Glibc and GCC
+          because both Glibc and GCC perform various tests on the available
+          linker and assembler to determine which of their own features to
+          enable.
+        </p>
+        <p>
+          The Binutils documentation recommends building Binutils outside of
+          the source directory in a dedicated build directory:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -v ../binutils-build
+cd ../binutils-build</kbd></pre>
+        <p>
+          Prepare Binutils for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">AR=ar AS=as \
+../binutils-2.28/configure \
+    --prefix=/cross-tools \
+    --host=${CLFS_HOST} \
+    --target=${CLFS_TARGET} \
+    --with-sysroot=${CLFS} \
+    --with-lib-path=/tools/lib \
+    --disable-nls \
+    --disable-static \
+    --enable-64-bit-bfd \
+    --disable-multilib \
+    --enable-gold=yes \
+    --enable-plugins \
+    --enable-threads \
+    --disable-werror</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class="parameter"><code>AR=ar
+              AS=as</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This prevents Binutils from compiling with ${CLFS_HOST}-ar
+                and ${CLFS_HOST}-as as they are provided by this package and
+                therefore not installed yet.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--host=${CLFS_HOST}</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                When used with --target, this creates a cross-architecture
+                executable that creates files for ${CLFS_TARGET} but runs on
+                ${CLFS_HOST}.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--target=${CLFS_TARGET}</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                When used with --host, this creates a cross-architecture
+                executable that creates files for ${CLFS_TARGET} but runs on
+                ${CLFS_HOST}.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-sysroot=${CLFS}</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Tells configure to build a linker that uses ${CLFS} as its
+                root directory for its search paths.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-lib-path=/tools/lib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells the configure script to specify the library search
+                path during the compilation of Binutils, resulting in
+                <code class="filename">/tools/lib</code> being passed to the
+                linker. This prevents the linker from searching through
+                library directories on the host.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-nls</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This disables internationalization as i18n is not needed for
+                the cross-compile tools.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-multilib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option disables the building of a multilib capable
+                Binutils.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-64-bit-bfd</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This adds 64 bit support to Binutils.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-werror</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This prevents the build from stopping in the event that there
+                are warnings from the host's compiler.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-gold=yes</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option enables the building of the gold linker.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-plugins</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option enables support for plugins.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-threads</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option enables multi-threaded linking for the gold
+                linker.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/binutils.html#contents-binutils" title=
+          "10.17.2.&nbsp;Contents of Binutils">Section&nbsp;10.17.2,
+          &ldquo;Contents of Binutils.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="isl.html" title="ISL-0.17.1">Prev</a>
+          <p>
+            ISL-0.17.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-static.html" title=
+          "Cross GCC-7.1.0 - Static">Next</a>
+          <p>
+            Cross GCC-7.1.0 - Static
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Pure64">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

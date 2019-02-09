@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.5.&nbsp;Linux-4.9.21 Headers
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="temp-perl.html" title=
+          "Temporary Perl-5.26.0">Prev</a>
+          <p>
+            Temporary Perl-5.26.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-pages.html" title=
+          "Man-pages-4.09">Next</a>
+          <p>
+            Man-pages-4.09
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-linux-headers" name=
+        "ch-system-linux-headers"></a>10.5. Linux-4.9.21 Headers
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Linux Kernel contains a <span class=
+          "command"><strong>make</strong></span> target that installs
+          &ldquo;<span class="quote">sanitized</span>&rdquo; kernel headers.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.5.1. Installation of Linux Headers
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            For this step you will need to unpack the kernel tarball
+            (<code class="filename">linux-4.9.tar.xz</code>) and <span class=
+            "command"><strong>cd</strong></span> into its source directory
+            before entering the commands on this page.
+          </p>
+        </div>
+        <p>
+          Apply the latest Linux sublevel patch:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xzcat ../patch-4.9.21.xz | patch -Np1 -i -</kbd></pre>
+        <p>
+          Install the kernel header files:
+        </p>
+        <pre class="userinput"><kbd class="command">make mrproper
+make headers_check
+make INSTALL_HDR_PATH=/usr headers_install
+find /usr/include -name .install -or -name ..install.cmd | xargs rm -fv</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the make commands:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class="parameter"><code>make
+              mrproper</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Ensures that the kernel source dir is clean.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>make
+              headers_check</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Sanitizes the raw kernel headers so that they can be used by
+                userspace programs.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>make
+              INSTALL_HDR_PATH=/usr headers_install</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This will install the kernel headers into <code class=
+                "filename">/usr/include</code>.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>find
+              /usr/include -name .install -or -name ..install.cmd | xargs rm
+              -fv</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Removes a number of unneeded debugging files that were
+                installed.
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-linux-headers" name=
+          "contents-linux-headers"></a>10.5.2. Contents of Linux Headers
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed headers:</strong>
+              <span class=
+              "segbody">/usr/include/{asm,asm-generic,drm,linux,misc,mtd,rdma,scsi,sound,video,xen}/*.h</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directories:</strong>
+              <span class="segbody">/usr/include/asm,
+              /usr/include/asm-generic, /usr/include/drm, /usr/include/linux,
+              /usr/include/misc, /usr/include/mtd, /usr/include/rdma,
+              /usr/include/scsi, /usr/include/sound, /usr/include/uapi,
+              /usr/include/video, /usr/include/xen</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linux-headers" name=
+                    "linux-headers"></a><span class="term"><code class=
+                    "filename">/usr/include/{asm,asm-generic,drm,linux,mtd,rdma,sound,video}/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The Linux API headers
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="temp-perl.html" title=
+          "Temporary Perl-5.26.0">Prev</a>
+          <p>
+            Temporary Perl-5.26.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-pages.html" title=
+          "Man-pages-4.09">Next</a>
+          <p>
+            Man-pages-4.09
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

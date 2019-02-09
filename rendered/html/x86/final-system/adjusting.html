@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.8.&nbsp;Adjusting the Toolchain
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="glibc.html" title="Glibc-2.25">Prev</a>
+          <p>
+            Glibc-2.25
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.18">Next</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-adjusting" name="ch-system-adjusting"></a>10.8.
+        Adjusting the Toolchain
+      </h1>
+      <p>
+        Now we adjust GCC's specs so that they point to the new dynamic
+        linker. A <span class="command"><strong>perl</strong></span> command
+        accomplishes this:
+      </p>
+      <pre class="userinput"><kbd class="command">gcc -dumpspecs | \
+perl -p -e 's@/tools/lib/ld@/lib/ld@g;' \
+     -e 's@\*startfile_prefix_spec:\n@$_/usr/lib/ @g;' &gt; \
+     $(dirname $(gcc --print-libgcc-file-name))/specs</kbd></pre>
+      <p>
+        The <span class="command"><strong>perl</strong></span> command above
+        makes 2 modifications to GCC's specs: it removes &ldquo;<span class=
+        "quote">/tools</span>&rdquo; from the pathname to the dynamic linker,
+        and adds &ldquo;<span class="quote">/usr/lib/</span>&rdquo; to the
+        startfile_prefix_spec. It is a good idea to visually inspect the
+        <code class="filename">specs</code> file, and compare with the output
+        of <span class="command"><strong>gcc -dumpspecs</strong></span>, to
+        verify that the intended changes were actually made.
+      </p>
+      <div class="admon caution">
+        <img alt="[Caution]" src="../images/caution.png" />
+        <h3>
+          Caution
+        </h3>
+        <p>
+          It is imperative at this point to stop and ensure that the basic
+          functions (compiling and linking) of the adjusted toolchain are
+          working as expected. To do this, perform a sanity check:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo 'int main(){}' &gt; dummy.c
+gcc dummy.c
+readelf -l a.out | grep ': /lib'</kbd></pre>
+        <p>
+          If everything is working correctly, there should be no errors, and
+          the output of the last command will be:
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">[Requesting program interpreter: /lib/ld-linux.so.2]</code></pre>
+        <p>
+          Note that <code class="filename">/lib</code> is now the prefix of
+          our dynamic linker.
+        </p>
+        <p>
+          If the output does not appear as shown above or is not received at
+          all, then something is seriously wrong. Investigate and retrace the
+          steps to find out where the problem is and correct it. The most
+          likely reason is that something went wrong with the specs file
+          amendment above. Any issues will need to be resolved before
+          continuing on with the process.
+        </p>
+        <p>
+          Once everything is working correctly, clean up the test files:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v dummy.c a.out</kbd></pre>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="glibc.html" title="Glibc-2.25">Prev</a>
+          <p>
+            Glibc-2.25
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.18">Next</a>
+          <p>
+            M4-1.4.18
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

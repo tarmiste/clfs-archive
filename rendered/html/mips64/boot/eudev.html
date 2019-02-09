@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.8.&nbsp;Eudev-1.7
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-MIPS64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-MIPS64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysvinit.html" title=
+          "Sysvinit-2.88dsf">Prev</a>
+          <p>
+            Sysvinit-2.88dsf
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernel.html" title="Linux-4.9.21">Next</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-eudev" name="ch-boot-eudev"></a>7.8. Eudev-1.7
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Eudev package contains programs for dynamic creation of device
+          nodes.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          7.8.1. Installation of Eudev
+        </h2>
+        <p>
+          Prepare Eudev for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/tools \
+    --build=${CLFS_HOST} \
+    --host=${CLFS_TARGET} \
+    --libdir=/tools/lib64 \
+    --with-rootlibdir=/tools/lib64 \
+    --disable-introspection \
+    --disable-gtk-doc-html \
+    --disable-gudev \
+    --disable-keymap \
+    --with-firmware-path=/lib/firmware \
+    --enable-libkmod</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-introspection
+              --disable-gtk-doc-html --disable-gudev
+              --disable-keymap</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                These switches disable several features which are not needed
+                for the temporary system and have additional dependencies.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-firmware-path=/tools/lib/firmware</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This allows Eudev to load firmware from <code class=
+                "filename">/tools/lib/firmware</code> instead of the default
+                location of <code class="filename">/lib/firmware</code>.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-libkmod</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Allows Eudev to load modules by using <code class=
+                "filename">libkmod</code> directly.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Create a dummy rule so that Eudev will name ethernet devices
+          properly for the system.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo "# dummy, so that network is once again on eth*" &gt; \
+    /tools/etc/udev/rules.d/80-net-name-slot.rules</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          <a id="contents-eudev" name="contents-eudev"></a>7.8.2. Contents of
+          Eudev
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed programs:</strong>
+              <span class="segbody">ata_id, cdrom_id, collect,
+              create_floppy_devices, edd_id, firmware.sh, fstab_import,
+              path_id, scsi_id, udevadm, udevd, usb_id, v4l_id,
+              write_cd_rules, write_net_rules</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed library:</strong>
+              <span class="segbody">libudev</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed directories:</strong>
+              <span class="segbody">/tools/etc/udev, /tools/lib/firmware,
+              /tools/lib/udev</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0">
+            <col align="left" valign="top" />
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevadm-eudev" name=
+                    "udevadm-eudev"></a><span class="term"><span class=
+                    "command"><strong>udevadm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Controls the runtime behavior of Eudev, requests kernel
+                    events, manages the event queue, and provides simple
+                    debugging.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevd" name="udevd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A daemon that reorders hotplug events before submitting
+                    them to <span class=
+                    "command"><strong>udev</strong></span>, thus avoiding
+                    various race conditions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ata_id" name="ata_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ata_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Provides Eudev with a unique string and additional
+                    information (uuid, label) for an ATA drive
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cdrom_id" name="cdrom_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cdrom_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Prints the capabilities of a CDROM or DVDROM drive.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="collect" name="collect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>collect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Given an ID for the current uevent and a list of IDs (for
+                    all target uevents), registers the current ID and
+                    indicates whether all target IDs have been registered.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="create_floppy_devices" name=
+                    "create_floppy_devices"></a><span class=
+                    "term"><span class=
+                    "command"><strong>create_floppy_devices</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Creates all possible floppy devices based on the CMOS
+                    type
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="edd_id" name="edd_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>edd_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Identifies x86 disk drives from Enhanced Disk Drive calls
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="firmware.sh" name="firmware.sh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>firmware.sh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Script to load firmware for a device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fstab_import" name="fstab_import"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fstab_import</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Finds an entry in <code class=
+                    "filename">/etc/fstab</code> that matches the current
+                    device, and provides its information to Udev.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="path_id" name="path_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>path_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Provides the shortest possible unique hardware path to a
+                    device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_id" name="scsi_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Retrieves or generates a unique SCSI identifier.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="usb_id" name="usb_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>usb_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Identifies a USB block device.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l_id" name="v4l_id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>v4l_id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Determines V4L capabilities for a given device.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="write_cd_rules" name=
+                    "write_cd_rules"></a><span class="term"><span class=
+                    "command"><strong>write_cd_rules</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A script which generates Eudev rules to provide stable
+                    names for network interfaces.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="write_net_rules" name=
+                    "write_net_rules"></a><span class="term"><span class=
+                    "command"><strong>write_net_rules</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A script which generates Eudev rules to provide stable
+                    names for network interfaces.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libudev-eudev" name=
+                    "libudev-eudev"></a><span class="term"><code class=
+                    "filename">libudev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    A library interface to eudev device information.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="etc-eudev" name="etc-eudev"></a><span class=
+                    "term"><code class="filename">/etc/udev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Contains <span class=
+                    "command"><strong>udev</strong></span> configuration
+                    files, device permissions, and rules for device naming
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lib-eudev" name="lib-eudev"></a><span class=
+                    "term"><code class="filename">/lib/udev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Contains <span class=
+                    "command"><strong>udev</strong></span> helper programs
+                    and static devices which get copied to /dev when booted.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysvinit.html" title=
+          "Sysvinit-2.88dsf">Prev</a>
+          <p>
+            Sysvinit-2.88dsf
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernel.html" title="Linux-4.9.21">Next</a>
+          <p>
+            Linux-4.9.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-MIPS64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

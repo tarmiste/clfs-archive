@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      14.2.&nbsp;Download Client
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;14.&nbsp;The End
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="theend.html" title="The End">Prev</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="reboot.html" title=
+          "Rebooting the System">Next</a>
+          <p>
+            Rebooting the System
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;14.&nbsp;The End">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-finish-downloadclient" name=
+        "ch-finish-downloadclient"></a>14.2. Download Client
+      </h1>
+      <p>
+        The final system build does not install an FTP or HTTP client for
+        downloading files.
+      </p>
+      <div class="itemizedlist">
+        <p>
+          Some suggested clients include:
+        </p>
+        <ul>
+          <li>
+            <p>
+              Curl <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Curl">http://cblfs.clfs.org/index.php/Curl</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              Inetutils <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Inetutils">http://cblfs.clfs.org/index.php/Inetutils</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              LFTP <a class="ulink" href=
+              "http://lftp.yar.ru/">http://lftp.yar.ru/</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              Links <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Links">http://cblfs.clfs.org/index.php/Links</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              Lynx <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Lynx">http://cblfs.clfs.org/index.php/Lynx</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              NcFTP Client <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Ncftp">http://cblfs.clfs.org/index.php/Ncftp</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              Wget <a class="ulink" href=
+              "http://cblfs.clfs.org/index.php/Wget">http://cblfs.clfs.org/index.php/Wget</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              BASH - A user can use net redirections (if not disabled when
+              building bash in the final system) to download wget or another
+              program.
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">cat &gt; download.sh &lt;&lt; "EOF"
+#!/bin/bash
+
+WGET_VERSION='1.14'
+WGET_HOSTNAME='ftp.gnu.org'
+exec {HTTP_FD}&lt;&gt;/dev/tcp/${WGET_HOSTNAME}/80
+echo -ne "GET /gnu/wget/wget-${WGET_VERSION}.tar.xz HTTP/1.1\r\nHost: "\
+    ${WGET_HOSTNAME}'\r\nUser-Agent: '\
+    'bash/'${BASH_VERSION}'\r\n\r\n'  &gt;&amp;${HTTP_FD}
+sed -e '1,/^.$/d' &lt;&amp;${HTTP_FD} &gt;wget-${WGET_VERSION}.tar.xz
+EOF</kbd></pre>
+          </li>
+          <li>
+            <p>
+              GAWK
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">cat &gt; gawkdl.sh &lt;&lt; "EOF"
+#!/bin/bash
+
+gawk 'BEGIN {
+  NetService = "/inet/tcp/0/mirror.anl.gov/80"
+  print "GET /pub/gnu/wget/wget-1.14.tar.xz" |&amp; NetService
+  while ((NetService |&amp; getline) &gt; 0)
+    print $0
+  close(NetService)
+}' &gt; binary
+
+gawk '{q=p;p=$0}NR&gt;1{print q}END{ORS = ""; print p}' binary &gt; wget-1.14.tar.xz
+
+rm binary
+EOF</kbd></pre>
+          </li>
+          <li>
+            <p>
+              PERL with HTTP::Tiny (Included with final system PERL install).
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">cat &gt; download.pl &lt;&lt; "EOF"
+#!/usr/bin/perl
+
+use HTTP::Tiny;
+my $http = HTTP::Tiny-&gt;new;
+my $response;
+
+$response = $http-&gt;mirror('http://ftp.gnu.org/gnu/wget/wget-1.14.tar.xz', 'wget-1.14.tar.xz');
+die "Failed!\n" unless $response-&gt;{success};
+print "Unchanged!\n" if $response-&gt;{status} eq '304';
+EOF</kbd></pre>
+            <p>
+              Or use this:
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">perl -MHTTP::Tiny -E 'say HTTP::Tiny-&gt;new-&gt;get(shift)-&gt;{content}' "http://ftp.gnu.org/gnu/wget/wget-1.14.tar.xz" &gt; binary
+perl -e 'local $/; $_ = &lt;&gt;; s/\n$//; print' binary &gt; wget-1.14.tar.xz
+rm binary</kbd></pre>
+          </li>
+          <li>
+            <p>
+              PERL with LWP: Run <span class=
+              "command"><strong>cpan</strong></span> and manually configure
+              the client. Run <span class="command"><strong>install
+              LWP</strong></span> while in the CPAN shell.
+            </p>
+            <p>
+              Refer to <a class="ulink" href=
+              "http://www.bioinfo-user.org.uk/dokuwiki/doku.php/projects/wgetpl">
+              http://www.bioinfo-user.org.uk/dokuwiki/doku.php/projects/wgetpl</a>
+              for wgetpl.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="theend.html" title="The End">Prev</a>
+          <p>
+            The End
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="reboot.html" title=
+          "Rebooting the System">Next</a>
+          <p>
+            Rebooting the System
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;14.&nbsp;The End">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

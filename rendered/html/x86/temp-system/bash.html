@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      6.11.&nbsp;Bash-4.4
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;6.&nbsp;Constructing a Temporary System
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ncurses.html" title="Ncurses-6.0">Prev</a>
+          <p>
+            Ncurses-6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bzip2.html" title="Bzip2-1.0.6">Next</a>
+          <p>
+            Bzip2-1.0.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-temp-system-bash" name="ch-temp-system-bash"></a>6.11.
+        Bash-4.4
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Bash package contains the Bourne-Again SHell.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          6.11.1. Installation of Bash
+        </h2>
+        <p>
+          The following patch contains updates from the maintainer. The
+          maintainer of Bash only releases these patches to fix serious
+          issues:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../bash-4.4-branch_update-1.patch</kbd></pre>
+        <p>
+          When Bash is cross-compiled, it cannot test for the presence of
+          named pipes, among other things. If you used <span class=
+          "command"><strong>su</strong></span> to become an unprivileged
+          user, this combination will cause Bash to build without
+          <span class="emphasis"><em>process substitution</em></span>, which
+          will break one of the C++ test scripts in <code class=
+          "literal">glibc</code>. The following prevents future problems by
+          skipping the check for named pipes, as well as other tests that can
+          not run while cross-compiling or that do not run properly:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; config.cache &lt;&lt; "EOF"
+ac_cv_func_mmap_fixed_mapped=yes
+ac_cv_func_strcoll_works=yes
+ac_cv_func_working_mktime=yes
+bash_cv_func_sigsetjmp=present
+bash_cv_getcwd_malloc=yes
+bash_cv_job_control_missing=present
+bash_cv_printf_a_format=yes
+bash_cv_sys_named_pipes=present
+bash_cv_ulimit_maxfds=yes
+bash_cv_under_sys_siglist=yes
+bash_cv_unusable_rtsigs=no
+gt_cv_int_divbyzero_sigfpe=yes
+EOF</kbd></pre>
+        <p>
+          Prepare Bash for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/tools \
+    --build=${CLFS_HOST} \
+    --host=${CLFS_TARGET} \
+    --without-bash-malloc \
+    --cache-file=config.cache</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-bash-malloc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option turns off the use of Bash's memory allocation
+                (malloc) function which is known to cause segmentation
+                faults. By turning this option off, Bash will use the malloc
+                functions from Glibc which are more stable.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/bash.html#contents-bash" title=
+          "10.39.2.&nbsp;Contents of Bash">Section&nbsp;10.39.2,
+          &ldquo;Contents of Bash.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ncurses.html" title="Ncurses-6.0">Prev</a>
+          <p>
+            Ncurses-6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bzip2.html" title="Bzip2-1.0.6">Next</a>
+          <p>
+            Bzip2-1.0.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

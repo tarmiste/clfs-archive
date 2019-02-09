@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      Host System Requirements
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Multilib
+      </h4>
+      <h3>
+        Preface
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="prerequisites.html" title=
+          "Prerequisites">Prev</a>
+          <p>
+            Prerequisites
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="typography.html" title="Typography">Next</a>
+          <p>
+            Typography
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="Preface">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="pre-hostreqs" name="pre-hostreqs"></a>iv. Host System
+        Requirements
+      </h1>
+      <p>
+        You should be able to build a CLFS system from just about any
+        Unix-type operating system. Your host system should have the
+        following software with the minimum versions indicated. Also note
+        that many distributions will place software headers into separate
+        packages, often in the form of &ldquo;<span class=
+        "quote">[package-name]-devel</span>&rdquo; or &ldquo;<span class=
+        "quote">[package-name]-dev</span>&rdquo;. Be sure to install those if
+        your distribution provides them.
+      </p>
+      <div class="itemizedlist">
+        <ul class="compact">
+          <li>
+            <p>
+              <span class="strong"><strong>Bash-2.05a</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Binutils-2.12</strong></span>
+              (Versions greater than 2.28 are not recommended as they have
+              not been tested)
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Bison-1.875</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Bzip2-1.0.2</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Coreutils-5.0</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Diffutils-2.8</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Findutils-4.1.20</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Gawk-3.1.5</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>GCC-4.1.2</strong></span> and the
+              C++ compiler, <span class="command"><strong>g++</strong></span>
+              (Versions greater than 7.1.0 are not recommended as they have
+              not been tested)
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Glibc-2.2.5</strong></span>
+              (Versions greater than 2.25 are not recommended as they have
+              not been tested)
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Grep-2.5</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Gzip-1.2.4</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Make-3.80</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Ncurses-5.3</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Patch-2.5.4</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Sed-3.0.2</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Tar-1.22</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>Texinfo-4.7</strong></span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="strong"><strong>XZ
+              Utils-4.999.8beta</strong></span>
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        To see whether your host system has all the appropriate versions,
+        create and run the following script. Read the output carefully for
+        any errors, and make sure to install any packages that are reported
+        as not found.
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; version-check.sh &lt;&lt; "EOF"
+<code class="literal">#!/bin/bash
+
+# Simple script to list version numbers of critical development tools
+
+bash --version | head -n1 | cut -d" " -f2-4
+echo -n "Binutils: "; ld --version | head -n1 | cut -d" " -f3-
+bison --version | head -n1
+bzip2 --version 2&gt;&amp;1 &lt; /dev/null | head -n1 | cut -d" " -f1,6-
+echo -n "Coreutils: "; chown --version | head -n1 | cut -d")" -f2
+diff --version | head -n1
+find --version | head -n1
+gawk --version | head -n1
+gcc --version | head -n1
+g++ --version | head -n1
+ldd $(which ${SHELL}) | grep libc.so | cut -d ' ' -f 3 | ${SHELL} | head -n 1 | cut -d ' ' -f 1-7
+grep --version | head -n1
+gzip --version | head -n1
+make --version | head -n1
+tic -V
+patch --version | head -n1
+sed --version | head -n1
+tar --version | head -n1
+makeinfo --version | head -n1
+xz --version | head -n1
+echo 'int main(){}' | gcc -v -o /dev/null -x c - &gt; dummy.log 2&gt;&amp;1
+if ! grep -q ' error' dummy.log; then
+  echo "Compilation successful" &amp;&amp; rm dummy.log
+else
+  echo 1&gt;&amp;2  "Compilation FAILED - more development packages may need to be \
+installed. If you like, you can also view dummy.log for more details."
+fi</code>
+EOF
+
+bash version-check.sh 2&gt;errors.log &amp;&amp;
+[ -s errors.log ] &amp;&amp; echo -e "\nThe following packages could not be found:\n$(cat errors.log)"</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="prerequisites.html" title=
+          "Prerequisites">Prev</a>
+          <p>
+            Prerequisites
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="typography.html" title="Typography">Next</a>
+          <p>
+            Typography
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="Preface">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

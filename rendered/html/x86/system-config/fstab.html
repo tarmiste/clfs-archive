@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      11.10.&nbsp;Creating the /etc/fstab File
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;11.&nbsp;System Configuration
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="inputrc.html" title=
+          "Creating the /etc/inputrc File">Prev</a>
+          <p>
+            Creating the /etc/inputrc File
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../network/chapter.html" title=
+          "Networking Configuration">Next</a>
+          <p>
+            Networking Configuration
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-config-fstab" name="ch-config-fstab"></a>11.10. Creating
+        the /etc/fstab File
+      </h1>
+      <p>
+        The <code class="filename">/etc/fstab</code> file is used by some
+        programs to determine where file systems are to be mounted by
+        default, in which order, and which must be checked (for integrity
+        errors) prior to mounting. Create a new file systems table like this:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/fstab &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/fstab
+
+# file system  mount-point  type   options          dump  fsck
+#                                                         order
+
+/dev/<em class=
+"replaceable"><code>[xxx]</code></em>     /            <em class=
+"replaceable"><code>[fff]</code></em>  defaults         1     1
+/dev/<em class=
+"replaceable"><code>[yyy]</code></em>     swap         swap   pri=1            0     0
+
+# End /etc/fstab</code>
+EOF</kbd></pre>
+      <p>
+        Replace <em class="replaceable"><code>[xxx]</code></em>, <em class=
+        "replaceable"><code>[yyy]</code></em>, and <em class=
+        "replaceable"><code>[fff]</code></em> with the values appropriate for
+        the system, for example, <code class="filename">sda2</code>,
+        <code class="filename">sda5</code>, and <code class=
+        "systemitem">ext2</code>. For details on the six fields in this file,
+        see <span class="command"><strong>man 5 fstab</strong></span>.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="inputrc.html" title=
+          "Creating the /etc/inputrc File">Prev</a>
+          <p>
+            Creating the /etc/inputrc File
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../network/chapter.html" title=
+          "Networking Configuration">Next</a>
+          <p>
+            Networking Configuration
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;11.&nbsp;System Configuration">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

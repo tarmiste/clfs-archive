@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      10.4.&nbsp;Temporary Perl-5.26.0
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version GIT-20170803-x86
+      </h4>
+      <h3>
+        Chapter&nbsp;10.&nbsp;Installing Basic System Software
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="testsuitesagain.html" title=
+          "About Test Suites, Again">Prev</a>
+          <p>
+            About Test Suites, Again
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-4.9.21 Headers">Next</a>
+          <p>
+            Linux-4.9.21 Headers
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-system-temp-perl" name="ch-system-temp-perl"></a>10.4.
+        Temporary Perl-5.26.0
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The Perl package contains the Practical Extraction and Report
+          Language.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          10.4.1. Installation of Perl
+        </h2>
+        <div class="admon note">
+          <img alt="[Note]" src="../images/note.png" />
+          <h3>
+            Note
+          </h3>
+          <p>
+            In this section, we will add Perl to the temporary system in
+            <code class="filename">/tools</code>. This package installation
+            should technically be part of <a class="xref" href=
+            "../temp-system/chapter.html" title=
+            "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Constructing
+            a Temporary System</a>, but Perl has often had problems with
+            cross-compiling, so we will compile and install it while in the
+            final build environment.
+          </p>
+        </div>
+        <p>
+          Change a hardcoded path from <code class=
+          "filename">/usr/include</code> to <code class=
+          "filename">/tools/include</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's@/usr/include@/tools/include@g' ext/Errno/Errno_pm.PL</kbd></pre>
+        <p>
+          Prepare Temporary Perl for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure.gnu \
+    --prefix=/tools \
+    -Dcc="gcc"</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure option:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dcc="gcc"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Tells Perl to use <span class=
+                "command"><strong>gcc</strong></span> instead of the default
+                <span class="command"><strong>cc</strong></span>.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Although Perl comes with a test suite, it is not recommended to run
+          it at this point, as this Perl installation is only temporary. The
+          test suite can be run later in this chapter if desired.
+        </p>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Finally, create a necessary symlink:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sfv /tools/bin/perl /usr/bin</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "perl.html#contents-perl" title=
+          "10.35.2.&nbsp;Contents of Perl">Section&nbsp;10.35.2,
+          &ldquo;Contents of Perl.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="testsuitesagain.html" title=
+          "About Test Suites, Again">Prev</a>
+          <p>
+            About Test Suites, Again
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-4.9.21 Headers">Next</a>
+          <p>
+            Linux-4.9.21 Headers
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;10.&nbsp;Installing Basic System Software">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86">Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

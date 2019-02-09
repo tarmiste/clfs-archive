@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.2.&nbsp;File-5.31
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-PowerPC64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-PowerPC64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-4.9.21 Headers">Next</a>
+          <p>
+            Linux-4.9.21 Headers
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-file" name="ch-cross-tools-file"></a>5.2.
+        File-5.31
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The File package contains a utility for determining the type of a
+          given file or files.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.2.1. Installation of File
+        </h2>
+        <p>
+          One method that <span class="command"><strong>file</strong></span>
+          uses for identifying a given file is to run &ldquo;<span class=
+          "quote">magic tests</span>&rdquo;, where it compares the file's
+          contents to data in &ldquo;<span class="quote">magic
+          files</span>&rdquo;, which contain information about a number of
+          standard file formats. When File is compiled, it will run
+          <span class="command"><strong>file -C</strong></span> to combine
+          the information from the magic files in its source tree into a
+          single <code class="filename">magic.mgc</code> file, which it will
+          use after it is installed. When we build File in <a class="xref"
+          href="../temp-system/chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Constructing
+          a Temporary System</a>, it will be cross-compiled, so it will not
+          be able to run the <span class=
+          "command"><strong>file</strong></span> program that it just built,
+          which means that we need one that will run on the host system.
+        </p>
+        <p>
+          Prepare File for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/cross-tools</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--prefix=/cross-tools</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells the configure script to prepare to install the
+                package in the <code class="filename">/cross-tools</code>
+                directory.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Compile the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/file-64bit.html#contents-file" title=
+          "10.64.2.&nbsp;Contents of File">Section&nbsp;10.64.2,
+          &ldquo;Contents of File.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title=
+          "Introduction">Prev</a>
+          <p>
+            Introduction
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-4.9.21 Headers">Next</a>
+          <p>
+            Linux-4.9.21 Headers
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-PowerPC64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

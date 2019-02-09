@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      7.19.&nbsp;How to View the Book
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-x86_64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-x86_64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;7.&nbsp;If You Are Going to Boot
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="changingowner.html" title=
+          "Changing Ownership">Prev</a>
+          <p>
+            Changing Ownership
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnext.html" title=
+          "What to do next">Next</a>
+          <p>
+            What to do next
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-boot-how-to-view" name="ch-boot-how-to-view"></a>7.19. How
+        to View the Book
+      </h1>
+      <p>
+        Most likely, you have been using a web browser or PDF viewer to read
+        the CLFS book so far. However, the temporary system in <code class=
+        "filename">/tools</code> does not have any of these, so you will need
+        to find a way to continue following the book after booting into the
+        temporary build environment. Possible solutions include:
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+              Simply have the book open on another computer, or even read a
+              printed copy, though one downside to this is that you cannot
+              copy-and-paste commands.
+            </p>
+          </li>
+          <li>
+            <p>
+              Convert the CLFS book into plain text, thus allowing it to be
+              viewed with <span class="command"><strong>more</strong></span>
+              or <span class="command"><strong>view</strong></span>, by using
+              a command such as the following:
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">lynx -dump /path/to/clfs/book.html &gt; ${CLFS}/root/CLFS-book.txt</kbd></pre>
+          </li>
+          <li>
+            <p>
+              Cross-compile and install additional programs before booting,
+              such as Lynx or Links to view the book, or Dropbear to allow
+              remote login. See the CLFS Hints website at <a class="ulink"
+              href=
+              "http://hints.clfs.org/index.php/">http://hints.clfs.org/index.php/</a>
+              for more suggestions by other users.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="changingowner.html" title=
+          "Changing Ownership">Prev</a>
+          <p>
+            Changing Ownership
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatnext.html" title=
+          "What to do next">Next</a>
+          <p>
+            What to do next
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-x86_64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

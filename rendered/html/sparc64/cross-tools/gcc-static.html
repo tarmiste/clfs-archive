@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      5.12.&nbsp;Cross GCC-7.1.0 - Static
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils.html" title=
+          "Cross Binutils-2.28">Prev</a>
+          <p>
+            Cross Binutils-2.28
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc.html" title=
+          "Glibc-2.25 32 Bit">Next</a>
+          <p>
+            Glibc-2.25 32 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-cross-tools-gcc-static" name=
+        "ch-cross-tools-gcc-static"></a>5.12. Cross GCC-7.1.0 - Static
+      </h1>
+      <div class="package" lang="en" xml:lang="en">
+        <p>
+          The GCC package contains the GNU compiler collection, which
+          includes the C and C++ compilers.
+        </p>
+      </div>
+      <div class="installation" lang="en" xml:lang="en">
+        <h2 class="sect2">
+          5.12.1. Installation of Cross GCC Compiler with Static libgcc and
+          no Threads
+        </h2>
+        <p>
+          Here we will compile GCC, as a cross-compiler that will create
+          executables for our target architecture, statically so that it will
+          not need to look for Glibc's startfiles, which do not yet exist in
+          <code class="filename">/tools</code>. We will use this
+          cross-compiler, plus the cross-linker we have just installed with
+          Binutils, to compile Glibc. After Glibc is installed into
+          <code class="filename">/tools</code>, we can rebuild GCC so that it
+          will then be able to build executables that link against the
+          libraries in <code class="filename">/tools</code>.
+        </p>
+        <p>
+          Make a couple of essential adjustments to GCC's specs to ensure GCC
+          uses our build environment:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../gcc-7.1.0-specs-1.patch</kbd></pre>
+        <p>
+          Change the StartFile Spec so that GCC looks in <code class=
+          "filename">/tools</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo -en '\n#undef STANDARD_STARTFILE_PREFIX_1\n#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"\n' &gt;&gt; gcc/config/linux.h
+echo -en '\n#undef STANDARD_STARTFILE_PREFIX_2\n#define STANDARD_STARTFILE_PREFIX_2 ""\n' &gt;&gt; gcc/config/linux.h</kbd></pre>
+        <p>
+          We will create a dummy <code class="filename">limits.h</code> so
+          the build will not use the one provided by the host distro:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">touch /tools/include/limits.h</kbd></pre>
+        <p>
+          The GCC documentation recommends building GCC outside of the source
+          directory in a dedicated build directory:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v ../gcc-build
+cd ../gcc-build</kbd></pre>
+        <p>
+          Prepare GCC for compilation:
+        </p>
+        <pre class="userinput"><kbd class="command">AR=ar \
+LDFLAGS="-Wl,-rpath,/cross-tools/lib" \
+../gcc-7.1.0/configure \
+    --prefix=/cross-tools \
+    --build=${CLFS_HOST} \
+    --host=${CLFS_HOST} \
+    --target=${CLFS_TARGET} \
+    --with-sysroot=${CLFS} \
+    --with-local-prefix=/tools \
+    --with-native-system-header-dir=/tools/include \
+    --disable-shared \
+    --with-mpfr=/cross-tools \
+    --with-gmp=/cross-tools \
+    --with-mpc=/cross-tools \
+    --without-headers \
+    --with-newlib \
+    --disable-decimal-float \
+    --disable-libgomp \
+    --disable-libssp \
+    --disable-libatomic \
+    --disable-libitm \
+    --disable-libsanitizer \
+    --disable-libquadmath \
+    --disable-libvtv \
+    --disable-libcilkrts \
+    --disable-libstdc++-v3 \
+    --disable-threads \
+    --with-isl=/cross-tools \
+    --enable-languages=c \
+    --with-glibc-version=2.25</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new configure options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--build=${CLFS_HOST}</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This specifies the system on which the cross-compiler is
+                being built.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-local-prefix=/tools</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                The purpose of this switch is to remove <code class=
+                "filename">/usr/local/include</code> from <span class=
+                "command"><strong>gcc</strong></span>'s include search path.
+                This is not absolutely essential, however, it helps to
+                minimize the influence of the host system.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-native-system-headers-dir=/tools/include</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This switch ensures that GCC will search for the system
+                headers in <code class="filename">/tools/include</code> and
+                that host system headers will not be searched.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells GCC not to create a shared library.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-headers</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Disables GCC from using the target's Libc when cross
+                compiling.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-newlib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This causes GCC to enable the <code class=
+                "envar">inhibit_libc</code> flag, which prevents <code class=
+                "filename">libgcc</code> from building code that uses libc
+                support.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-decimal-float</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Disables support for the C decimal floating point extension.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-lib*</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                These options prevent GCC from building a number of libraries
+                that are not needed at this time.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-threads</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This will prevent GCC from looking for the multi-thread
+                include files, since they haven't been created for this
+                architecture yet. GCC will be able to find the multi-thread
+                information after the Glibc headers are created.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-system-zlib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This tells GCC to link to the system-installed zlib instead
+                of the one in its source tree.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-languages=c</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                This option ensures that only the C compiler is built.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-glibc-version=2.25</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Needed when bootstrapping a cross toolchain without the
+                header files available for building the initial bootstrap
+                compiler.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Continue with compiling the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make all-gcc all-target-libgcc</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <b>The meaning of the new make options:</b>
+          </p>
+          <dl>
+            <dt>
+              <span class="term"><em class="parameter"><code>all-gcc
+              all-target-libgcc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Compiles only the parts of GCC that are needed at this time,
+                rather than the full package.
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          Install the package:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make install-gcc install-target-libgcc</kbd></pre>
+      </div>
+      <div class="content" lang="en" xml:lang="en">
+        <p>
+          Details on this package are located in <a class="xref" href=
+          "../final-system/gcc.html#contents-gcc" title=
+          "10.26.2.&nbsp;Contents of GCC">Section&nbsp;10.26.2,
+          &ldquo;Contents of GCC.&rdquo;</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils.html" title=
+          "Cross Binutils-2.28">Prev</a>
+          <p>
+            Cross Binutils-2.28
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc.html" title=
+          "Glibc-2.25 32 Bit">Next</a>
+          <p>
+            Glibc-2.25 32 Bit
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;5.&nbsp;Constructing Cross-Compile Tools">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

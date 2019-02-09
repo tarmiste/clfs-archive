@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content=
+    "application/xhtml+xml; charset=iso-8859-1" />
+    <title>
+      6.30.&nbsp;To Boot or to Chroot?
+    </title>
+    <link rel="stylesheet" href="../stylesheets/lfs.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.73.2" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="clfs" id="clfs-GIT-20170803-Sparc64-Multilib">
+    <div class="navheader">
+      <h4>
+        Cross-Compiled Linux From Scratch - Version
+        GIT-20170803-Sparc64-Multilib
+      </h4>
+      <h3>
+        Chapter&nbsp;6.&nbsp;Constructing a Temporary System
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="XZ Utils-5.2.3">Prev</a>
+          <p>
+            XZ Utils-5.2.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="en" xml:lang="en">
+      <h1 class="sect1">
+        <a id="ch-temp-system-choose" name="ch-temp-system-choose"></a>6.30.
+        To Boot or to Chroot?
+      </h1>
+      <p>
+        There are two different ways you can proceed from this point to build
+        the final system. You can build a kernel, a bootloader, and a few
+        other utilities, boot into the temporary system, and build the rest
+        there. Alternatively, you can mount a few virtual filesystems and
+        chroot into the temporary system.
+      </p>
+      <p>
+        The <span class="command"><strong>chroot</strong></span> (change
+        root) program is used to enter a virtual environment and start a new
+        shell whose root directory will be set to the CLFS partition. This is
+        very similar to rebooting and instructing the kernel to mount the
+        CLFS partition as the root partition. The major advantage is that
+        &ldquo;<span class="quote">chrooting</span>&rdquo; allows the builder
+        to continue using the host while CLFS is being built. While waiting
+        for package compilation to complete, a user can switch to a different
+        virtual console (VC) or X desktop and continue using the computer as
+        normal.
+      </p>
+      <p>
+        The main downside to chrooting is that you are more limited in when
+        you can use it - booting will always work for any CLFS build, but the
+        chroot method can only be used when you are building on the same
+        architecture. For example, if you are building on, and for, an x86
+        system, you can simply chroot. Booting is required when you are
+        compiling for a different architecture, such as building a PowerPC
+        system from an x86. The rule of thumb here is that if the
+        architectures match and you are running the same series kernel
+        (specifically, a 3.12.0 or newer Linux kernel) you can just chroot.
+        If you aren't running the same series kernel, or are wanting to run a
+        different ABI, you will need to use the boot option.
+      </p>
+      <p>
+        If you are in any doubt about this, you can try the following
+        commands to see if you can chroot:
+      </p>
+      <pre class="userinput"><kbd class="command">/tools/lib/libc.so.6
+/tools/lib64/libc.so.6
+/tools/bin/gcc -v</kbd></pre>
+      <p>
+        If any of these commands fail, you will have to follow the boot
+        method.
+      </p>
+      <p>
+        For the boot method, follow <a class="xref" href=
+        "../boot/chapter.html" title=
+        "Chapter&nbsp;7.&nbsp;If You Are Going to Boot">If You Are Going to
+        Boot</a>.
+      </p>
+      <p>
+        For the chroot method, follow <a class="xref" href=
+        "../chroot/chapter.html" title=
+        "Chapter&nbsp;8.&nbsp;If You Are Going to Chroot">If You Are Going to
+        Chroot</a>.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="XZ Utils-5.2.3">Prev</a>
+          <p>
+            XZ Utils-5.2.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter.html" title=
+          "Chapter&nbsp;6.&nbsp;Constructing a Temporary System">Up</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Cross-Compiled Linux From Scratch - Version GIT-20170803-Sparc64-Multilib">
+          Home</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
